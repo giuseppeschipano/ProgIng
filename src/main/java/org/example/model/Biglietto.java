@@ -14,6 +14,6 @@ public class Biglietto {
     String stazioneDiPartenza, stazioneDiArrivo, classe, treno, posto,  numeroPrenotazione;
     String nomeUtente, cognomeUtente, CF;
     String dataPartenzaTreno, dataArrivoTreno;
-    int carrozza, codiceTreno, IDfedelta;
+    int carrozza, IDfedelta;
 
 }
