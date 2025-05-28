@@ -9,16 +9,16 @@ import java.util.*;
 public class TrenoRepository {
 
     public void aggiungiTreno(Treno t) {
-        String sql = "INSERT INTO treni (id_treno, carrozza, posto, classi, tipologia) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO treni (id_Treno, tipologia, stato, carrozza) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, t.getIDTreno());
-            stmt.setString(2, t.getCarrozza());
-            stmt.setString(3, t.getPosto());
-            stmt.setString(4, t.getClassi());
-            stmt.setString(5, t.getTipologia());
+            stmt.setString(1, t.getId_Treno());
+            stmt.setString(2, t.getTipologia());
+            stmt.setString(3, t.getStato());
+            stmt.setInt(4, t.getCarrozza());
+
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -38,11 +38,10 @@ public class TrenoRepository {
 
             if (rs.next()) {
                 t = new Treno();
-                t.setIDTreno(rs.getString("id_treno"));
-                t.setCarrozza(rs.getString("carrozza"));
-                t.setPosto(rs.getString("posto"));
-                t.setClassi(rs.getString("classi"));
+                t.setId_Treno(rs.getString("id_treno"));
                 t.setTipologia(rs.getString("tipologia"));
+                t.setStato(rs.getString("stato"));
+                t.setCarrozza(rs.getInt("carrozza"));
             }
 
         } catch (SQLException e) {
@@ -62,11 +61,10 @@ public class TrenoRepository {
 
             while (rs.next()) {
                 Treno t = new Treno();
-                t.setIDTreno(rs.getString("id_treno"));
-                t.setCarrozza(rs.getString("carrozza"));
-                t.setPosto(rs.getString("posto"));
-                t.setClassi(rs.getString("classi"));
+                t.setId_Treno(rs.getString("id_treno"));
                 t.setTipologia(rs.getString("tipologia"));
+                t.setStato(rs.getString("stato"));
+                t.setCarrozza(rs.getInt("carrozza"));
                 lista.add(t);
             }
 

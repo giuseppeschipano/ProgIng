@@ -1,6 +1,6 @@
 package org.example.model;
 
-import jdk.jfr.DataAmount;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import  lombok.NoArgsConstructor;
@@ -11,9 +11,9 @@ import  lombok.NoArgsConstructor;
 
 
 public class Biglietto {
-    String stazioneDiPartenza, stazioneDiArrivo, classe, treno, posto,  numeroPrenotazione;
-    String nomeUtente, cognomeUtente, CF;
-    String dataPartenzaTreno, dataArrivoTreno;
-    int carrozza, IDfedelta;
+    String  id_Biglietto,classe, id_prenotazione,id_tratta;
+    String  CF;
+    int  posto, carrozza;
+
 
 }

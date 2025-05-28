@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Fedelta {
     String ID;
-    String nomePossessoreTessera, cognomePossessoreTessera, CFPossessoreTessera;
+    String CFPossessoreTessera;
+    int punti;
 }

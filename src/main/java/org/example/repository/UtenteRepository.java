@@ -11,7 +11,7 @@ import java.util.*;
 public class UtenteRepository {
 
     public void aggiungiUtente(Utente u) {
-        String sql = "INSERT INTO utenti (cf, nome, cognome, data_nascita, indirizzo, id_fedelta) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO utenti (cf, nomeUtente, cognomeUtente,  dataNascitaUtente, indirizzoUtente, id_fedelta) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -20,7 +20,7 @@ public class UtenteRepository {
             stmt.setString(3, u.getCognomeUtente());
             stmt.setString(4, u.getDataNascitaUtente());
             stmt.setString(5, u.getIndirizzoUtente());
-            stmt.setString(6, u.getCartaUtente() != null ? u.getCartaUtente().ID : null);
+            stmt.setString(6, u.getCartaUtente() != null ? u.getCartaUtente().getID() : null);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -39,15 +39,16 @@ public class UtenteRepository {
             if (rs.next()) {
                 u = new Utente();
                 u.setCFUtente(rs.getString("cf"));
-                u.setNomeUtente(rs.getString("nome"));
-                u.setCognomeUtente(rs.getString("cognome"));
-                u.setDataNascitaUtente(rs.getString("data_nascita"));
-                u.setIndirizzoUtente(rs.getString("indirizzo"));
+                u.setNomeUtente(rs.getString("nomeUtente"));
+                u.setCognomeUtente(rs.getString("cognomeUtente"));
+                u.setDataNascitaUtente(rs.getString("dataNascitaUtente"));
+                u.setIndirizzoUtente(rs.getString("indirizzoUtente"));
 
                 String idFedelta = rs.getString("id_fedelta");
-                if (idFedelta != null) {
+                if (idFedelta != null ) {
                     Fedelta carta = new Fedelta();
-                    carta.ID = idFedelta;
+                    carta.setID(idFedelta);
+                 //   carta.ID = idFedelta;
                     u.setCartaUtente(carta);
                 }
             }
