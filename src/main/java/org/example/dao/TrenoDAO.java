@@ -1,17 +1,17 @@
-package org.example.repository;
+package org.example.dao;
 
 import org.example.model.Treno;
-import org.example.utils.DatabaseManager;
+import org.example.persistence.DBConnectionSingleton;
 
 import java.sql.*;
 import java.util.*;
 
-public class TrenoRepository {
+public class TrenoDAO {
 
     public void aggiungiTreno(Treno t) {
         String sql = "INSERT INTO treni (id_Treno, tipologia, stato, carrozza) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseManager.getConnection();
+        try (Connection conn = DBConnectionSingleton.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, t.getId_Treno());
@@ -30,7 +30,7 @@ public class TrenoRepository {
         String sql = "SELECT * FROM treni WHERE id_treno = ?";
         Treno t = null;
 
-        try (Connection conn = DatabaseManager.getConnection();
+        try (Connection conn = DBConnectionSingleton.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, id);
@@ -55,7 +55,7 @@ public class TrenoRepository {
         List<Treno> lista = new ArrayList<>();
         String sql = "SELECT * FROM treni";
 
-        try (Connection conn = DatabaseManager.getConnection();
+        try (Connection conn = DBConnectionSingleton.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 

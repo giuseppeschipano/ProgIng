@@ -1,10 +1,5 @@
 package org.example.ui;
 
-import org.example.model.*;
-import org.example.repository.*;
-import org.example.service.BiglietteriaService;
-import org.example.utils.InitDB;
-
 public class ConsoleClient {
     /*
     public static void main(String[] args) {

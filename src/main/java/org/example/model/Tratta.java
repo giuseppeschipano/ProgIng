@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class Tratta {
     int  numeroPostiDisponibili;
     String id_tratta, id_treno,oraPartenza, oraArrivo, stazionePartenza, stazioneArrivo, classiDisponibili;
+    String data;
     double prezzo;
 
 }

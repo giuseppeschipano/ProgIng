@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Promozione {
-    String codicePromo;
-    Fedelta carta;
+    String codicePromo, tipoTreno, inizioPromo, finePromo;
+    int percentualeSconto;
+    boolean soloFedelta;
+  //  Fedelta carta;
 }

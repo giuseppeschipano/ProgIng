@@ -1,21 +1,19 @@
-package org.example.repository;
+package org.example.dao;
 
 
 import org.example.model.Fedelta;
-import org.example.utils.DatabaseManager;
+import org.example.persistence.DBConnectionSingleton;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
-public class FedeltaRepository {
+public class FedeltaDAO {
 
     public void aggiungiTessera(Fedelta f) {
         String sql = "INSERT INTO fedelta (id, CFPossessoreTessera,puntiFedelta) VALUES (?, ?, ?)";
 
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
             stmt.setString(1, f.getID());
             stmt.setString(2, f.getCFPossessoreTessera());
             stmt.setInt(3, f.getPunti());
@@ -29,21 +27,24 @@ public class FedeltaRepository {
         String sql = "SELECT * FROM fedelta WHERE CFPossessoreTessera = ?";
         Fedelta f = null;
 
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)){
-
+        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, cf);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                String id = rs.getString("id");
+                String codiceFiscale = rs.getString("CFPossessoreTessera");
+                int punti = rs.getInt("puntiFedelta");
+
                 f = new Fedelta();
-                f.setID(rs.getString("id"));
-                f.setCFPossessoreTessera(rs.getString("CFPossessoreTessera"));
-                f.setPunti(rs.getInt("puntiFedelta"));
+                f.setID(id);
+                f.setCFPossessoreTessera(codiceFiscale);
+                f.setPunti(punti);
+                return f;
             }
         } catch (SQLException e){
             e.printStackTrace();
         }
-        return f;
+        return null;
     }
 }

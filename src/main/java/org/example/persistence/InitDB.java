@@ -1,4 +1,4 @@
-package org.example.utils;
+package org.example.persistence;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class InitDB {
     public static void init() {
-        try (Connection conn = DatabaseManager.getConnection();
+        try (Connection conn = DBConnectionSingleton.getConnection();
              Statement stmt = conn.createStatement()) {
 
             stmt.execute("""
@@ -17,10 +17,21 @@ public class InitDB {
                     cognomeUtente VARCHAR(100),
                     dataNascitaUtente VARCHAR(100),
                     indirizzoUtente VARCHAR(100),
-                    id_fedelta VARCHAR(100),
+                    cartUtente VARCHAR (100),
+                    emailUtente VARCHAR (100) UNIQUE,
+                    passwordUtente VARCHAR (100)
                     
-                    FOREIGN KEY (id_fedelta) REFERENCES fedelta(id)
+                   FOREIGN KEY (id_fedelta) REFERENCES fedelta(id)
                 );  
+            """);
+
+            stmt.execute("""
+                CREATE TABLE IF NOT EXISTS treni (
+                    id_treno VARCHAR(20) PRIMARY KEY,
+                    tipologia VARCHAR(100),
+                    stato VARCHAR(100),
+                    carrozza INT
+                );
             """);
 
             stmt.execute("""
@@ -56,19 +67,13 @@ public class InitDB {
                     classiDisponibili VARCHAR(100),
                     numeroPostiDisponibili INT,
                     prezzo DOUBLE,
+                    data VARCHAR(100),
                     
                     FOREIGN KEY (id_treno) REFERENCES treni(id_Treno)
                 ) 
             """);
 
-            stmt.execute("""
-                CREATE TABLE IF NOT EXISTS treni (
-                    id_treno VARCHAR(20) PRIMARY KEY,
-                    tipologia VARCHAR(100),
-                    stato VARCHAR(100),
-                    carrozza INT
-                );
-            """);
+
 
             // Logica di business: ogni tot si controllano tutte le prenotazioni
             // Le prenotazioni a cui manca un giorno per la scadenza implicano una notifica al cliente
@@ -135,6 +140,21 @@ public class InitDB {
                     FOREIGN KEY (id_prenotazione) REFERENCES prenotazioni(id_Prenotazione)
                 );
             """);
+
+
+            stmt.execute("""
+                 CREATE TABLE IF NOT EXISSTS promozioni(
+                     codicePromo  VARCHAR (100) PRIMARY KEY,
+                     percentualeSconto INT,
+                     tipoTrenoo  VARCHAR (100),
+                     inizioPromo VARCHAR (100),
+                     finePromo VARCHAR (100),
+                     soloFedelta VARCHAR (100)
+                     
+                     )
+                """ );
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
