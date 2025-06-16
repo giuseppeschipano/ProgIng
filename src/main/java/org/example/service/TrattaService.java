@@ -87,22 +87,7 @@ public class TrattaService {
         }
     }
 
-
-    /*
-    public void decrementaPostiDisponibili(String idTratta) {
-        Tratta tratta = trattaRepository.getTrattaById(idTratta);
-        if (tratta != null && tratta.getNumeroPostiDisponibili() > 0) {
-            tratta.setNumeroPostiDisponibili(tratta.getNumeroPostiDisponibili() - 1);
-            trattaRepository.updatePostiDisponibili(idTratta, tratta.getNumeroPostiDisponibili());
-        }
+    public List<Tratta> getAllTratte() {
+        return trattaRepository.getAllTratte();
     }
-
-    public void incrementaPostiDisponibili(String idTratta) {
-        Tratta tratta = trattaRepository.getTrattaById(idTratta);
-        if (tratta != null) {
-            tratta.setNumeroPostiDisponibili(tratta.getNumeroPostiDisponibili() + 1);
-            trattaRepository.updatePostiDisponibili(idTratta, tratta.getNumeroPostiDisponibili());
-        }
-    }
-    */
 }

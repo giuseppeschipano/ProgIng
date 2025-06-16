@@ -8,6 +8,8 @@ import org.example.dao.TrattaDAO;
 import org.example.persistence.DBConnectionSingleton;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -76,6 +78,7 @@ public class PrenotazioneService {
         }
     }
 
+
     public void annullaPrenotazione(Prenotazione p) {
         try (Connection conn = DBConnectionSingleton.getConnection()) {
             conn.setAutoCommit(false);
@@ -89,4 +92,40 @@ public class PrenotazioneService {
             e.printStackTrace();
         }
     }
+
+    public boolean postoGiaOccupato(String idTratta, int carrozza, int posto, Connection conn) throws SQLException {
+        // Controlla biglietti
+        String sqlBiglietti = """
+        SELECT 1 FROM biglietti 
+        WHERE id_tratta = ? AND carrozza = ? AND posto = ?
+    """;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sqlBiglietti)) {
+            stmt.setString(1, idTratta);
+            stmt.setInt(2, carrozza);
+            stmt.setInt(3, posto);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) return true;
+        }
+
+        // Controlla prenotazioni
+        String sqlPrenotazioni = """
+        SELECT 1 FROM prenotazioni 
+        WHERE id_tratta = ? AND carrozza = ? AND postoPrenotazione = ?
+    """;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sqlPrenotazioni)) {
+            stmt.setString(1, idTratta);
+            stmt.setInt(2, carrozza);
+            stmt.setInt(3, posto);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // true se già presente
+        }
+    }
+
+    public Prenotazione getPrenotazioneById(String id) {
+        return prenotazioneRepo.getPrenotazionePerID(id);
+    }
+
+
 }

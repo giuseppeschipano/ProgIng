@@ -6,16 +6,6 @@ import org.example.persistence.DBConnectionSingleton;
 import java.sql.*;
 import java.util.*;
 
-/*
-Questa classe serve per la gestione del Database
-riferito ai biglietti. Di seguito vengono
-implementati dei metodi per:
--aggiungere un nuovo biglietto (deve essere garantita la gestione tramite transazione)
--ricercare dei biglietti per CF
--modificare un biglietto
--ricerca dei biglietti per codice di biglietto
--eliminare biglietti
- */
 
 public class BigliettoDAO {
 
@@ -67,7 +57,7 @@ public class BigliettoDAO {
 
 
     public void aggiornaBiglietto(Biglietto b, Connection conn) {
-        String sql = "UPDATE biglietti SET classe = ?, id_prenotazione = ', cf = ?, id_tratta = ?, posto = ?, carrozza = ? where id_Biglietto = ?";
+        String sql = "UPDATE biglietti SET classe = ?, id_prenotazione = ?, cf = ?, id_tratta = ?, posto = ?, carrozza = ? where id_Biglietto = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setString(1, b.getClasse());

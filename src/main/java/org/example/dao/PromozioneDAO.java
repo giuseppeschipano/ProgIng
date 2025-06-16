@@ -55,4 +55,32 @@ public class PromozioneDAO {
         }
         return lista;
     }
+
+    public List<Promozione> getAllPromozioni() {
+        List<Promozione> lista = new ArrayList<>();
+        String sql = "SELECT * FROM promozioni";
+
+        try (Connection conn = DBConnectionSingleton.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Promozione p = new Promozione();
+                p.setCodicePromo(rs.getString("codicePromo"));
+                p.setPercentualeSconto(rs.getInt("percentualeSconto"));
+                p.setTipoTreno(rs.getString("tipoTreno"));
+                p.setInizioPromo(rs.getString("inizioPromo"));
+                p.setFinePromo(rs.getString("finePromo"));
+          //    p.setSoloFedelta(rs.getBoolean("soloFedelta"));
+                p.setSoloFedelta(Boolean.parseBoolean(rs.getString("soloFedelta")));
+
+                lista.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+
 }

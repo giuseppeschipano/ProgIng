@@ -11,5 +11,4 @@ public class Promozione {
     String codicePromo, tipoTreno, inizioPromo, finePromo;
     int percentualeSconto;
     boolean soloFedelta;
-  //  Fedelta carta;
 }

@@ -91,10 +91,16 @@ public class UtenteDAO {
         return null;
     }
 
-    /**
-     * Ci vuole un metodo getUtenteByEmail
-     * Inoltre imposta Email come valore UNIQUE nel DB
-     * Fatti un metodo login in UtenteService che trova utente per email, estrae password, la compara con i valori passati come argomento al metodo login(String email, String password) e se sono uguali ritorna un oggetto Utente.
-     * Aggiorna anche i metodi in UtenteDAO
-     */
+
+    public void updateFedelta (String cf, boolean fedelta, Connection conn){
+        String sql = "UPDATE utenti SET fedelta = ? WHERE cf = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setBoolean(1, fedelta);
+            stmt.setString(2, cf);
+            stmt.executeQuery(); //  stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

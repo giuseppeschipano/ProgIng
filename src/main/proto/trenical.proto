@@ -1,0 +1,204 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.example.grpc";
+option java_outer_classname = "TrenicalProto";
+
+service TrenicalService {
+  rpc CercaTratte(CercaTratteRequest) returns (CercaTratteResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Registrazione(RegistrazioneRequest) returns (RegistrazioneResponse);
+  rpc Prenota(PrenotazioneRequest) returns (PrenotazioneResponse);
+  rpc AcquistaBiglietto(AcquistoRequest) returns (AcquistoResponse);
+  rpc SottoscriviFedelta(SottoscrizioneFedeltaRequest) returns (SottoscrizioneFedeltaResponse);
+  rpc OttieniPromozioni(PromozioniRequest) returns (PromozioniResponse);
+  rpc ModificaBiglietto(ModificaBigliettoRequest) returns (ModificaBigliettoResponse);
+  rpc IscrivitiNotificheTreno(TrenoNotificaRequest) returns (TrenoNotificaResponse);
+  rpc RiceviNotificheTreno(TrenoNotificaRequest) returns (stream NotificaTrenoResponse); //riceve aggiornamenti continui in tempo reale sul treno (es. ritardi, cambi orario, cancellazioni), il server invia più risposte nel tempo  allo stesso client.
+  rpc StatoAttualeTreno(TrenoNotificaRequest) returns (NotificaTrenoResponse); //chiede lo stato attuale del treno in un determinato momento, si riceve una sola risposta e basta
+  rpc FedeltaNotificaPromoOfferte(AccettiNotificaFedRequest) returns (AccettiNotificaFedResponse);
+}
+
+// --- Ricerca tratte ---
+message CercaTratteRequest {
+  string stazionePartenza = 1;
+  string stazioneArrivo = 2;
+  string data = 3;
+  string classe = 4;
+}
+
+message TrattaDTO {
+  string idTratta = 1;
+  string oraPartenza = 2;
+  string oraArrivo = 3;
+  string stazionePartenza = 4;
+  string stazioneArrivo = 5;
+  int32 numeroPostiDisponibili = 6;
+  double prezzo = 7;
+  string classiDisponibili = 8;
+}
+
+message CercaTratteResponse {
+  repeated TrattaDTO tratte = 1;
+}
+
+// --- Login ---
+message LoginRequest{
+  string email = 1;
+  string password = 2;
+}
+
+message UserDTO {
+  string nome = 1;
+  string cognome = 2;
+  string cf = 3;
+  string indirizzo = 4;
+  string dataNascita = 5;
+  FedeltaDTO fedelta = 6;
+}
+
+message FedeltaDTO {
+  string id = 1;
+  int32 punti = 2;
+}
+
+message LoginResponse{
+  UserDTO utente = 1;
+  bool successo = 2;
+  string messaggio = 3;
+  bool isAdmin = 4;
+}
+
+// --- Registrazione ---
+message RegistrazioneRequest {
+  string nome = 1;
+  string cognome = 2;
+  string email = 3;
+  string password = 4;
+  string cf = 5;
+  string indirizzo = 6;
+  string dataNascita = 7;
+}
+
+message RegistrazioneResponse {
+  bool success = 1;
+  string messaggio = 2;
+}
+
+// --- Prenotazione ---
+message PrenotazioneRequest {
+  string cf = 1;
+  string id_tratta = 2;
+  int32 posto = 3;
+  int32 carrozza = 4;
+}
+
+message PrenotazioneResponse {
+  string id_Prenotazione = 1;
+  bool success = 2;
+  string messaggio = 3;
+}
+
+// --- Acquisto biglietto ---
+message AcquistoRequest {
+  UserDTO utente = 1; //Il server gestisce tutta la logica di business:Controlla se l’utente ha una tessera fedeltà; se sì, applica sconti o incrementa i punti.
+  string cf = 2;
+  string id_tratta = 3;
+  string classe = 4;
+  int32 posto = 5;
+  int32 carrozza = 6;
+  string numero_carta = 7;    // per simulare il pagamento;
+  string prenotazioneId = 8; // opzionale
+
+}
+
+message BigliettoDTO {
+  string id_biglietto = 1;
+  string classe = 2;
+  string id_tratta = 3;
+  int32 posto = 4;
+  int32 carrozza = 5;
+}
+
+message AcquistoResponse {
+  BigliettoDTO biglietto = 1;
+  bool success = 2;
+  string messaggio = 3;
+}
+
+// --- Fedeltà ---
+message SottoscrizioneFedeltaRequest {
+  string cf = 1;
+}
+
+message SottoscrizioneFedeltaResponse {
+  bool success = 1;
+  string messaggio = 2;
+  FedeltaDTO tessera = 3;
+}
+
+// --- Promozioni ---
+message PromozioniRequest {
+  string cf = 1;
+}
+
+message PromozioneDTO {
+  string codicePromo = 1;
+  int32 percentualeSconto = 2;
+  string tipoTreno = 3;
+  string inizioPromo = 4;
+  string finePromo = 5;
+  bool soloFedelta = 6;
+}
+
+message PromozioniResponse {
+  repeated PromozioneDTO promozioni = 1;
+}
+
+// --- Modifica biglietto ---
+message ModificaBigliettoRequest {
+  string id_biglietto = 1;
+  string nuova_data = 2;           // formato: dd/MM/yyyy
+  string nuova_ora = 3;            // formato: HH:mm:ss
+  string nuova_classe = 4;
+  bool conferma = 5; // se true, esegue davvero la modifica
+}
+
+message ModificaBigliettoResponse {
+  bool success = 1;
+  string messaggio = 2;
+  double differenzaPrezzo = 3;     // Se positivo va pagato, se negativo è rimborso
+  BigliettoDTO bigliettoAggiornato = 4;
+}
+
+
+// --- Notifiche treno ---
+
+message TrenoNotificaRequest {
+  string cf = 1;
+  string id_treno = 2;
+}
+
+message TrenoNotificaResponse {
+  bool success = 1;
+  string messaggio = 2;
+}
+message NotificaTrenoResponse {
+  string id_treno = 1;
+  string stato = 2;
+  string messaggio = 3;
+  string orarioStimato = 4;
+}
+
+
+// --- Notifica promozioni per fedeltà ---
+message AccettiNotificaFedRequest {
+  string cf = 1;
+  bool desideroContatto = 2;
+}
+
+message AccettiNotificaFedResponse {
+  string message = 1;
+  PromozioneDTO promoInArrivo = 2;
+}
+
