@@ -40,9 +40,9 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         String data = request.getData();
         String classe = request.getClasse();
 
-        TrattaService trattaService = new TrattaService(new TrattaDAO()); // Service Layer Pattern
+     //   TrattaService trattaService = new TrattaService(new TrattaDAO());
 
-        List<Tratta> tratte = trattaService.cercaTratte(partenza, arrivo, data, classe);
+        List<Tratta> tratte = this.trattaService.cercaTratte(partenza, arrivo, data, classe);
 
         CercaTratteResponse.Builder responseBuilder = CercaTratteResponse.newBuilder();
 
@@ -158,6 +158,10 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
 
         RegistrazioneResponse response = RegistrazioneResponse.newBuilder()
                 .setSuccess(success).setMessaggio(messaggio).build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+
     }
 
 
@@ -594,14 +598,3 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         responseObserver.onCompleted();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
