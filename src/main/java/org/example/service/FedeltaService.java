@@ -21,9 +21,14 @@ public class FedeltaService {
     public Fedelta getTesseraByCF(String cf) {
         return fedeltaDAO.getTesseraByCF(cf);
     }
-
+/*
     public boolean isFedeltaUtente(String cf) {
         return fedeltaDAO.getTesseraByCF(cf) != null;
+    }
+    */
+    public boolean hasTessera(String cf) {
+        Fedelta tessera = fedeltaDAO.getTesseraByCF(cf);
+        return tessera != null;
     }
 
     public int getPunti(String cf) {
@@ -37,7 +42,7 @@ public class FedeltaService {
           conn = DBConnectionSingleton.getConnection();
           conn.setAutoCommit(false);
           fedeltaDAO.aggiungiTessera(f, conn);
-          utenteDAO.updateFedelta(f.getCFPossessoreTessera(), true, conn);
+          utenteDAO.updateFedelta(f.getCFPossessoreTessera(), f.getID(), conn);
           conn.commit();
       } catch ( SQLException e){
           if (conn != null) {
@@ -83,12 +88,4 @@ public class FedeltaService {
             }
         }
     }
-
-    public boolean hasTessera(String cf) {
-        Fedelta tessera = fedeltaDAO.getTesseraByCF(cf);
-        return tessera != null;
-    }
-
-
-
 }

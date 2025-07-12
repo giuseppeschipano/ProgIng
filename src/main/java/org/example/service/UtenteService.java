@@ -35,9 +35,9 @@ public class UtenteService {
             conn = DBConnectionSingleton.getConnection();
             conn.setAutoCommit(false);
 
-            utenteDAO.aggiungiUtente(utente); // puoi anche fare una variante con conn
+            utenteDAO.aggiungiUtente(utente);
             if (utente.getCartaUtente() != null) {
-                fedeltaService.aggiungiTessera(utente.getCartaUtente()); // usa metodo transazionale
+                fedeltaService.aggiungiTessera(utente.getCartaUtente());
             }
 
             conn.commit();
@@ -62,14 +62,6 @@ public class UtenteService {
     }
 
 
-    /*
-    public void registraUtente(Utente utente) {
-        utenteDAO.aggiungiUtente(utente);
-        if (utente.getCartaUtente() != null) {
-            fedeltaDAO.aggiungiTessera(utente.getCartaUtente());
-        }
-    }
-     */
     public Utente getUtente(String cf) {
         Utente u = utenteDAO.getUtenteByCF(cf);
         Fedelta tessera = fedeltaDAO.getTesseraByCF(cf);

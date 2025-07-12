@@ -1,6 +1,5 @@
 package org.example.dao;
 
-
 import org.example.model.Biglietto;
 import org.example.persistence.DBConnectionSingleton;
 import java.sql.*;
@@ -43,7 +42,7 @@ public class BigliettoDAO {
                 b.setId_Biglietto(rs.getString("id_biglietto"));
                 b.setClasse(rs.getString("classe"));
                 b.setId_prenotazione(rs.getString("id_prenotazione"));
-                b.setCF (rs.getString("cf"));
+                b.setCF (rs.getString("CF"));
                 b.setId_tratta(rs.getString("id_tratta"));
                 b.setPosto(rs.getInt("posto"));
                 b.setCarrozza(rs.getInt("carrozza"));

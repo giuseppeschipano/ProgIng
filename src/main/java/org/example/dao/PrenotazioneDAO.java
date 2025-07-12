@@ -45,10 +45,10 @@ public class PrenotazioneDAO {
                 Prenotazione p = new Prenotazione();
                 p.setId_Prenotazione(rs.getString("id_Prenotazione"));
                 p.setDataScadenza(rs.getString("dataScadenza"));
-                p.setCFUtente(rs.getString(" CFUtente"));
-                p.setId_tratta(rs.getString(" id_tratta"));
-                p.setPostoPrenotazione(rs.getInt(" postoPrenotazione"));
-                p.setCarrozza(rs.getInt(" carrozza"));
+                p.setCFUtente(rs.getString("CFUtente"));
+                p.setId_tratta(rs.getString("id_tratta"));
+                p.setPostoPrenotazione(rs.getInt("postoPrenotazione"));
+                p.setCarrozza(rs.getInt("carrozza"));
                 return  p;
             }
         } catch (SQLException e) {

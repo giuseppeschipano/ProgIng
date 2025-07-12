@@ -1,9 +1,7 @@
 package org.example.dao;
 
-
 import org.example.model.Fedelta;
 import org.example.persistence.DBConnectionSingleton;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

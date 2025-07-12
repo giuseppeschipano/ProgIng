@@ -11,18 +11,29 @@ public class InitDB {
              Statement stmt = conn.createStatement()) {
 
             stmt.execute("""
+                CREATE TABLE IF NOT EXISTS fedelta(
+                    id VARCHAR(100) PRIMARY KEY,
+                    CFPossessoreTessera VARCHAR (100) UNIQUE,
+                    puntiFedelta INT
+                                                                              
+                )
+            """);
+
+
+            stmt.execute("""
                 CREATE TABLE IF NOT EXISTS utenti (
-                     cf VARCHAR PRIMARY KEY,
+                    cf VARCHAR PRIMARY KEY,
                     nomeUtente VARCHAR(100),
                     cognomeUtente VARCHAR(100),
                     dataNascitaUtente VARCHAR(100),
                     indirizzoUtente VARCHAR(100),
                     cartaUtente VARCHAR (100),
-                    emailUtente VARCHAR (100) UNIQUE,
+                    emailUtente VARCHAR (100) ,
                     passwordUtente VARCHAR (100),
                     id_fedelta VARCHAR,
+                    is_admin BOOLEAN,
                     
-                   FOREIGN KEY (id_fedelta) REFERENCES fedelta(id)
+                    FOREIGN KEY (id_fedelta) REFERENCES fedelta(id)
                 );  
             """);
 
@@ -35,15 +46,6 @@ public class InitDB {
                 );
             """);
 
-            stmt.execute("""
-                CREATE TABLE IF NOT EXISTS fedelta(
-                    id VARCHAR(100) PRIMARY KEY,
-                    CFPossessoreTessera VARCHAR (100),
-                    puntiFedelta INT,
-                                                  
-                    FOREIGN KEY (CFPossessoreTessera) REFERENCES utenti(cf)                               
-                )
-            """);
 
 
             stmt.execute("""
@@ -62,8 +64,6 @@ public class InitDB {
                     FOREIGN KEY (id_treno) REFERENCES treni(id_treno)
                 ) 
             """);
-
-
 
             stmt.execute("""
                 CREATE TABLE IF NOT EXISTS prenotazioni (
@@ -91,7 +91,7 @@ public class InitDB {
                     posto INT,
                     carrozza INT,
                     
-                    FOREIGN KEY (cf) REFERENCES utenti(cf),
+                    FOREIGN KEY (CF) REFERENCES utenti(cf),
                     FOREIGN KEY (id_tratta) REFERENCES tratta(id_tratta),
                     FOREIGN KEY (id_prenotazione) REFERENCES prenotazioni(id_Prenotazione)
                 );

@@ -13,5 +13,4 @@ public class Tratta {
     String id_tratta, id_treno,oraPartenza, oraArrivo, stazionePartenza, stazioneArrivo, classiDisponibili;
     String data;
     double prezzo;
-
 }

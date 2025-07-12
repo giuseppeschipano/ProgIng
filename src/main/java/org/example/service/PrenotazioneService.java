@@ -126,6 +126,4 @@ public class PrenotazioneService {
     public Prenotazione getPrenotazioneById(String id) {
         return prenotazioneRepo.getPrenotazionePerID(id);
     }
-
-
 }

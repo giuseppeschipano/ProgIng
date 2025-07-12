@@ -9,6 +9,7 @@ import org.example.dao.PromozioneDAO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class PromozioneService {
     }
 
     public List<Promozione> promoSoloFedelta(String CF) {
-        boolean check = serviceFedelta.isFedeltaUtente(CF);
+        boolean check = serviceFedelta.hasTessera(CF);
         return promoDataBase.promozioniAttive(null, check, null);
     }
 
@@ -51,8 +52,10 @@ public class PromozioneService {
         LocalDateTime now = LocalDateTime.now();
 
         for (Promozione p : tutte) {
-            LocalDateTime inizio = LocalDateTime.parse(p.getInizioPromo());
-            LocalDateTime fine = LocalDateTime.parse(p.getFinePromo());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            LocalDateTime inizio = LocalDateTime.parse(p.getInizioPromo(), formatter);
+            LocalDateTime fine = LocalDateTime.parse(p.getFinePromo(), formatter);
+
 
             boolean inPeriodo = now.isAfter(inizio) && now.isBefore(fine);
             boolean promoValida = inPeriodo && (!p.isSoloFedelta() || haFedelta);
@@ -61,8 +64,6 @@ public class PromozioneService {
                 valide.add(p);
             }
         }
-
         return valide;
     }
-
 }

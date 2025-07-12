@@ -11,7 +11,7 @@ import java.util.List;
 public class TrattaDAO {
 
     public void aggiungiTratta(Tratta t) {
-        String sql = "INSERT INTO tratta (id_tratta, id_treno,oraPartenza, oraArrivo, stazionePartenza, stazioneArrivo, classiDisponibili,numeroPostiDisponibili,prezzo, data) VALUES (?, ?, ?,?,?,?,?,?,?. ?)";
+        String sql = "INSERT INTO tratta (id_tratta, id_treno,oraPartenza, oraArrivo, stazionePartenza, stazioneArrivo, classiDisponibili,numeroPostiDisponibili,prezzo, data) VALUES (?, ?, ?,?,?,?,?,?,?, ?)";
 
         try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, t.getId_tratta());
@@ -66,17 +66,18 @@ public class TrattaDAO {
     public List<Tratta> cercaTratta(String partenza, String arrivo, String data, String tipoTreno) {
         List<Tratta> tratte = new ArrayList<>();
         String sql = "SELECT * FROM tratta ta " +
-                 "JOIN treni tr ON ta.id_treno = tr.id_Treno" +
+                 "JOIN treni tr ON ta.id_treno = tr.id_Treno " +
                 "WHERE ta.stazionePartenza = ? AND ta.stazioneArrivo = ? AND ta.data = ?";
 
         if (tipoTreno !=  null && !tipoTreno.isEmpty()){
-            sql += "AND tr.tipoTreno =?";
+            sql += " AND tr.tipologia = ?";
         }
 
         try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1,partenza);
             stmt.setString(2, arrivo);
-            stmt.setDate(3, Date.valueOf(data));
+     //     stmt.setDate(3, Date.valueOf(data));
+            stmt.setString(3, data);
             if (tipoTreno != null && !tipoTreno.isEmpty()){
                 stmt.setString(4, tipoTreno);
             }
@@ -110,7 +111,7 @@ public class TrattaDAO {
         String sql = "SELECT * FROM tratta WHERE id_tratta = ?";
         Tratta t = null;
 
-        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
+        try (PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
 
@@ -198,6 +199,4 @@ public class TrattaDAO {
         }
         return null;
     }
-
-
 }

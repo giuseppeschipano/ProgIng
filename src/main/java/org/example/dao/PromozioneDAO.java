@@ -71,8 +71,8 @@ public class PromozioneDAO {
                 p.setTipoTreno(rs.getString("tipoTreno"));
                 p.setInizioPromo(rs.getString("inizioPromo"));
                 p.setFinePromo(rs.getString("finePromo"));
-          //    p.setSoloFedelta(rs.getBoolean("soloFedelta"));
-                p.setSoloFedelta(Boolean.parseBoolean(rs.getString("soloFedelta")));
+                p.setSoloFedelta(rs.getBoolean("soloFedelta"));
+          //    p.setSoloFedelta(Boolean.parseBoolean(rs.getString("soloFedelta")));
 
                 lista.add(p);
             }
@@ -81,6 +81,4 @@ public class PromozioneDAO {
         }
         return lista;
     }
-
-
 }

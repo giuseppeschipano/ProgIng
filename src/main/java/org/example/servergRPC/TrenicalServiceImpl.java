@@ -40,8 +40,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         String data = request.getData();
         String classe = request.getClasse();
 
-     //   TrattaService trattaService = new TrattaService(new TrattaDAO());
-
         List<Tratta> tratte = this.trattaService.cercaTratte(partenza, arrivo, data, classe);
 
         CercaTratteResponse.Builder responseBuilder = CercaTratteResponse.newBuilder();

@@ -69,8 +69,5 @@ public class BiglietteriaService {
 
         return sum % 10 == 0;
     }
-
-
-
 }
 
