@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.PromozioniController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" />
+   </padding>
+   <children>
+      <Label fx:id="ottieniPromozioni" alignment="CENTER" text="Promozioni Disponibili" />
+      <TextField fx:id="cfField" alignment="CENTER" promptText="Codice Fiscale" />
+      <Button fx:id="cercaButton" alignment="CENTER" mnemonicParsing="false" text="Cerca promozioni">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
+         </padding>
+      </Button>
+      <TableView fx:id="tablePromo" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="colCodice" prefWidth="75.0" text="Codice promozione" />
+          <TableColumn fx:id="colSconto" prefWidth="75.0" text="Percentuale sconto" />
+            <TableColumn fx:id="colTipoTreno" prefWidth="75.0" text="Tipo treno" />
+            <TableColumn fx:id="colInizio" prefWidth="75.0" text="Inizo promo" />
+            <TableColumn fx:id="colFine" prefWidth="75.0" text="Fine promo" />
+            <TableColumn fx:id="colSoloFedelta" prefWidth="75.0" text="Solo fedeltà (si/no)" />
+        </columns>
+      </TableView>
+      <Label fx:id="esitoLabel" alignment="CENTER" text="Promozioni:" />
+      <Hyperlink fx:id="tronaHomeLink" alignment="CENTER" text="Torna alla Home" />
+   </children>
+</VBox>
