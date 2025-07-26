@@ -18,14 +18,41 @@ public class FedeltaService {
         this.utenteDAO = new UtenteDAO();
     }
 
+
+
     public Fedelta getTesseraByCF(String cf) {
         return fedeltaDAO.getTesseraByCF(cf);
     }
+
+
 /*
-    public boolean isFedeltaUtente(String cf) {
-        return fedeltaDAO.getTesseraByCF(cf) != null;
+    public Fedelta getTesseraByCF(String cf) throws SQLException {
+        Connection conn = null;
+        Fedelta tessera = null;
+
+        try {
+            conn = DBConnectionSingleton.getConnection();
+            conn.setAutoCommit(false);
+
+            tessera = fedeltaDAO.getTesseraByCF(cf);
+            conn.commit();
+
+        } catch (SQLException e) {
+            if (conn != null) {
+                conn.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.setAutoCommit(true);
+            }
+        }
+
+        return tessera;
     }
-    */
+*/
+
+
     public boolean hasTessera(String cf) {
         Fedelta tessera = fedeltaDAO.getTesseraByCF(cf);
         return tessera != null;
@@ -41,8 +68,8 @@ public class FedeltaService {
       try {
           conn = DBConnectionSingleton.getConnection();
           conn.setAutoCommit(false);
-          fedeltaDAO.aggiungiTessera(f, conn);
-          utenteDAO.updateFedelta(f.getCFPossessoreTessera(), f.getID(), conn);
+          fedeltaDAO.aggiungiTessera(f);
+          utenteDAO.updateFedelta(f.getCFPossessoreTessera(), f.getID());
           conn.commit();
       } catch ( SQLException e){
           if (conn != null) {
@@ -66,7 +93,7 @@ public class FedeltaService {
             conn = DBConnectionSingleton.getConnection();
             conn.setAutoCommit(false);
 
-            fedeltaDAO.incrementaPunti(cf, punti, conn);
+            fedeltaDAO.incrementaPunti(cf, punti);
 
             conn.commit();
         } catch (SQLException e) {

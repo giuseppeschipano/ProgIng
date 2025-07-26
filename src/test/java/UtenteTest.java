@@ -9,8 +9,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UtenteTest {
@@ -42,9 +40,7 @@ public class UtenteTest {
         utenteTest.setPasswordUtente("mariorossi0105");
         utenteTest.setAdmin(false);
         utenteTest.setCartaUtente(null);
-
         utenteDAO.aggiungiUtente(utenteTest);
-
         Utente utenteRecuperato = utenteDAO.getUtenteByCF("ROSMRIO05A01H948D");
         assertTrue(utenteRecuperato != null);
     }
@@ -66,4 +62,20 @@ public class UtenteTest {
         assertTrue(ris != null);
     }
 
+    @Test
+    @DisplayName("Test aggiornamento carta fedeltà utente")
+    public void testUpdateFedelta() {
+
+        //Verifico che inizialmente l'utente non abbia id_fedelta
+        Utente utentePrima = utenteDAO.getUtenteByCF("SEATEPT47D09R739C");
+        assertNull(utentePrima.getCartaUtente());
+
+        utenteDAO.updateFedelta("SEATEPT47D09R739C", "TESSERAFEDELTA3");
+
+        //Verifico che il campo id_fedelta sia stato aggiornato dopo aver fatto update
+        Utente utenteDopo = utenteDAO.getUtenteByCF("SEATEPT47D09R739C");
+        assertNotNull(utenteDopo.getCartaUtente());
+
+        assertEquals("TESSERAFEDELTA3", utenteDopo.getCartaUtente().getID());
+    }
 }

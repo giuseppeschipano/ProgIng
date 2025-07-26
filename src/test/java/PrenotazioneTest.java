@@ -16,7 +16,7 @@ public class PrenotazioneTest {
 
     private PrenotazioneDAO prenotazioneDAO;
     private Connection con;
-    private final String idPrenotazioneTest = "PRE2549735126794";
+    private final String idPrenotazioneTest = "PRE" + System.currentTimeMillis();;
 
     @BeforeEach
     public void setUp() throws SQLException {
@@ -31,7 +31,7 @@ public class PrenotazioneTest {
             prenotazione.setCarrozza(1);
             prenotazione.setId_tratta("TRATTA3");
             prenotazione.setCFUtente("BIAALIE98A01T689C");
-            prenotazioneDAO.aggiungiPrenotazione(prenotazione, con);
+            prenotazioneDAO.aggiungiPrenotazione(prenotazione);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -47,7 +47,7 @@ public class PrenotazioneTest {
         prenotazioneTest.setPostoPrenotazione(17);
         prenotazioneTest.setId_tratta("TRATTA3");
         prenotazioneTest.setDataScadenza("14/07/2025");
-        prenotazioneDAO.aggiungiPrenotazione(prenotazioneTest,con);
+        prenotazioneDAO.aggiungiPrenotazione(prenotazioneTest);
         Prenotazione prenotazioneRecuperata = prenotazioneDAO.getPrenotazionePerID(idPrenotazione);
         assertTrue(prenotazioneRecuperata != null);
 
@@ -78,7 +78,7 @@ public class PrenotazioneTest {
     @ValueSource(strings = {"PRE2549735126794"})
     @DisplayName("Test che verifica la rimozione di una prenotazione dal database")
     public void testRimuoviPrenotazione(String id_prenotazione) {
-        prenotazioneDAO.rimuoviPrenotazione(id_prenotazione, con);
+        prenotazioneDAO.rimuoviPrenotazione(id_prenotazione);
         Prenotazione eliminata = prenotazioneDAO.getPrenotazionePerID(id_prenotazione);
         assertTrue(eliminata == null);
 

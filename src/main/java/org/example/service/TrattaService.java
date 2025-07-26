@@ -3,7 +3,6 @@ package org.example.service;
 import org.example.model.Tratta;
 import org.example.dao.TrattaDAO;
 import org.example.persistence.DBConnectionSingleton;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,10 +37,10 @@ public class TrattaService {
 
     public void decrementaPostiDisponibili(String idTratta, int quanti) {
         try (Connection conn = DBConnectionSingleton.getConnection()) {
-            Tratta tratta = trattaRepository.getTrattaById(idTratta, conn);
+            Tratta tratta = trattaRepository.getTrattaById(idTratta);
             if (tratta != null && tratta.getNumeroPostiDisponibili() >= quanti) {
                 int nuoviPosti = tratta.getNumeroPostiDisponibili() - quanti;
-                trattaRepository.updatePostiDisponibili(idTratta, nuoviPosti, conn);
+                trattaRepository.updatePostiDisponibili(idTratta, nuoviPosti);
             } else {
                 System.out.println("Errore: tratta non trovata o posti insufficienti");
             }
@@ -52,7 +51,7 @@ public class TrattaService {
 
     public int getPostiDisponibili(String idTratta){
         try (Connection conn = DBConnectionSingleton.getConnection()) {
-            Tratta tratta = trattaRepository.getTrattaById(idTratta, conn);
+            Tratta tratta = trattaRepository.getTrattaById(idTratta);
             if(tratta != null && tratta.getNumeroPostiDisponibili() > 0){
                 return tratta.getNumeroPostiDisponibili();
             }else{
@@ -66,10 +65,10 @@ public class TrattaService {
 
     public void incrementaPostiDisponibili(String idTratta, int quanti) {
         try (Connection conn = DBConnectionSingleton.getConnection()) {
-            Tratta tratta = trattaRepository.getTrattaById(idTratta, conn);
+            Tratta tratta = trattaRepository.getTrattaById(idTratta);
             if (tratta != null) {
                 int nuoviPosti = tratta.getNumeroPostiDisponibili() + quanti;
-                trattaRepository.updatePostiDisponibili(idTratta, nuoviPosti, conn);
+                trattaRepository.updatePostiDisponibili(idTratta, nuoviPosti);
             } else {
                 System.out.println("Errore: tratta non trovata");
             }
@@ -79,12 +78,7 @@ public class TrattaService {
     }
 
     public Tratta getTrattaByID(String idTratta) {
-        try {
-            return trattaRepository.getTrattaById(idTratta, DBConnectionSingleton.getConnection());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return trattaRepository.getTrattaById(idTratta);
     }
 
     public List<Tratta> getAllTratte() {

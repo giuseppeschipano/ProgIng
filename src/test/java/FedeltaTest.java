@@ -37,19 +37,20 @@ public class FedeltaTest {
         Fedelta fedeltaTest = new Fedelta();
         fedeltaTest.setID("TESSERAFEDELTA2");
         fedeltaTest.setCFPossessoreTessera("BIAALIE98A01T689C");
-        fedeltaDAO.aggiungiTessera(fedeltaTest, conn);
-
+        fedeltaDAO.aggiungiTessera(fedeltaTest);
         Fedelta tesseraRecuperata = fedeltaDAO.getTesseraByCF("BIAALIE98A01T689C");
         assertTrue(tesseraRecuperata != null);
     }
+
 
 
     @Test
     @DisplayName("Test che controlla la ricerca di una tessera dato il relativo CF")
     public void testGetTesseraByCF() {
         Utente u = utenteDAO.getUtenteByCF("FROMVRD76D09Q739P");
-        assertEquals("TESSERAFEDELTA1", u.getCartaUtente().getID());
+        assertTrue("TESSERAFEDELTA1".equals(u.getCartaUtente().getID()));
     }
+
 
     @Test
     @DisplayName("Test che verifica l'incremento dei punti su una tessera fedeltà")
@@ -57,7 +58,7 @@ public class FedeltaTest {
         String cf = "FROMVRD76D09Q739P";
         Fedelta prima = fedeltaDAO.getTesseraByCF(cf);
         int puntiIniziali = prima.getPunti();
-        fedeltaDAO.incrementaPunti(cf, 3, conn);
+        fedeltaDAO.incrementaPunti(cf, 3);
         Fedelta dopo = fedeltaDAO.getTesseraByCF(cf);
         assertEquals(puntiIniziali + 3, dopo.getPunti());
     }

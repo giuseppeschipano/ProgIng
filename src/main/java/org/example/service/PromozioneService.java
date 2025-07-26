@@ -24,8 +24,7 @@ public class PromozioneService {
     }
 
     public void addNewPromotion(Promozione promo) throws SQLException {
-        Connection conn = DBConnectionSingleton.getConnection();
-        promoDataBase.addPromozione(promo, conn);
+        promoDataBase.addPromozione(promo);
     }
 
     public List<Promozione> promoSoloFedelta(String CF) {

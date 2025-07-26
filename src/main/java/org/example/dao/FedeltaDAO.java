@@ -9,10 +9,10 @@ import java.sql.ResultSet;
 
 public class FedeltaDAO {
 
-    public void aggiungiTessera(Fedelta f, Connection conn) {
+    public void aggiungiTessera(Fedelta f) {
         String sql = "INSERT INTO fedelta (id, CFPossessoreTessera,puntiFedelta) VALUES (?, ?, ?)";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try(PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, f.getID());
             stmt.setString(2, f.getCFPossessoreTessera());
             stmt.setInt(3, f.getPunti());
@@ -26,10 +26,9 @@ public class FedeltaDAO {
         String sql = "SELECT * FROM fedelta WHERE CFPossessoreTessera = ?";
         Fedelta f = null;
 
-        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
+        try(PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, cf);
             ResultSet rs = stmt.executeQuery();
-
             if (rs.next()) {
                 String id = rs.getString("id");
                 String codiceFiscale = rs.getString("CFPossessoreTessera");
@@ -47,10 +46,10 @@ public class FedeltaDAO {
         return null;
     }
 
-    public void incrementaPunti(String cf, int puntiDaAggiungere, Connection conn) throws SQLException {
+    public void incrementaPunti(String cf, int puntiDaAggiungere){
         String sql = "UPDATE fedelta SET puntiFedelta = puntiFedelta + ? WHERE CFPossessoreTessera = ?";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try(PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setInt(1, puntiDaAggiungere);
             stmt.setString(2, cf);
             int rows = stmt.executeUpdate();
@@ -59,6 +58,8 @@ public class FedeltaDAO {
             } else {
                 System.out.println("Punti fedeltà aggiornati per " + cf);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

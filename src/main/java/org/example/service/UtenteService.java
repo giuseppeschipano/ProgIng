@@ -5,7 +5,6 @@ import org.example.dao.UtenteDAO;
 import org.example.model.Fedelta;
 import org.example.model.Utente;
 import org.example.persistence.DBConnectionSingleton;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -34,12 +33,10 @@ public class UtenteService {
         try {
             conn = DBConnectionSingleton.getConnection();
             conn.setAutoCommit(false);
-
             utenteDAO.aggiungiUtente(utente);
             if (utente.getCartaUtente() != null) {
                 fedeltaService.aggiungiTessera(utente.getCartaUtente());
             }
-
             conn.commit();
         } catch (SQLException e) {
             if (conn != null) {
@@ -68,6 +65,7 @@ public class UtenteService {
         u.setCartaUtente(tessera);
         return u;
     }
+
 
     public Utente login(String email, String password){
         Utente u = utenteDAO.getUtenteByEmail(email);

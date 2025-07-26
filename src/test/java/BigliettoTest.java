@@ -31,7 +31,7 @@ public class BigliettoTest {
 
     @Test
     @DisplayName("Test che verifica l'aggiunta di una biglietto nel database")
-    public void testAggiungiBigliettoDB() {
+    public void testAggiungiBigliettoDB() throws SQLException {
         Biglietto bigliettoTest = new Biglietto();
         bigliettoTest.setId_Biglietto("IC1482349576130");
         bigliettoTest.setCarrozza(3);
@@ -40,7 +40,7 @@ public class BigliettoTest {
         bigliettoTest.setClasse("SECONDA CLASSE");
         bigliettoTest.setId_tratta("TRATTA4");
         bigliettoTest.setId_prenotazione(null);
-        bigliettoDAO.aggiungiBiglietto(bigliettoTest,conn);
+        bigliettoDAO.aggiungiBiglietto(bigliettoTest);
         Biglietto bigliettoRecuperato = bigliettoDAO.getBigliettoPerID("IC1482349576130");
         assertTrue(bigliettoRecuperato != null);
     }
@@ -56,7 +56,7 @@ public class BigliettoTest {
     @ParameterizedTest
     @ValueSource(strings =  {"BIAALIE98A01T689C"})
     @DisplayName("Test che controlla la ricerca di un biglietto dato un cf")
-    public void checkTovaBigliettoDataCF(String cf){
+    public void checkTovaBigliettoDatoCF(String cf){
         List<Biglietto> ris = bigliettoDAO.getBigliettiPerUtente(cf);
         assertFalse (ris.isEmpty());
     }
@@ -65,12 +65,10 @@ public class BigliettoTest {
     @DisplayName("Test aggiornamento biglietto nel database")
     public void testAggiornaBiglietto()  {
         Biglietto biglietto = bigliettoDAO.getBigliettoPerID("FA1750265026411");
-
         biglietto.setClasse("PRIMA CLASSE");
         biglietto.setCarrozza(2);
         biglietto.setPosto(12);
-        bigliettoDAO.aggiornaBiglietto(biglietto, conn);
-
+        bigliettoDAO.aggiornaBiglietto(biglietto);
         Biglietto aggiornato = bigliettoDAO.getBigliettoPerID("FA1750265026411");
         assertTrue(aggiornato.getPosto() == 12);
     }

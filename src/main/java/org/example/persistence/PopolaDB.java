@@ -2,7 +2,6 @@ package org.example.persistence;
 
 import org.example.dao.*;
 import org.example.model.*;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,7 +12,6 @@ public class PopolaDB {
         InitDB.init();
         try (Connection connection = DBConnectionSingleton.getConnection();
              Statement stmt = connection.createStatement()) {
-
 
             TrenoDAO trenoDB1 = new TrenoDAO();
             Treno treno1 = new Treno();
@@ -88,7 +86,7 @@ public class PopolaDB {
             fedelta1.setID("TESSERAFEDELTA1");
             fedelta1.setCFPossessoreTessera("FROMVRD76D09Q739P");
             fedelta1.setPunti(1);
-            fedeltaDAO1.aggiungiTessera(fedelta1, connection);
+            fedeltaDAO1.aggiungiTessera(fedelta1);
 
             UtenteDAO utenteDB2 = new UtenteDAO();
             Utente utente2 = new Utente();
@@ -103,7 +101,25 @@ public class PopolaDB {
             utente2.setCartaUtente(fedelta1);
             utenteDB2.aggiungiUtente(utente2);
 
+            //Inserisco un utente con id_fedelta NULL all'inizio (mi serve per test updatefedelta su utenteTest)
+            UtenteDAO utenteDB4 = new UtenteDAO();
+            Utente utente4 = new Utente();
+            utente4.setNomeUtente("Serena");
+            utente4.setCognomeUtente("Esposito");
+            utente4.setDataNascitaUtente("27/05/1973");
+            utente4.setIndirizzoUtente("Italia");
+            utente4.setCFUtente("SEATEPT47D09R739C");
+            utente4.setEmailUtente("serenaesposito@gmail.com");
+            utente4.setPasswordUtente("ciao1234");
+            utente4.setAdmin(false);
+            utenteDB4.aggiungiUtente(utente4);
 
+            FedeltaDAO fedeltaDB3 = new FedeltaDAO();
+            Fedelta fedelta3 = new Fedelta();
+            fedelta3.setID("TESSERAFEDELTA3");
+            fedelta3.setCFPossessoreTessera("SEATEPT47D09R739C");
+            fedelta3.setPunti(3);
+            fedeltaDB3.aggiungiTessera(fedelta3);
 
             TrattaDAO trattaDB2 = new TrattaDAO();
             Tratta tratta2 = new Tratta();
@@ -170,7 +186,7 @@ public class PopolaDB {
             promozione.setInizioPromo("12/05/2025");
             promozione.setFinePromo("14/11/2025");
             promozione.setSoloFedelta(false);
-            promozioneDB.addPromozione(promozione, connection);
+            promozioneDB.addPromozione(promozione);
 
             PrenotazioneDAO prenotazioneDB = new PrenotazioneDAO();
             Prenotazione prenotazione = new Prenotazione();
@@ -180,7 +196,7 @@ public class PopolaDB {
             prenotazione.setCarrozza(1);
             prenotazione.setId_tratta("TRATTA3");
             prenotazione.setCFUtente("BIAALIE98A01T689C");
-            prenotazioneDB.aggiungiPrenotazione(prenotazione, connection);
+            prenotazioneDB.aggiungiPrenotazione(prenotazione) ;
 
             BigliettoDAO bigliettoDB = new BigliettoDAO();
             Biglietto biglietto = new Biglietto();
@@ -191,13 +207,17 @@ public class PopolaDB {
             biglietto.setPosto(85);
             biglietto.setCarrozza(7);
             biglietto.setId_tratta("TRATTA5");
-            bigliettoDB.aggiungiBiglietto(biglietto, connection);
+            bigliettoDB.aggiungiBiglietto(biglietto);
+
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
     public static void pulisciDatabase() {
+        try{
+            InitDB.init();
+
         try (Connection conn = DBConnectionSingleton.getConnection();
              Statement stmt = conn.createStatement()) {
 
@@ -210,12 +230,13 @@ public class PopolaDB {
             stmt.execute("DELETE FROM utenti");
             stmt.execute("DELETE FROM treni");
             stmt.execute("SET REFERENTIAL_INTEGRITY TRUE");
-
+        }
             popola();
 
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Errore" +e.getMessage());
+
         }
     }
 }

@@ -116,7 +116,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
     }
 
 
-
     @Override
     public void registrazione (RegistrazioneRequest request, StreamObserver<RegistrazioneResponse> responseObserver) {
         String nome = request.getNome();
@@ -191,7 +190,7 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
             conn.setAutoCommit(false);
 
             // Controlla che il posto non sia già prenotato o acquistato
-            boolean occupato = service.postoGiaOccupato(idTratta, carrozza, posto, conn);
+            boolean occupato = service.postoGiaOccupato(idTratta, carrozza, posto);
             if (occupato) {
                 messaggio = "Il posto selezionato è già occupato.";
             } else {
@@ -446,7 +445,7 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                 bigliettoOriginale.setId_tratta(nuovaTratta.getId_tratta());
 
                 try (Connection conn = DBConnectionSingleton.getConnection()) {
-                    bigliettoDAO.aggiornaBiglietto(bigliettoOriginale, conn);
+                    bigliettoDAO.aggiornaBiglietto(bigliettoOriginale);
                     bigliettoAggiornato = bigliettoOriginale;
                 }
             }

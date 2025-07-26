@@ -2,7 +2,6 @@ package org.example.dao;
 
 import org.example.model.Treno;
 import org.example.persistence.DBConnectionSingleton;
-
 import java.sql.*;
 import java.util.*;
 
@@ -18,7 +17,6 @@ public class TrenoDAO {
             stmt.setString(2, t.getTipologia());
             stmt.setString(3, t.getStato());
             stmt.setInt(4, t.getCarrozza());
-
 
             stmt.executeUpdate();
         } catch (SQLException e) {

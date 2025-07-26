@@ -2,7 +2,6 @@ package org.example.dao;
 
 import org.example.model.Promozione;
 import org.example.persistence.DBConnectionSingleton;
-
 import  java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,10 +11,10 @@ import java.util.List;
 
 public class PromozioneDAO {
 
-    public void addPromozione(Promozione p, Connection conn) throws SQLException{
+    public void addPromozione(Promozione p){
         String sql = "INSERT INTO promozioni (codicePromo,  percentualeSconto, tipoTreno, inizioPromo, finePromo, soloFedelta ) VALUES (?, ?, ? ,?, ?, ?)";
 
-        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, p.getCodicePromo());
             stmt.setInt(2,p.getPercentualeSconto());
             stmt.setString(3,p.getTipoTreno());
@@ -23,6 +22,8 @@ public class PromozioneDAO {
             stmt.setString(5, p.getFinePromo());
             stmt.setBoolean(6,p.isSoloFedelta());
             stmt.executeUpdate();
+        } catch ( SQLException e ) {
+            e.printStackTrace();
         }
     }
 

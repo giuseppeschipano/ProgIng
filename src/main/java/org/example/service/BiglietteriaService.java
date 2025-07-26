@@ -35,7 +35,7 @@ public class BiglietteriaService {
             }
 
             for (Biglietto b : biglietti) {
-                bigliettoRepo.aggiungiBiglietto(b,conn);
+                bigliettoRepo.aggiungiBiglietto(b);
                 System.out.println("Biglietto acquistato per: " + b.getCF());
             }
 

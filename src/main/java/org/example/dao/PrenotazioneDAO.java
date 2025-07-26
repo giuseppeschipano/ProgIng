@@ -1,10 +1,7 @@
 package org.example.dao;
 
-
 import org.example.model.Prenotazione;
 import org.example.persistence.DBConnectionSingleton;
-
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,13 +13,13 @@ import java.util.List;
 
 public class PrenotazioneDAO {
 
-    public void aggiungiPrenotazione(Prenotazione p, Connection conn) {
+    public void aggiungiPrenotazione(Prenotazione p) {
         String sql = """
             INSERT INTO prenotazioni (id_Prenotazione, dataScadenza, CFUtente,id_tratta,postoPrenotazione, carrozza)
             VALUES (?, ?, ?, ?, ?, ?)
             """;
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, p.getId_Prenotazione());
             stmt.setString(2, p.getDataScadenza());
             stmt.setString(3, p.getCFUtente());
@@ -75,8 +72,6 @@ public class PrenotazioneDAO {
                 p.setPostoPrenotazione (rs.getInt("postoPrenotazione")); ;
                 p.setCarrozza(rs.getInt("carrozza"));
 
-
-
                 lista.add(p);
             }
         } catch (SQLException e) {
@@ -86,10 +81,10 @@ public class PrenotazioneDAO {
         return lista;
     }
 
-    public void rimuoviPrenotazione(String idPrenotazione, Connection conn) {
+    public void rimuoviPrenotazione(String idPrenotazione) {
         String sql = "DELETE FROM prenotazioni WHERE id_Prenotazione = ?";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
             stmt.setString(1, idPrenotazione);
             stmt.executeUpdate();
         } catch (SQLException e) {

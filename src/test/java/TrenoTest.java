@@ -38,9 +38,7 @@ public class TrenoTest {
         trenoTest.setTipologia("FRECCIAROSSA");
         trenoTest.setStato("IN VIAGGIO");
         trenoTest.setCarrozza(8);
-
         trenoDAO.aggiungiTreno(trenoTest);
-
         Treno trenoRecuperato = trenoDAO.getTrenoById("FR-1234");
         assertTrue(trenoRecuperato != null);
     }

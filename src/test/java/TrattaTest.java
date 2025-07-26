@@ -59,6 +59,7 @@ public class TrattaTest {
         List<Tratta> ris = trattaDAO.getAllTratte();
         assertFalse(ris.isEmpty());
     }
+
     @Test
     @DisplayName("Test che controlla la ricerca di una tratta dati partenza, arrivo, data e tipo treno")
     public void checkTrovaTrattaDaParametri() {
@@ -70,41 +71,44 @@ public class TrattaTest {
     @ValueSource(strings =  {"TRATTA2"})
     @DisplayName("Test che controlla l'esistenza di una tratta dato il relativo id")
     public void checkTovaTrattaDaID(String id_tratta){
-        try (Connection conn = DBConnectionSingleton.getConnection()) {
-            Tratta ris = trattaDAO.getTrattaById(id_tratta, conn);
-            assertTrue(ris != null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Tratta ris = trattaDAO.getTrattaById(id_tratta);
+        assertTrue(ris != null);
+
     }
 
     @ParameterizedTest
     @ValueSource(strings =  {"TRATTA2"})
     @DisplayName("Test che verifica che il numero di posti disponibili di una tratta sia maggiore di 0 ")
     public void checkDammiNumeroPostiDaID(String id_tratta){
-        try (Connection conn = DBConnectionSingleton.getConnection()) {
-            int ris = trattaDAO.getPostiDisponibili(conn,id_tratta);
-            assertTrue(ris > 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        int ris = trattaDAO.getPostiDisponibili(id_tratta);
+        assertTrue(ris > 0);
     }
 
 
     @Test
     @DisplayName("Test incremento posti disponibili")
     public void testIncrementaPostiDisponibili() throws SQLException {
-
         TrattaDAO trattaDAO = new TrattaDAO();
-        Connection conn = DBConnectionSingleton.getConnection();
-        trattaDAO.updatePostiDisponibili("TRATTA2", 10, conn); // reset
+        trattaDAO.updatePostiDisponibili("TRATTA2", 10); // reset
 
         // Incremento di 3
-        trattaDAO.incrementaPostiDisponibili(conn, "TRATTA2", 3);
+        trattaDAO.incrementaPostiDisponibili( "TRATTA2", 3);
 
         // Verifica che ora siano 13
-        Tratta trattaAggiornata = trattaDAO.getTrattaById("TRATTA2", conn);
+        Tratta trattaAggiornata = trattaDAO.getTrattaById("TRATTA2");
         assertEquals(13, trattaAggiornata.getNumeroPostiDisponibili());
     }
 
+    @Test
+    @DisplayName("Test decremento posti disponibili")
+    public void testDecrementaPostiDisponibili() throws SQLException {
+        TrattaDAO trattaDAO = new TrattaDAO();
+
+        // Decremento di 3
+        trattaDAO.decrementaPostiDisponibili( "TRATTA3", 3);
+
+        // Verifica che ora siano 40
+        Tratta trattaAggiornata = trattaDAO.getTrattaById("TRATTA3");
+        assertEquals(40, trattaAggiornata.getNumeroPostiDisponibili());
+    }
 }

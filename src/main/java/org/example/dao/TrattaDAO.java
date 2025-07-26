@@ -1,9 +1,7 @@
 package org.example.dao;
 
-
 import org.example.model.Tratta;
 import org.example.persistence.DBConnectionSingleton;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,11 +105,11 @@ public class TrattaDAO {
 
 
 
-    public Tratta getTrattaById(String id,Connection conn) {
+    public Tratta getTrattaById(String id) {
         String sql = "SELECT * FROM tratta WHERE id_tratta = ?";
         Tratta t = null;
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)){
+        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
 
@@ -139,9 +137,7 @@ public class TrattaDAO {
                 t.setPrezzo(prezzo);
                 t.setData(data);
                 return t;
-
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -149,10 +145,10 @@ public class TrattaDAO {
         return null;
     }
 
-    public void updatePostiDisponibili(String idTratta, int nuoviPosti,Connection conn) {
+    public void updatePostiDisponibili(String idTratta, int nuoviPosti) {
         String sql = "UPDATE tratta SET numeroPostiDisponibili = ? WHERE id_tratta = ?";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
 
             stmt.setInt(1, nuoviPosti);
             stmt.setString(2, idTratta);
@@ -162,9 +158,9 @@ public class TrattaDAO {
         }
     }
 
-    public int getPostiDisponibili(Connection conn, String idTratta) throws SQLException {
+    public int getPostiDisponibili(String idTratta) {
         String sql = "SELECT numeroPostiDisponibili FROM tratta WHERE id_tratta = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, idTratta);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -172,31 +168,29 @@ public class TrattaDAO {
             } else {
                 throw new SQLException("Tratta non trovata: " + idTratta);
             }
+        } catch (SQLException e){
+            e.printStackTrace();
         }
+        return 0;
     }
 
 
-    public void decrementaPostiDisponibili(Connection conn, String idTratta, int quanti) throws SQLException {
-        Tratta t = getTrattaById(idTratta, conn);
+    public void decrementaPostiDisponibili(String idTratta, int quanti) throws SQLException {
+        Tratta t = getTrattaById(idTratta);
         if (t != null){
-            updatePostiDisponibili(idTratta, t.getNumeroPostiDisponibili() - quanti, conn);
+            updatePostiDisponibili(idTratta, t.getNumeroPostiDisponibili() - quanti);
         }
     }
 
-    public void incrementaPostiDisponibili(Connection conn, String idTratta, int quanti) throws SQLException {
-        Tratta t = getTrattaById(idTratta, conn);
+    public void incrementaPostiDisponibili(String idTratta, int quanti) throws SQLException {
+        Tratta t = getTrattaById(idTratta);
         if (t != null){
-            updatePostiDisponibili(idTratta, t.getNumeroPostiDisponibili() + quanti, conn);
+            updatePostiDisponibili(idTratta, t.getNumeroPostiDisponibili() + quanti);
         }
     }
 
     //Senza Transazione
     public Tratta getTrattaByID(String idTratta){
-        try{
-            return  getTrattaById(idTratta, DBConnectionSingleton.getConnection());
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return null;
+        return  getTrattaById(idTratta);
     }
 }
