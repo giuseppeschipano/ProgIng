@@ -9,26 +9,26 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.LoginController">
-   <top>
-      <Label text="Login Trenical" BorderPane.alignment="CENTER">
-         <graphic>
-            <Button id="loginButton" fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" text="Login" />
-         </graphic>
-      </Label>
-   </top>
-   <center>
-      <TextField id="emailField" fx:id="emailField" alignment="CENTER" promptText="Email" BorderPane.alignment="CENTER" />
-   </center>
-   <left>
-      <Hyperlink id="registratiLink" BorderPane.alignment="CENTER" />
-   </left>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" />
-   </padding>
-   <right>
-      <PasswordField id="passwordField" fx:id="passwordField" alignment="CENTER" promptText="Password" BorderPane.alignment="CENTER" />
-   </right>
-   <bottom>
-      <Label fx:id="esitoLabel" text="Esito login..." BorderPane.alignment="CENTER" />
-   </bottom>
+    <top>
+        <Label text="Login Trenical" BorderPane.alignment="CENTER">
+            <graphic>
+                <Button id="loginButton" fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" text="Login" />
+            </graphic>
+        </Label>
+    </top>
+    <center>
+        <TextField id="emailField" fx:id="emailField" alignment="CENTER" promptText="Email" BorderPane.alignment="CENTER" />
+    </center>
+    <left>
+        <Hyperlink id="registratiLink" BorderPane.alignment="CENTER" />
+    </left>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" />
+    </padding>
+    <right>
+        <PasswordField id="passwordField" fx:id="passwordField" alignment="CENTER" promptText="Password" BorderPane.alignment="CENTER" />
+    </right>
+    <bottom>
+        <Label fx:id="esitoLabel" text="Esito login..." BorderPane.alignment="CENTER" />
+    </bottom>
 </BorderPane>

@@ -3,14 +3,11 @@ package org.example.controller;
 import io.grpc.stub.StreamObserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.clientgRPC.SceneManager;
 import org.example.clientgRPC.TrenicalClientImpl;
 import org.example.grpc.NotificaTrenoResponse;
-import java.io.IOException;
 
 public class NotificheTrenoController {
 
@@ -26,8 +23,12 @@ public class NotificheTrenoController {
     @FXML
     public void initialize() {
         avviaButton.setOnAction(e -> avviaNotificheTreno());
-        tornaHomeLink.setOnAction(e -> tornaAllaHome());
+        tornaHomeLink.setOnAction(e ->  {
+            Stage stage = (Stage) tornaHomeLink.getScene().getWindow();
+            SceneManager.switchScene(stage, "/org/example/gui/view/HomeView.fxml", "Home Trenical");
+        });
     }
+
 
     private void avviaNotificheTreno() {
         String cf = cfField.getText();
@@ -66,17 +67,6 @@ public class NotificheTrenoController {
                 );
             }
         });
-    }
-
-    private void tornaAllaHome() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/home.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) tornaHomeLink.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
 

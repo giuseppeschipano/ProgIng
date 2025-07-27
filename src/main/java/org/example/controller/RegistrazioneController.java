@@ -1,12 +1,10 @@
 package org.example.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-import javafx.scene.Node;
+import org.example.clientgRPC.SceneManager;
 import org.example.clientgRPC.TrenicalClientImpl;
 import org.example.grpc.RegistrazioneResponse;
 
@@ -29,11 +27,9 @@ public class RegistrazioneController {
     public void initialize() {
         loginLink.setOnAction(e -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/login.fxml"));
-                Scene scene = new Scene(loader.load());
-                Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.setTitle("Login Trenical");
+                Stage stage = (Stage) loginLink.getScene().getWindow();
+                SceneManager.switchScene(stage, "/org/example/gui/view/LoginView.fxml", "Login Trenical");
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -52,7 +48,6 @@ public class RegistrazioneController {
                 indirizzoField.getText(),
                 dataNascitaField.getText()
         );
-
         esitoLabel.setText(response.getMessaggio());
     }
 }

@@ -3,15 +3,12 @@ package org.example.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.clientgRPC.SceneManager;
 import org.example.clientgRPC.TrenicalClientImpl;
 import org.example.grpc.PromozioneDTO;
 
-import java.io.IOException;
 import java.util.List;
 
 public class PromozioniController {
@@ -26,7 +23,7 @@ public class PromozioniController {
     @FXML private TableColumn<PromozioneDTO, String> colFine;
     @FXML private TableColumn<PromozioneDTO, String> colSoloFedelta;
     @FXML private Label esitoLabel;
-    @FXML private Hyperlink tronaHomeLink;
+    @FXML private Hyperlink tornaHomeLink;
 
     private final TrenicalClientImpl client = new TrenicalClientImpl("localhost", 50051);
 
@@ -38,9 +35,11 @@ public class PromozioniController {
         colInizio.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getInizioPromo()));
         colFine.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getFinePromo()));
         colSoloFedelta.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getSoloFedelta() ? "Sì" : "No"));
-
         cercaButton.setOnAction(e -> cercaPromozioni());
-        tronaHomeLink.setOnAction(e -> tornaAllaHome());
+        tornaHomeLink.setOnAction(e -> {
+            Stage stage = (Stage) tornaHomeLink.getScene().getWindow();
+            SceneManager.switchScene(stage, "/org/example/gui/view/HomeView.fxml", "Home Trenical");
+        });
     }
 
     private void cercaPromozioni() {
@@ -59,16 +58,5 @@ public class PromozioniController {
 
         ObservableList<PromozioneDTO> data = FXCollections.observableArrayList(promozioni);
         tablePromo.setItems(data);
-    }
-
-    private void tornaAllaHome() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/home.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) tronaHomeLink.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

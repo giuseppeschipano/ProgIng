@@ -11,24 +11,25 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox fx:id="titoloLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.CercaTratteController">
-   <children>
-      <Label text="Ricerca Tratte" />
-      <TextField id="partenzaField" fx:id="partenzaField" promptText="Stazione Partenza" />
-      <TextField id="arrivoField" fx:id="arrivoField" promptText="Stazione  Arrivo" />
-      <DatePicker id="dataPicker" fx:id="dataPicker" promptText="Data del viaggio" />
-      <ComboBox id="classeCombox" fx:id="classeCombox" prefWidth="150.0" promptText="Selezione classe" />
-      <Button id="cercaButton" fx:id="cercaButton" mnemonicParsing="false" onAction="#handleRicerca" text="Cerca" />
-      <TableView fx:id="tableTratte" prefHeight="200.0" prefWidth="200.0">
-        <columns>
-          <TableColumn fx:id="colPartenza" prefWidth="75.0" text="Partenza" />
-          <TableColumn fx:id="colArrivo" prefWidth="75.0" text="Arrivo" />
-            <TableColumn fx:id="colOraPartenza" prefWidth="75.0" text="Ora" />
-            <TableColumn fx:id="colPrezzo" prefWidth="75.0" text="Prezzo" />
-            <TableColumn fx:id="colPosti" prefWidth="75.0" text="Posti" />
-        </columns>
-      </TableView>
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" />
-   </padding>
+    <children>
+        <Label text="Ricerca Tratte" />
+        <TextField id="partenzaField" fx:id="partenzaField" promptText="Stazione Partenza" />
+        <TextField id="arrivoField" fx:id="arrivoField" promptText="Stazione  Arrivo" />
+        <DatePicker id="dataPicker" fx:id="dataPicker" promptText="Data del viaggio" />
+        <ComboBox id="classeCombox" fx:id="classeCombox" prefWidth="150.0" promptText="Selezione classe" />
+        <Button id="cercaButton" fx:id="cercaButton" mnemonicParsing="false" onAction="#handleRicerca" text="Cerca" />
+        <TableView fx:id="tableTratte" prefHeight="200.0" prefWidth="200.0">
+            <columns>
+                <TableColumn fx:id="colPartenza" prefWidth="75.0" text="Partenza" />
+                <TableColumn fx:id="colArrivo" prefWidth="75.0" text="Arrivo" />
+                <TableColumn fx:id="colOraPartenza" prefWidth="75.0" text="Ora" />
+                <TableColumn fx:id="colPrezzo" prefWidth="75.0" text="Prezzo" />
+                <TableColumn fx:id="colPosti" prefWidth="75.0" text="Posti" />
+            </columns>
+        </TableView>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" />
+    </padding>
 </VBox>
+

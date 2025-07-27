@@ -9,14 +9,16 @@
 
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.FedeltaController">
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" />
-   </padding>
-   <children>
-      <Label alignment="CENTER" text="Sottoscrivi la tua tessera fedeltà" />
-      <TextField fx:id="cfField" alignment="CENTER" promptText="Codice Fiscale" />
-      <Button fx:id="sottoscriviButton" alignment="CENTER" mnemonicParsing="false" text="Sottoscrivi" />
-      <Label fx:id="esitoLabel" alignment="CENTER" text="Esito..." />
-      <Hyperlink fx:id="tornaHomeLink" text="Torna alla home" />
-   </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" />
+    </padding>
+    <children>
+        <Label alignment="CENTER" text="Sottoscrivi la tua tessera fedeltà" />
+        <TextField fx:id="cfField" alignment="CENTER" promptText="Codice Fiscale" />
+        <Button fx:id="sottoscriviButton" alignment="CENTER" mnemonicParsing="false" text="Sottoscrivi" />
+        <Label fx:id="esitoLabel" alignment="CENTER" text="Esito..." />
+        <Hyperlink fx:id="tornaHomeLink" text="Torna alla home" />
+    </children>
 </VBox>
+
+

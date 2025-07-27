@@ -11,15 +11,15 @@
 
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.NotifichePromozioniFedeltaController">
-   <children>
-      <Label fx:id="titoloLabel" alignment="CENTER" text="Notifiche Promozioni Fedeltà" />
-      <TextField fx:id="cfField" alignment="CENTER" promptText="Codice fiscale" />
-      <CheckBox fx:id="contatoCheckBox" alignment="CENTER" mnemonicParsing="false" text="Voglio Notifiche" />
-      <Button fx:id="inviaButton" alignment="CENTER" mnemonicParsing="false" text="Invia richiesta" />
-      <TextArea fx:id="risultatoArea" prefHeight="200.0" prefWidth="200.0" promptText="Visualizza messaggi e promozioni" />
-      <Hyperlink fx:id="tornaHomeLink" alignment="CENTER" text="Torna alla Home" />
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" />
-   </padding>
+    <children>
+        <Label fx:id="titoloLabel" alignment="CENTER" text="Notifiche Promozioni Fedeltà" />
+        <TextField fx:id="cfField" alignment="CENTER" promptText="Codice fiscale" />
+        <CheckBox fx:id="contatoCheckBox" alignment="CENTER" mnemonicParsing="false" text="Voglio Notifiche" />
+        <Button fx:id="inviaButton" alignment="CENTER" mnemonicParsing="false" text="Invia richiesta" />
+        <TextArea fx:id="risultatoArea" prefHeight="200.0" prefWidth="200.0" promptText="Visualizza messaggi e promozioni" />
+        <Hyperlink fx:id="tornaHomeLink" alignment="CENTER" text="Torna alla Home" />
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" />
+    </padding>
 </VBox>

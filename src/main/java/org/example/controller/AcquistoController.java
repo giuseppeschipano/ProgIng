@@ -1,17 +1,14 @@
 package org.example.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
+import org.example.clientgRPC.SceneManager;
 import org.example.clientgRPC.TrenicalClientImpl;
 import org.example.grpc.AcquistoResponse;
 import org.example.grpc.UserDTO;
 
-import java.io.IOException;
 
 public class AcquistoController {
 
@@ -31,7 +28,10 @@ public class AcquistoController {
     @FXML
     private void initialize() {
         acquistaButton.setOnAction(this::handleAcquisto);
-        tornaHomeLink.setOnAction(e -> tornaAllaHome());
+        tornaHomeLink.setOnAction(e -> {
+            Stage stage = (Stage) tornaHomeLink.getScene().getWindow();
+            SceneManager.switchScene(stage, "/org/example/gui/view/HomeView.fxml", "Home Trenical");
+        });
     }
 
     private void handleAcquisto(ActionEvent event) {
@@ -40,7 +40,6 @@ public class AcquistoController {
         String classe = classeField.getText();
         String numeroCarta = numeroCartaField.getText();
         String prenotazioneId = prenotazioneIdField.getText();
-
         if (cf.isEmpty() || idTratta.isEmpty() || classe.isEmpty()
                 || numeroCarta.isEmpty() || postoField.getText().isEmpty() || carrozzaField.getText().isEmpty()) {
             esitoLabel.setText("Compila tutti i campi obbligatori.");
@@ -67,17 +66,6 @@ public class AcquistoController {
             esitoLabel.setText("Posto e carrozza devono essere numeri.");
         } catch (Exception e) {
             esitoLabel.setText("Errore durante l'acquisto.");
-            e.printStackTrace();
-        }
-    }
-
-    private void tornaAllaHome() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/home.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) tornaHomeLink.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }

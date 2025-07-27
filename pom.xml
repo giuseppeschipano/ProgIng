@@ -13,10 +13,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <protobuf.version>3.25.0</protobuf.version>
         <grpc.version>1.60.0</grpc.version>
+        <javafx.version>21.0.1</javafx.version>
     </properties>
 
     <dependencies>
 
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty-shaded</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-protobuf</artifactId>
@@ -123,6 +129,7 @@
             </extension>
         </extensions>
 
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -137,6 +144,16 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <configuration>
+                    <mainClass>org.example.clientgRPC.Main</mainClass>
+                </configuration>
+            </plugin>
+
 
             <!-- Plugin per la compilazione Java -->
             <plugin>

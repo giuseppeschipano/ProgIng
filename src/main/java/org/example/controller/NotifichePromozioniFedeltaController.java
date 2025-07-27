@@ -1,16 +1,13 @@
 package org.example.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import org.example.clientgRPC.SceneManager;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.clientgRPC.TrenicalClientImpl;
 import org.example.grpc.AccettiNotificaFedResponse;
 import org.example.grpc.PromozioneDTO;
 
-import java.io.IOException;
 
 public class NotifichePromozioniFedeltaController {
 
@@ -26,23 +23,22 @@ public class NotifichePromozioniFedeltaController {
     @FXML
     private void initialize() {
         inviaButton.setOnAction(e -> inviaRichiesta());
-        tornaHomeLink.setOnAction(e -> tornaAllaHome());
+        tornaHomeLink.setOnAction(e -> {
+            Stage stage = (Stage) tornaHomeLink.getScene().getWindow();
+            SceneManager.switchScene(stage, "/org/example/gui/view/HomeView.fxml", "Home Trenical");
+        });
     }
 
     private void inviaRichiesta() {
         String cf = cfField.getText().trim();
         boolean desideraContatto = contatoCheckBox.isSelected();
-
         if (cf.isEmpty()) {
             risultatoArea.setText("Inserisci il codice fiscale per ricevere notifiche.");
             return;
         }
-
         AccettiNotificaFedResponse response = client.notificaPromoFedelta(cf, desideraContatto);
-
         StringBuilder messaggio = new StringBuilder();
         messaggio.append(response.getMessage());
-
         if (response.hasPromoInArrivo()) {
             PromozioneDTO promo = response.getPromoInArrivo();
             messaggio.append("\nPromozione:\n")
@@ -55,18 +51,6 @@ public class NotifichePromozioniFedeltaController {
         }
 
         risultatoArea.setText(messaggio.toString());
-    }
-
-    private void tornaAllaHome() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/home.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) tornaHomeLink.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            risultatoArea.setText("Errore nel caricamento della home.");
-            e.printStackTrace();
-        }
     }
 }
 

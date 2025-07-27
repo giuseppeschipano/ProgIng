@@ -7,20 +7,20 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.HomeController">
-   <children>
-      <Label fx:id="titoloLabel" alignment="CENTER" text="Benvenuto/a su Trenical" />
-      <Button fx:id="cercaTratteButton" alignment="CENTER" mnemonicParsing="false" text="Cerca Tratte" />
-      <Button fx:id="prenotaButton" alignment="CENTER" mnemonicParsing="false" text="Prenota" />
-      <Button fx:id="acquistaButton" alignment="CENTER" mnemonicParsing="false" text="Acquista" />
-      <Button fx:id="fedeltaButton" alignment="CENTER" mnemonicParsing="false" text="Tessera Fedeltà" />
-      <Button fx:id="promoButton" alignment="CENTER" mnemonicParsing="false" text="Promozioni" />
-      <Button fx:id="modificaButton" alignment="CENTER" mnemonicParsing="false" text="Modifica Biglietto" />
-      <Button fx:id="notificheButton" alignment="CENTER" mnemonicParsing="false" text="Notifiche Treno" />
-      <Button fx:id="statoTrenoButton" alignment="CENTER" mnemonicParsing="false" onAction="#vaiAStatoTreno" text="Stato treno" />
-      <Hyperlink fx:id="logoutLink" alignment="CENTER" text="Logout" />
-      <Button fx:id="notifichePromoFedeltaButton" mnemonicParsing="false" text="Notifiche Promozioni Fedelta" />
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" />
-   </padding>
+    <children>
+        <Label fx:id="titoloLabel" alignment="CENTER" text="Benvenuto/a su Trenical" />
+        <Button fx:id="cercaTratteButton" alignment="CENTER" mnemonicParsing="false" text="Cerca Tratte" />
+        <Button fx:id="prenotaButton" alignment="CENTER" mnemonicParsing="false" text="Prenota" />
+        <Button fx:id="acquistaButton" alignment="CENTER" mnemonicParsing="false" text="Acquista" />
+        <Button fx:id="fedeltaButton" alignment="CENTER" mnemonicParsing="false" text="Tessera Fedeltà" />
+        <Button fx:id="promoButton" alignment="CENTER" mnemonicParsing="false" text="Promozioni" />
+        <Button fx:id="modificaButton" alignment="CENTER" mnemonicParsing="false" text="Modifica Biglietto" />
+        <Button fx:id="notificheButton" alignment="CENTER" mnemonicParsing="false" text="Notifiche Treno" />
+        <Button fx:id="statoTrenoButton" alignment="CENTER" mnemonicParsing="false" onAction="#vaiAStatoTreno" text="Stato treno" />
+        <Hyperlink fx:id="logoutLink" alignment="CENTER" text="Logout" />
+        <Button fx:id="notifichePromoFedeltaButton" mnemonicParsing="false" text="Notifiche Promozioni Fedelta" />
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" />
+    </padding>
 </VBox>

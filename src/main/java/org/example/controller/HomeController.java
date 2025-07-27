@@ -4,11 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-
-import java.io.IOException;
+import org.example.clientgRPC.SceneManager;
 
 public class HomeController {
 
@@ -27,53 +23,21 @@ public class HomeController {
 
     @FXML
     public void initialize() {
-        cercaTratteButton.setOnAction(e -> caricaView("cercaTratte.fxml"));
-        prenotaButton.setOnAction(e -> caricaView("prenotazione.fxml"));
-        acquistaButton.setOnAction(e -> caricaView("acquisto.fxml"));
-        fedeltaButton.setOnAction(e -> caricaView("fedelta.fxml"));
-        promoButton.setOnAction(e -> caricaView("promozioni.fxml"));
-        modificaButton.setOnAction(e -> caricaView("modifica.fxml"));
-        notificheButton.setOnAction(e -> caricaView("notifiche.fxml"));
-        logoutLink.setOnAction(e -> caricaView("login.fxml"));
-        notifichePromoFedeltaButton.setOnAction(e -> apriNotifichePromozioniFedelta());
-
-
+        cercaTratteButton.setOnAction(e -> cambiaScena("CercaTratteView.fxml", "Cerca Tratte"));
+        prenotaButton.setOnAction(e -> cambiaScena("PrenotazioneControllerView.fxml", "Prenotazione"));
+        acquistaButton.setOnAction(e -> cambiaScena("AcquistoBigliettoView.fxml", "Acquisto Biglietto"));
+        fedeltaButton.setOnAction(e -> cambiaScena("SottoscriviFedeltaView.fxml", "Sottoscrizione Fedeltà"));
+        promoButton.setOnAction(e -> cambiaScena("OttieniPromozioniView.fxml", "Promozioni"));
+        modificaButton.setOnAction(e -> cambiaScena("ModificaBigliettoView.fxml", "Modifica Biglietto"));
+        notificheButton.setOnAction(e -> cambiaScena("NotificheFedeltaView.fxml", "Notifiche"));
+        logoutLink.setOnAction(e -> cambiaScena("LoginView.fxml", "Login"));
+        statoTrenoButton.setOnAction(e -> cambiaScena("StatoTrenoView.fxml", "Stato Treno"));
+        notifichePromoFedeltaButton.setOnAction(e -> cambiaScena("NotifichePromozioniView.fxml", "Notifiche Promo"));
     }
 
-    private void caricaView(String fxmlFile) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/" + fxmlFile));
-            Parent root = loader.load();
-            Stage stage = (Stage) cercaTratteButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void cambiaScena(String fxml, String titolo) {
+        Stage stage = (Stage) cercaTratteButton.getScene().getWindow();
+        SceneManager.switchScene(stage, "/org/example/gui/view/" + fxml, titolo);
     }
-
-    @FXML
-    private void vaiAStatoTreno() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/statoTreno.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) statoTrenoButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void apriNotifichePromozioniFedelta() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/notifichePromozioniFedelta.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) notifichePromoFedeltaButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 }
 

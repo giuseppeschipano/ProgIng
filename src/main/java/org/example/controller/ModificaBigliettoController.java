@@ -1,14 +1,11 @@
 package org.example.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.clientgRPC.TrenicalClientImpl;
 import org.example.grpc.ModificaBigliettoResponse;
-import java.io.IOException;
+import org.example.clientgRPC.SceneManager;
 
 public class ModificaBigliettoController {
 
@@ -27,7 +24,10 @@ public class ModificaBigliettoController {
     public void initialize() {
         simulaButton.setOnAction(e -> modificaBiglietto(false));
         confermaButton.setOnAction(e -> modificaBiglietto(true));
-        tronaHomeLink.setOnAction(e -> tornaAllaHome());
+        tronaHomeLink.setOnAction(e -> {
+            Stage stage = (Stage) tronaHomeLink.getScene().getWindow();
+            SceneManager.switchScene(stage, "/org/example/gui/view/HomeView.fxml", "Home Trenical");
+        });
     }
 
     private void modificaBiglietto(boolean conferma) {
@@ -35,33 +35,17 @@ public class ModificaBigliettoController {
         String data = nuovaDataField.getText();
         String ora = nuovaOraField.getText();
         String classe = nuovaClasseField.getText();
-
         if (id.isEmpty() || data.isEmpty() || ora.isEmpty() || classe.isEmpty()) {
             risultatoLabel.setText("Compila tutti i campi.");
             return;
         }
-
         ModificaBigliettoResponse response = client.modificaBiglietto(id, data, ora, classe, conferma);
-
         if (!response.getSuccess()) {
             risultatoLabel.setText("Errore: " + response.getMessaggio());
         } else {
-            if (conferma) {
-                risultatoLabel.setText("Modifica confermata. Differenza prezzo: " + response.getDifferenzaPrezzo());
-            } else {
-                risultatoLabel.setText("Simulazione avvenuta con successo. Differenza prezzo: " + response.getDifferenzaPrezzo());
-            }
-        }
-    }
-
-    private void tornaAllaHome() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/home.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) tronaHomeLink.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
+            risultatoLabel.setText(conferma
+                    ? "Modifica confermata. Differenza prezzo: " + response.getDifferenzaPrezzo()
+                    : "Simulazione completata. Differenza prezzo: " + response.getDifferenzaPrezzo());
         }
     }
 }

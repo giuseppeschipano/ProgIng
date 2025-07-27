@@ -1,4 +1,3 @@
-
 import org.example.model.Treno;
 import org.example.persistence.DBConnectionSingleton;
 import org.example.dao.TrenoDAO;

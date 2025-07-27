@@ -9,25 +9,26 @@
 
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.ModificaBigliettoController">
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" />
-   </padding>
-   <children>
-      <TextField fx:id="idBigliettoField" alignment="CENTER" promptText="ID Biglietto" />
-      <TextField fx:id="nuovaDataField" alignment="CENTER" promptText="Nuova data (formato: dd/MM/yyyy)" />
-      <TextField fx:id="nuovaOraField" alignment="CENTER" promptText="Nuova ora (formato: HH:mm:ss)" />
-      <TextField fx:id="nuovaClasseField" alignment="CENTER" promptText="Nuova classe" />
-      <Button fx:id="simulaButton" alignment="CENTER" mnemonicParsing="false" text="Simula modifica">
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" />
-         </padding>
-      </Button>
-      <Button fx:id="confermaButton" alignment="CENTER" mnemonicParsing="false" text="Conferma modifica">
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" />
-         </padding>
-      </Button>
-      <Label fx:id="risultatoLabel" alignment="CENTER" text="Risultato/Errore" />
-      <Hyperlink fx:id="tronaHomeLink" alignment="CENTER" text="Torna alla home" />
-   </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" />
+    </padding>
+    <children>
+        <TextField fx:id="idBigliettoField" alignment="CENTER" promptText="ID Biglietto" />
+        <TextField fx:id="nuovaDataField" alignment="CENTER" promptText="Nuova data (formato: dd/MM/yyyy)" />
+        <TextField fx:id="nuovaOraField" alignment="CENTER" promptText="Nuova ora (formato: HH:mm:ss)" />
+        <TextField fx:id="nuovaClasseField" alignment="CENTER" promptText="Nuova classe" />
+        <Button fx:id="simulaButton" alignment="CENTER" mnemonicParsing="false" text="Simula modifica">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" />
+            </padding>
+        </Button>
+        <Button fx:id="confermaButton" alignment="CENTER" mnemonicParsing="false" text="Conferma modifica">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" />
+            </padding>
+        </Button>
+        <Label fx:id="risultatoLabel" alignment="CENTER" text="Risultato/Errore" />
+        <Hyperlink fx:id="tronaHomeLink" alignment="CENTER" text="Torna alla home" />
+    </children>
 </VBox>
+

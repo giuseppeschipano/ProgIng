@@ -7,16 +7,17 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.RegistrazioneController">
-   <children>
-      <Button id="registratiButton" mnemonicParsing="false" text="Registrati" />
-      <TextField id="nomeField" fx:id="nomeField" promptText="Nome" />
-      <TextField id="cognomeField" fx:id="cognomeField" promptText="Cognome" />
-      <TextField id="emailField" fx:id="emailField" promptText="Email" />
-      <TextField id="passwordField" fx:id="passwordField" promptText="Password" />
-      <TextField id="cfField" fx:id="cfField" promptText="Codice Fiscale" />
-      <TextField id="indirizzoField" fx:id="indirizzoField" promptText="Indirizzo" />
-      <TextField id="dataNascitaField" fx:id="dataNascitaField" promptText="Data di nascita" />
-      <Hyperlink id="loginLink" text="Ritorna al login" />
-      <Label fx:id="esitoLabel" text="Esito registrazione:" />
-   </children>
+    <children>
+        <Button id="registratiButton" mnemonicParsing="false" text="Registrati" />
+        <TextField id="nomeField" fx:id="nomeField" promptText="Nome" />
+        <TextField id="cognomeField" fx:id="cognomeField" promptText="Cognome" />
+        <TextField id="emailField" fx:id="emailField" promptText="Email" />
+        <TextField id="passwordField" fx:id="passwordField" promptText="Password" />
+        <TextField id="cfField" fx:id="cfField" promptText="Codice Fiscale" />
+        <TextField id="indirizzoField" fx:id="indirizzoField" promptText="Indirizzo" />
+        <TextField id="dataNascitaField" fx:id="dataNascitaField" promptText="Data di nascita" />
+        <Hyperlink id="loginLink" text="Ritorna al login" />
+        <Label fx:id="esitoLabel" text="Esito registrazione:" />
+    </children>
 </VBox>
+
