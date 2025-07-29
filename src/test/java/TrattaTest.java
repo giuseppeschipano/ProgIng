@@ -42,7 +42,7 @@ public class TrattaTest {
         trattaTest.setStazionePartenza("Castiglione Cosentino");
         trattaTest.setStazioneArrivo("Vibo Pizzo");
         trattaTest.setNumeroPostiDisponibili(60);
-        trattaTest.setClassiDisponibili("STANDARD");
+        trattaTest.setClassiDisponibili("ECONOMY");
         trattaTest.setPrezzo(8.50);
         trattaDAO.aggiungiTratta(trattaTest);
 

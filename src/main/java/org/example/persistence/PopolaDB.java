@@ -131,7 +131,7 @@ public class PopolaDB {
             tratta2.setStazionePartenza("Gioia Tauro");
             tratta2.setStazioneArrivo("Cosenza");
             tratta2.setNumeroPostiDisponibili(10);
-            tratta2.setClassiDisponibili("PRIMA CLASSE");
+            tratta2.setClassiDisponibili("FIRST");
             tratta2.setPrezzo(11.90);
             trattaDB2.aggiungiTratta(tratta2);
 
@@ -145,7 +145,7 @@ public class PopolaDB {
             tratta3.setStazionePartenza("Paola");
             tratta3.setStazioneArrivo("Lamezia Terme");
             tratta3.setNumeroPostiDisponibili(43);
-            tratta3.setClassiDisponibili("PRIMA CLASSE");
+            tratta3.setClassiDisponibili("STANDARD");
             tratta3.setPrezzo(4.70);
             trattaDB3.aggiungiTratta(tratta3);
 
@@ -159,7 +159,7 @@ public class PopolaDB {
             tratta4.setStazionePartenza("Napoli Centrale");
             tratta4.setStazioneArrivo("Reggio Di Calabria Lido");
             tratta4.setNumeroPostiDisponibili(56);
-            tratta4.setClassiDisponibili("SECONDA CLASSE");
+            tratta4.setClassiDisponibili("BUSINESS");
             tratta4.setPrezzo(52.10);
             trattaDB4.aggiungiTratta(tratta4);
 
@@ -173,9 +173,23 @@ public class PopolaDB {
             tratta5.setStazionePartenza("Roma Termini");
             tratta5.setStazioneArrivo("Catanzaro Lido");
             tratta5.setNumeroPostiDisponibili(86);
-            tratta5.setClassiDisponibili("SECONDA CLASSE");
+            tratta5.setClassiDisponibili("FIRST");
             tratta5.setPrezzo(54.90);
             trattaDB5.aggiungiTratta(tratta5);
+
+            TrattaDAO trattaDB6 = new TrattaDAO();
+            Tratta tratta6 = new Tratta();
+            tratta6.setId_tratta("TRATTA6");
+            tratta6.setId_treno("RE-5560");
+            tratta6.setData("19/11/2025");
+            tratta6.setOraPartenza("12:55:00");
+            tratta6.setOraArrivo("13:48:00");
+            tratta6.setStazionePartenza("Rosarno");
+            tratta6.setStazioneArrivo("Amantea");
+            tratta6.setNumeroPostiDisponibili(26);
+            tratta6.setClassiDisponibili("STANDARD");
+            tratta6.setPrezzo(8.50);
+            trattaDB6.aggiungiTratta(tratta6);
 
 
             PromozioneDAO promozioneDB = new PromozioneDAO();

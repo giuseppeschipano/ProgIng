@@ -33,7 +33,7 @@
             </columns>
         </TableView>
         <Label fx:id="esitoLabel" alignment="CENTER" text="Promozioni:" />
-        <Hyperlink fx:id="tronaHomeLink" alignment="CENTER" text="Torna alla Home" />
+        <Hyperlink fx:id="tornaHomeLink" alignment="CENTER" text="Torna alla Home" />
     </children>
 </VBox>
 

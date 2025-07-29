@@ -5,6 +5,7 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import org.example.grpc.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -47,15 +48,12 @@ public class TrenicalClientImpl {
                 .setData(data)
                 .setClasse(classe)
                 .build();
-
         CercaTratteResponse response;
         try {
             response = blockingStub.cercaTratte(request);
         } catch (StatusRuntimeException e) {
-            System.out.println("Errore durante la ricerca delle tratte: " + e.getStatus().getDescription());
             return Collections.emptyList();
         }
-
         return response.getTratteList();
     }
 

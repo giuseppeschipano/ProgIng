@@ -6,6 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class TrattaDAO {
 
     public void aggiungiTratta(Tratta t) {
@@ -37,7 +39,6 @@ public class TrattaDAO {
         try (Connection conn = DBConnectionSingleton.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-
             while (rs.next()) {
                 Tratta t = new Tratta();
                 t.setId_tratta(rs.getString("id_tratta"));
@@ -56,30 +57,23 @@ public class TrattaDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return tratte;
     }
 
 
-    public List<Tratta> cercaTratta(String partenza, String arrivo, String data, String tipoTreno) {
+    public List<Tratta> cercaTratta(String partenza, String arrivo, String data, String classe) {
         List<Tratta> tratte = new ArrayList<>();
-        String sql = "SELECT * FROM tratta ta " +
-                 "JOIN treni tr ON ta.id_treno = tr.id_Treno " +
-                "WHERE ta.stazionePartenza = ? AND ta.stazioneArrivo = ? AND ta.data = ?";
-
-        if (tipoTreno !=  null && !tipoTreno.isEmpty()){
-            sql += " AND tr.tipologia = ?";
+        String sql = "SELECT * FROM tratta WHERE stazionePartenza = ? AND stazioneArrivo = ? AND data = ?";
+        if (classe != null && !classe.isEmpty()) {
+            sql += " AND classiDisponibili = ?";
         }
-
-        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
-            stmt.setString(1,partenza);
+        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
+            stmt.setString(1, partenza);
             stmt.setString(2, arrivo);
-     //     stmt.setDate(3, Date.valueOf(data));
             stmt.setString(3, data);
-            if (tipoTreno != null && !tipoTreno.isEmpty()){
-                stmt.setString(4, tipoTreno);
+            if (classe != null && !classe.isEmpty()) {
+                stmt.setString(4, classe);
             }
-
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Tratta t = new Tratta();
@@ -95,15 +89,11 @@ public class TrattaDAO {
                 t.setData(rs.getString("data"));
                 tratte.add(t);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return tratte;
     }
-
-
 
     public Tratta getTrattaById(String id) {
         String sql = "SELECT * FROM tratta WHERE id_tratta = ?";

@@ -41,7 +41,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         String classe = request.getClasse();
 
         List<Tratta> tratte = this.trattaService.cercaTratte(partenza, arrivo, data, classe);
-
         CercaTratteResponse.Builder responseBuilder = CercaTratteResponse.newBuilder();
 
         for (Tratta tratta : tratte) {
@@ -58,7 +57,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
 
             responseBuilder.addTratte(trattaDTO);
         }
-
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
     }
@@ -69,9 +67,7 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
     public void login(LoginRequest request, StreamObserver<LoginResponse> responseObserver) {
         String email = request.getEmail();
         String password = request.getPassword();
-
         Utente utente = utenteService.login(email, password);
-
         boolean isAdmin = utenteService.loginAdmin(email, password) != null;
 
         if (utente != null) {

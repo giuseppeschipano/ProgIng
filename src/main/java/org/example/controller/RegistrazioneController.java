@@ -34,7 +34,6 @@ public class RegistrazioneController {
                 ex.printStackTrace();
             }
         });
-
         registratiButton.setOnAction(this::registraUtente);
     }
 

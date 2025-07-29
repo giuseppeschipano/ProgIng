@@ -17,7 +17,6 @@ public class CercaTratteController {
     @FXML private DatePicker dataPicker;
     @FXML private ComboBox<String> classeCombox;
     @FXML private Button cercaButton;
-
     @FXML private TableView<TrattaDTO> tableTratte;
     @FXML private TableColumn<TrattaDTO, String> colPartenza;
     @FXML private TableColumn<TrattaDTO, String> colArrivo;
@@ -37,7 +36,6 @@ public class CercaTratteController {
         colOraPartenza.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getOraPartenza()));
         colPrezzo.setCellValueFactory(data -> new javafx.beans.property.SimpleDoubleProperty(data.getValue().getPrezzo()).asObject());
         colPosti.setCellValueFactory(data -> new javafx.beans.property.SimpleIntegerProperty(data.getValue().getNumeroPostiDisponibili()).asObject());
-
         cercaButton.setOnAction(e -> handleRicerca());
     }
 
@@ -51,11 +49,16 @@ public class CercaTratteController {
         if (partenza.isEmpty() || arrivo.isEmpty() || data == null || classe == null) {
             showAlert("Compila tutti i campi per effettuare la ricerca.");
             return;
+
+        }
+        String dataString = data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        List<TrattaDTO> risultati = client.cercaTratte(partenza, arrivo, dataString, classe);
+
+        System.out.println("Risultati ricevuti : " + risultati.size());
+        for (TrattaDTO t : risultati) {
+            System.out.println("Trovata tratta: " + t.getStazionePartenza() + " -> " + t.getStazioneArrivo());
         }
 
-        String dataString = data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-        List<TrattaDTO> risultati = client.cercaTratte(partenza, arrivo, dataString, classe);
         ObservableList<TrattaDTO> lista = FXCollections.observableArrayList(risultati);
         tableTratte.setItems(lista);
     }

@@ -22,6 +22,7 @@ public class NotificheTrenoController {
 
     @FXML
     public void initialize() {
+        titoloLabel.setText("Notifiche aggiornate in tempo reale");
         avviaButton.setOnAction(e -> avviaNotificheTreno());
         tornaHomeLink.setOnAction(e ->  {
             Stage stage = (Stage) tornaHomeLink.getScene().getWindow();

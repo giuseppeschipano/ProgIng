@@ -26,8 +26,6 @@ public class UtenteService {
     }
 
 
-
-
     public void registraUtente(Utente utente) {
         Connection conn = null;
         try {

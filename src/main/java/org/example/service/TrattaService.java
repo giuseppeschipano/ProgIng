@@ -16,7 +16,7 @@ public class TrattaService {
         this.trattaRepository = trattaRepository;
     }
 
-    // Ricerca tratte secondo criteri classici
+/*
     public List<Tratta> cercaTratte(String stazionePartenza, String stazioneArrivo, String dataViaggio, String classeDesiderata) {
         List<Tratta> tratteTrovate = new ArrayList<>();
         List<Tratta> tutte = trattaRepository.getAllTratte();
@@ -24,15 +24,20 @@ public class TrattaService {
         for (Tratta t : tutte) {
             boolean matchPartenza = t.getStazionePartenza().equals(stazionePartenza);
             boolean matchArrivo = t.getStazioneArrivo().equals(stazioneArrivo);
-            boolean matchData = t.getOraPartenza().contains(dataViaggio); // Controllo solo la parte data
+            boolean matchData = t.getData().equals(dataViaggio);
             boolean matchClasse = (classeDesiderata == null || t.getClassiDisponibili().contains(classeDesiderata));
 
             if (matchPartenza && matchArrivo && matchData && matchClasse) {
                 tratteTrovate.add(t);
             }
         }
-
         return tratteTrovate;
+    }
+*/
+
+    public List<Tratta> cercaTratte(String stazionePartenza, String stazioneArrivo, String dataViaggio, String classeDesiderata) {
+        List<Tratta> result = trattaRepository.cercaTratta(stazionePartenza, stazioneArrivo, dataViaggio, classeDesiderata);
+        return result;
     }
 
     public void decrementaPostiDisponibili(String idTratta, int quanti) {
