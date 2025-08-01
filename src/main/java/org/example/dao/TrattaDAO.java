@@ -32,6 +32,7 @@ public class TrattaDAO {
         }
     }
 
+
     public List<Tratta> getAllTratte() {
         List<Tratta> tratte = new ArrayList<>();
         String sql = "SELECT * FROM tratta";
@@ -61,12 +62,17 @@ public class TrattaDAO {
     }
 
 
+
     public List<Tratta> cercaTratta(String partenza, String arrivo, String data, String classe) {
         List<Tratta> tratte = new ArrayList<>();
         String sql = "SELECT * FROM tratta WHERE stazionePartenza = ? AND stazioneArrivo = ? AND data = ?";
         if (classe != null && !classe.isEmpty()) {
             sql += " AND classiDisponibili = ?";
         }
+
+        System.out.println("[DEBUG DAO] Query: " + sql);
+        System.out.println("[DEBUG DAO] Parametri -> " + partenza + ", " + arrivo + ", " + data + ", classe: " + classe);
+
         try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
             stmt.setString(1, partenza);
             stmt.setString(2, arrivo);
@@ -88,12 +94,17 @@ public class TrattaDAO {
                 t.setPrezzo(rs.getDouble("prezzo"));
                 t.setData(rs.getString("data"));
                 tratte.add(t);
+
+                System.out.println("[DEBUG DAO] Tratta trovata: " + t);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        System.out.println("[DEBUG DAO] Numero tratte restituite: " + tratte.size());
         return tratte;
     }
+
 
     public Tratta getTrattaById(String id) {
         String sql = "SELECT * FROM tratta WHERE id_tratta = ?";

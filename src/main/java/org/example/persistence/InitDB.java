@@ -110,7 +110,6 @@ public class InitDB {
                      )
                 """ );
 
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

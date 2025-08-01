@@ -22,15 +22,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImplBase {
 
     private final UtenteService utenteService = new UtenteService();
-    private  final TrattaService trattaService = new TrattaService(new TrattaDAO());
+    private  final TrattaService trattaService = new TrattaService();
     private  final TrenoService trenoService = new TrenoService();
-    private final BiglietteriaService biglietteriaService = new BiglietteriaService(new BigliettoDAO(), new TrattaService(new TrattaDAO()));
+    private final BiglietteriaService biglietteriaService = new BiglietteriaService(new BigliettoDAO(), new TrattaService());
     private  final FedeltaService fedeltaService = new FedeltaService();
     private  final PrenotazioneService prenotazioneService = new PrenotazioneService(new PrenotazioneDAO(), new BigliettoDAO(), new TrattaDAO());
     private final PromozioneService promozioneService = new PromozioneService();
 
     private final Map<String, List<StreamObserver<NotificaTrenoResponse>>> iscrittiPerTreno = new ConcurrentHashMap<>();
-
 
 
     @Override
@@ -39,10 +38,8 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         String arrivo = request.getStazioneArrivo();
         String data = request.getData();
         String classe = request.getClasse();
-
         List<Tratta> tratte = this.trattaService.cercaTratte(partenza, arrivo, data, classe);
         CercaTratteResponse.Builder responseBuilder = CercaTratteResponse.newBuilder();
-
         for (Tratta tratta : tratte) {
             TrattaDTO trattaDTO = TrattaDTO.newBuilder()
                     .setIdTratta(tratta.getId_tratta())
@@ -54,7 +51,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                     .setPrezzo(tratta.getPrezzo())
                     .setClassiDisponibili(tratta.getClassiDisponibili())
                     .build();
-
             responseBuilder.addTratte(trattaDTO);
         }
         responseObserver.onNext(responseBuilder.build());

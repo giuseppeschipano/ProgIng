@@ -20742,3 +20742,6 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/peppe/O
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 137 more
+2025-07-29 15:17:26.494066+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "UTENTI" not found (this database is empty); SQL statement:
+SELECT * FROM utenti WHERE emailUtente = ? [42104-224]

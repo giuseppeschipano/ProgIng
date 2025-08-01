@@ -5,39 +5,19 @@ import org.example.dao.TrattaDAO;
 import org.example.persistence.DBConnectionSingleton;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrattaService {
 
     private final TrattaDAO trattaRepository;
 
-    public TrattaService(TrattaDAO trattaRepository) {
-        this.trattaRepository = trattaRepository;
+    public TrattaService() {
+        this.trattaRepository =  new TrattaDAO();
     }
 
-/*
-    public List<Tratta> cercaTratte(String stazionePartenza, String stazioneArrivo, String dataViaggio, String classeDesiderata) {
-        List<Tratta> tratteTrovate = new ArrayList<>();
-        List<Tratta> tutte = trattaRepository.getAllTratte();
 
-        for (Tratta t : tutte) {
-            boolean matchPartenza = t.getStazionePartenza().equals(stazionePartenza);
-            boolean matchArrivo = t.getStazioneArrivo().equals(stazioneArrivo);
-            boolean matchData = t.getData().equals(dataViaggio);
-            boolean matchClasse = (classeDesiderata == null || t.getClassiDisponibili().contains(classeDesiderata));
-
-            if (matchPartenza && matchArrivo && matchData && matchClasse) {
-                tratteTrovate.add(t);
-            }
-        }
-        return tratteTrovate;
-    }
-*/
-
-    public List<Tratta> cercaTratte(String stazionePartenza, String stazioneArrivo, String dataViaggio, String classeDesiderata) {
-        List<Tratta> result = trattaRepository.cercaTratta(stazionePartenza, stazioneArrivo, dataViaggio, classeDesiderata);
-        return result;
+    public List<Tratta> cercaTratte(String stazionePartenza, String stazioneArrivo, String dataViaggio, String classeDesiderata){
+        return  trattaRepository.cercaTratta(stazionePartenza,stazioneArrivo,dataViaggio,classeDesiderata);
     }
 
     public void decrementaPostiDisponibili(String idTratta, int quanti) {

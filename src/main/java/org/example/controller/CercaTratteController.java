@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.example.clientgRPC.TrenicalClientImpl;
+import org.example.grpc.CercaTratteResponse;
 import org.example.grpc.TrattaDTO;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -45,20 +46,13 @@ public class CercaTratteController {
         String arrivo = arrivoField.getText();
         LocalDate data = dataPicker.getValue();
         String classe = classeCombox.getValue();
-
         if (partenza.isEmpty() || arrivo.isEmpty() || data == null || classe == null) {
             showAlert("Compila tutti i campi per effettuare la ricerca.");
             return;
-
         }
         String dataString = data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        List<TrattaDTO> risultati = client.cercaTratte(partenza, arrivo, dataString, classe);
-
-        System.out.println("Risultati ricevuti : " + risultati.size());
-        for (TrattaDTO t : risultati) {
-            System.out.println("Trovata tratta: " + t.getStazionePartenza() + " -> " + t.getStazioneArrivo());
-        }
-
+        CercaTratteResponse response = client.cercaTratte(partenza, arrivo, dataString, classe);
+        List<TrattaDTO> risultati = response.getTratteList();
         ObservableList<TrattaDTO> lista = FXCollections.observableArrayList(risultati);
         tableTratte.setItems(lista);
     }

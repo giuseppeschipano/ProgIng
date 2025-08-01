@@ -4,8 +4,6 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import org.example.grpc.*;
-
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +21,9 @@ public class TrenicalClientImpl {
                 .build();
         this.blockingStub = TrenicalServiceGrpc.newBlockingStub(channel);
         this.asyncStub = TrenicalServiceGrpc.newStub(channel);
+
+        // DEBUG
+        System.out.println("[DEBUG CLIENT] Connessione gRPC inizializzata -> " + host + ":" + port);
     }
 
     // Chiusura del canale gRPC
@@ -39,22 +40,17 @@ public class TrenicalClientImpl {
         }
     }
 
+
     //Invia una richiesta al server per cercare le tratte disponibili
     // tra due stazioni in una data e classe specificata.
-    public List<TrattaDTO> cercaTratte(String stazionePartenza, String stazioneArrivo, String data, String classe) {
+    public CercaTratteResponse cercaTratte(String stazionePartenza, String stazioneArrivo, String data, String classe) {
         CercaTratteRequest request = CercaTratteRequest.newBuilder()
                 .setStazionePartenza(stazionePartenza)
                 .setStazioneArrivo(stazioneArrivo)
                 .setData(data)
                 .setClasse(classe)
                 .build();
-        CercaTratteResponse response;
-        try {
-            response = blockingStub.cercaTratte(request);
-        } catch (StatusRuntimeException e) {
-            return Collections.emptyList();
-        }
-        return response.getTratteList();
+        return  blockingStub.cercaTratte(request);
     }
 
 
@@ -66,12 +62,10 @@ public class TrenicalClientImpl {
                     .setMessaggio("Email e password obbligatorie")
                     .build();
         }
-
         LoginRequest request = LoginRequest.newBuilder()
                 .setEmail(email)
                 .setPassword(password)
                 .build();
-
         try {
             return blockingStub.login(request);
         } catch (StatusRuntimeException e) {
@@ -129,7 +123,6 @@ public class TrenicalClientImpl {
                 .setPosto(posto)
                 .setCarrozza(carrozza)
                 .build();
-
         try {
             PrenotazioneResponse response = blockingStub.prenota(request);
 
