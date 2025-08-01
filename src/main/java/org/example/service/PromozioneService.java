@@ -5,8 +5,6 @@ import org.example.model.Fedelta;
 import org.example.model.Promozione;
 import org.example.persistence.DBConnectionSingleton;
 import org.example.dao.PromozioneDAO;
-
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +27,10 @@ public class PromozioneService {
 
     public List<Promozione> promoSoloFedelta(String CF) {
         boolean check = serviceFedelta.hasTessera(CF);
-        return promoDataBase.promozioniAttive(null, check, null);
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String dataOra = now.format(formatter);
+        return promoDataBase.promozioniAttive(null, check, dataOra);
     }
 
     // si intende valida per tutti

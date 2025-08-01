@@ -15,10 +15,10 @@
         <Button fx:id="fedeltaButton" alignment="CENTER" mnemonicParsing="false" text="Tessera Fedeltà" />
         <Button fx:id="promoButton" alignment="CENTER" mnemonicParsing="false" text="Promozioni" />
         <Button fx:id="modificaButton" alignment="CENTER" mnemonicParsing="false" text="Modifica Biglietto" />
-        <Button fx:id="notificheButton" alignment="CENTER" mnemonicParsing="false" text="Notifiche Treno" />
+        <Button fx:id="notifichePromoFedeltaButton" alignment="CENTER" mnemonicParsing="false" text="Notifiche Promozioni Fedelta" />
         <Button fx:id="statoTrenoButton" alignment="CENTER" mnemonicParsing="false" onAction="#vaiAStatoTreno" text="Stato treno" />
+        <Button fx:id="notificheButton" mnemonicParsing="false" text="Notifiche Treno" />
         <Hyperlink fx:id="logoutLink" alignment="CENTER" text="Logout" />
-        <Button fx:id="notifichePromoFedeltaButton" mnemonicParsing="false" text="Notifiche Promozioni Fedelta" />
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" />

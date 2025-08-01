@@ -21,7 +21,8 @@ public class TrattaService {
     }
 
     public void decrementaPostiDisponibili(String idTratta, int quanti) {
-        try (Connection conn = DBConnectionSingleton.getConnection()) {
+        try {
+            Connection conn = DBConnectionSingleton.getConnection();
             Tratta tratta = trattaRepository.getTrattaById(idTratta);
             if (tratta != null && tratta.getNumeroPostiDisponibili() >= quanti) {
                 int nuoviPosti = tratta.getNumeroPostiDisponibili() - quanti;

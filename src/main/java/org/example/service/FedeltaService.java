@@ -19,38 +19,9 @@ public class FedeltaService {
     }
 
 
-
     public Fedelta getTesseraByCF(String cf) {
         return fedeltaDAO.getTesseraByCF(cf);
     }
-
-
-/*
-    public Fedelta getTesseraByCF(String cf) throws SQLException {
-        Connection conn = null;
-        Fedelta tessera = null;
-
-        try {
-            conn = DBConnectionSingleton.getConnection();
-            conn.setAutoCommit(false);
-
-            tessera = fedeltaDAO.getTesseraByCF(cf);
-            conn.commit();
-
-        } catch (SQLException e) {
-            if (conn != null) {
-                conn.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                conn.setAutoCommit(true);
-            }
-        }
-
-        return tessera;
-    }
-*/
 
 
     public boolean hasTessera(String cf) {

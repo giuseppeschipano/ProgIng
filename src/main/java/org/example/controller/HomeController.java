@@ -31,10 +31,10 @@ public class HomeController {
         fedeltaButton.setOnAction(e -> cambiaScena("SottoscriviFedeltaView.fxml", "Sottoscrizione Fedeltà"));
         promoButton.setOnAction(e -> cambiaScena("OttieniPromozioniView.fxml", "Promozioni"));
         modificaButton.setOnAction(e -> cambiaScena("ModificaBigliettoView.fxml", "Modifica Biglietto"));
-        notificheButton.setOnAction(e -> cambiaScena("NotificheFedeltaView.fxml", "Notifiche"));
+        notificheButton.setOnAction(e -> cambiaScena("NotificheTrenoView.fxml", "Notifiche"));
         logoutLink.setOnAction(e -> cambiaScena("LoginView.fxml", "Login"));
         statoTrenoButton.setOnAction(e -> cambiaScena("StatoTrenoView.fxml", "Stato Treno"));
-        notifichePromoFedeltaButton.setOnAction(e -> cambiaScena("NotifichePromozioniView.fxml", "Notifiche Promo"));
+        notifichePromoFedeltaButton.setOnAction(e -> cambiaScena("NotificheFedeltaView.fxml", "Notifiche Promo"));
     }
 
     private void cambiaScena(String fxml, String titolo) {

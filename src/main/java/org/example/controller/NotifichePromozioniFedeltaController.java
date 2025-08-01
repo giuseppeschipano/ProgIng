@@ -50,7 +50,6 @@ public class NotifichePromozioniFedeltaController {
                     .append(" al ").append(promo.getFinePromo()).append("\n")
                     .append("- Solo per fedeltà: ").append(promo.getSoloFedelta() ? "Sì" : "No");
         }
-
         risultatoArea.setText(messaggio.toString());
     }
 }

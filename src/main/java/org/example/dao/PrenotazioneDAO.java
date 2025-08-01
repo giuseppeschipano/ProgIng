@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class PrenotazioneDAO {
 
     public void aggiungiPrenotazione(Prenotazione p) {

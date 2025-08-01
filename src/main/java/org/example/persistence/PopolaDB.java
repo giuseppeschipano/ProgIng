@@ -59,6 +59,15 @@ public class PopolaDB {
         treno6.setCarrozza(3);
         trenoDB6.aggiungiTreno(treno6);
 
+        TrenoDAO trenoDB7 = new TrenoDAO();
+        Treno treno7 = new Treno();
+        treno7.setId_Treno("REG-5567");
+        treno7.setTipologia("REGIONALE");
+        treno7.setStato("In transito");
+        treno7.setCarrozza(3);
+        trenoDB7.aggiungiTreno(treno7);
+
+
 
         UtenteDAO utenteDB1 = new UtenteDAO();
         Utente utente1 = new Utente();
@@ -196,6 +205,20 @@ public class PopolaDB {
         tratta6.setPrezzo(8.50);
         trattaDB6.aggiungiTratta(tratta6);
 
+        TrattaDAO trattaDB7 = new TrattaDAO();
+        Tratta tratta7 = new Tratta();
+        tratta7.setId_tratta("TRATTA7");
+        tratta7.setId_treno("REG-5567");
+        tratta7.setData("01/08/2025");
+        tratta7.setOraPartenza("18:15:00");
+        tratta7.setOraArrivo("18:27:00");
+        tratta7.setStazionePartenza("Zambrone");
+        tratta7.setStazioneArrivo("Tropea");
+        tratta7.setNumeroPostiDisponibili(55);
+        tratta7.setClassiDisponibili("STANDARD");
+        tratta7.setPrezzo(1.40);
+        trattaDB7.aggiungiTratta(tratta7);
+
 
         PromozioneDAO promozioneDB = new PromozioneDAO();
         Promozione promozione = new Promozione();
@@ -206,6 +229,27 @@ public class PopolaDB {
         promozione.setFinePromo("14/11/2025");
         promozione.setSoloFedelta(false);
         promozioneDB.addPromozione(promozione);
+
+        PromozioneDAO promozioneDB2 = new PromozioneDAO();
+        Promozione promozione2 = new Promozione();
+        promozione2.setCodicePromo("PROMO567");
+        promozione2.setPercentualeSconto(5);
+        promozione2.setTipoTreno("STANDARD");
+        promozione2.setInizioPromo("12/06/2025");
+        promozione2.setFinePromo("01/10/2025");
+        promozione2.setSoloFedelta(true);
+        promozioneDB2.addPromozione(promozione2);
+
+        PromozioneDAO promozioniDB3 = new PromozioneDAO();
+        Promozione promozione3 = new Promozione();
+        promozione3.setCodicePromo("PROMO678");
+        promozione3.setPercentualeSconto(8);
+        promozione3.setTipoTreno("ECONOMY");
+        promozione3.setInizioPromo("25/05/2025");
+        promozione3.setFinePromo("25/08/2025");
+        promozione3.setSoloFedelta(false);
+        promozioniDB3.addPromozione(promozione3);
+
 
         PrenotazioneDAO prenotazioneDB = new PrenotazioneDAO();
         Prenotazione prenotazione = new Prenotazione();
@@ -222,14 +266,13 @@ public class PopolaDB {
         biglietto.setId_prenotazione(null);
         biglietto.setId_Biglietto("FA1750265026411");
         biglietto.setCF("BIAALIE98A01T689C");
-        biglietto.setClasse("SECONDA CLASSE");
+        biglietto.setClasse("FIRST");
         biglietto.setPosto(85);
         biglietto.setCarrozza(7);
         biglietto.setId_tratta("TRATTA5");
         bigliettoDB.aggiungiBiglietto(biglietto);
 
     }
-
 
 
     public static void pulisciDatabase() {

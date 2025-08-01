@@ -1,9 +1,6 @@
 package org.example.servergRPC;
 
-import org.example.dao.BigliettoDAO;
-import org.example.dao.PrenotazioneDAO;
-import org.example.dao.TrattaDAO;
-import org.example.dao.UtenteDAO;
+import org.example.dao.*;
 import org.example.grpc.TrenicalServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import org.example.grpc.*;
@@ -209,9 +206,8 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
     @Override
     public void acquistaBiglietto(AcquistoRequest request, StreamObserver<AcquistoResponse> respObs) {
         AcquistoResponse.Builder response = AcquistoResponse.newBuilder();
-
         try {
-            String cf = request.getUtente().getCf();
+            String cf = request.getCf();
             String idTratta = request.getIdTratta();
             String classe = request.getClasse();
             int posto = request.getPosto();
@@ -320,7 +316,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         String cf = request.getCf();
         FedeltaService fedeltaService = new FedeltaService();
         SottoscrizioneFedeltaResponse.Builder responseBuilder = SottoscrizioneFedeltaResponse.newBuilder();
-
         try {
             if (fedeltaService.hasTessera(cf)) {
                 responseBuilder
@@ -329,7 +324,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
             } else {
                 Fedelta nuova = new Fedelta("FDL" + System.currentTimeMillis(), cf, 0);
                 fedeltaService.aggiungiTessera(nuova);
-
                 FedeltaDTO tesseraDTO = FedeltaDTO.newBuilder()
                         .setId(nuova.getID())
                         .setPunti(nuova.getPunti())
@@ -377,6 +371,7 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         responseObserver.onCompleted();
     }
 
+
     @Override
     public void modificaBiglietto(ModificaBigliettoRequest request, StreamObserver<ModificaBigliettoResponse> responseObserver) {
         String idBiglietto = request.getIdBiglietto();
@@ -384,11 +379,11 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         String nuovaOra = request.getNuovaOra();
         String nuovaClasse = request.getNuovaClasse();
         boolean conferma = request.getConferma();
-
         ModificaBigliettoResponse.Builder responseBuilder = ModificaBigliettoResponse.newBuilder();
-
         try {
             BigliettoDAO bigliettoDAO = new BigliettoDAO();
+
+            // Recupero biglietto originale
             Biglietto bigliettoOriginale = bigliettoDAO.getBigliettoPerID(idBiglietto);
             if (bigliettoOriginale == null) {
                 responseBuilder.setSuccess(false).setMessaggio("Biglietto non trovato");
@@ -397,6 +392,7 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                 return;
             }
 
+            // Recupero tratta originale
             Tratta trattaOriginale = trattaService.getTrattaByID(bigliettoOriginale.getId_tratta());
             if (trattaOriginale == null) {
                 responseBuilder.setSuccess(false).setMessaggio("Tratta originale non trovata");
@@ -405,15 +401,11 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                 return;
             }
 
-            // Costruzione dell'orario di partenza nel formato "dd/MM/yyyy HH:mm:ss"
-            String nuovaOraCompleta = nuovaData + " " + nuovaOra;
-
-            // Ricerca di una nuova tratta compatibile
+            //filtro solo per nuova data e nuova ora (stazioni non per forza uguali alle originali)
             Tratta nuovaTratta = trattaService.getAllTratte().stream()
                     .filter(t ->
-                            t.getStazionePartenza().equalsIgnoreCase(trattaOriginale.getStazionePartenza()) &&
-                                    t.getStazioneArrivo().equalsIgnoreCase(trattaOriginale.getStazioneArrivo()) &&
-                                    t.getOraPartenza().equals(nuovaOraCompleta)
+                            t.getData().equals(nuovaData) &&
+                            t.getOraPartenza().equals(nuovaOra)
                     )
                     .findFirst()
                     .orElse(null);
@@ -430,15 +422,17 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
             double prezzoNuovo = nuovaTratta.getPrezzo();
             double differenza = prezzoNuovo - prezzoOriginale;
 
-            // Aggiorna il biglietto solo se confermato
             Biglietto bigliettoAggiornato = null;
-            if (conferma) {
-                bigliettoOriginale.setClasse(nuovaClasse);
-                bigliettoOriginale.setId_tratta(nuovaTratta.getId_tratta());
 
-                try (Connection conn = DBConnectionSingleton.getConnection()) {
-                    bigliettoDAO.aggiornaBiglietto(bigliettoOriginale);
-                    bigliettoAggiornato = bigliettoOriginale;
+            if (conferma) {
+                boolean aggiornato = biglietteriaService.aggiornaBiglietto(idBiglietto, nuovaTratta.getId_tratta(), nuovaClasse);
+                if (aggiornato) {
+                    bigliettoAggiornato = bigliettoDAO.getBigliettoPerID(idBiglietto);
+                } else {
+                    responseBuilder.setSuccess(false).setMessaggio("Errore durante aggiornamento biglietto");
+                    responseObserver.onNext(responseBuilder.build());
+                    responseObserver.onCompleted();
+                    return;
                 }
             }
 
@@ -462,10 +456,10 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
             e.printStackTrace();
             responseBuilder.setSuccess(false).setMessaggio("Errore durante la modifica del biglietto");
         }
-
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
     }
+
 
     @Override
     public void riceviNotificheTreno(TrenoNotificaRequest request, StreamObserver<NotificaTrenoResponse> responseObserver) {
@@ -519,38 +513,43 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                 || stato.equalsIgnoreCase("CONCLUSO");
     }
 
+
+
     @Override
     public void statoAttualeTreno(TrenoNotificaRequest request, StreamObserver<NotificaTrenoResponse> responseObserver) {
         String idTreno = request.getIdTreno();
+        TrenoDAO trenoDAO = new TrenoDAO();
+        TrattaDAO trattaDAO = new TrattaDAO();
+        Treno treno = trenoDAO.getTrenoById(idTreno);
 
-        Tratta tratta = null;
-        for (Tratta t : trattaService.getAllTratte()) {
-            if (t.getId_treno().equals(idTreno)) {
-                tratta = t;
-                break;
-            }
-        }
-
-        if (tratta != null) {
+        if (treno == null) {
             NotificaTrenoResponse response = NotificaTrenoResponse.newBuilder()
-                    .setIdTreno(idTreno)
-                    .setStato("IN VIAGGIO")
-                    .setMessaggio("Treno partito da " + tratta.getStazionePartenza())
-                    .setOrarioStimato(tratta.getOraArrivo())
-                    .build();
-
-            responseObserver.onNext(response);
-        } else {
-            responseObserver.onNext(NotificaTrenoResponse.newBuilder()
-                    .setIdTreno(idTreno)
-                    .setStato("SCONOSCIUTO")
-                    .setMessaggio("Treno non trovato.")
+                    .setIdTreno(idTreno + "\n")
+                    .setStato("SCONOSCIUTO" + "\n")
+                    .setMessaggio("Treno non trovato." + "\n")
                     .setOrarioStimato("N/A")
-                    .build());
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+            return;
         }
-
+        Tratta tratta = trattaDAO.getTrattaByIdTreno(idTreno);
+        String orarioArrivo;
+        if (tratta != null && tratta.getOraArrivo() != null) {
+            orarioArrivo = tratta.getOraArrivo();
+        } else {
+            orarioArrivo = "N/A";
+        }
+        NotificaTrenoResponse response =NotificaTrenoResponse.newBuilder()
+                .setIdTreno(idTreno + "\n")
+                .setStato((treno.getStato() != null ? treno.getStato() : "SCONOSCIUTO") + "\n")
+                .setMessaggio("Treno partito da " + tratta.getStazionePartenza() + "\n")
+                .setOrarioStimato(orarioArrivo)
+                .build();
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
 
     @Override
     public void fedeltaNotificaPromoOfferte(AccettiNotificaFedRequest request, StreamObserver<AccettiNotificaFedResponse> responseObserver) {

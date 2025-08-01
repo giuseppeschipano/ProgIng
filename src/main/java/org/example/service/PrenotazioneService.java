@@ -35,10 +35,8 @@ public class PrenotazioneService {
                 System.out.println("Treno pieno. Impossibile prenotare.");
                 return;
             }
-
             prenotazioneRepo.aggiungiPrenotazione(p);
             trattaRepo.decrementaPostiDisponibili(p.getId_tratta(), 1);
-
             conn.commit();
             System.out.println("Prenotazione effettuata con successo.");
         } catch (SQLException e) {
@@ -49,10 +47,8 @@ public class PrenotazioneService {
     public void confermaPrenotazione(Prenotazione p, Biglietto b) {
         try (Connection conn = DBConnectionSingleton.getConnection()) {
             conn.setAutoCommit(false);
-
             bigliettoRepo.aggiungiBiglietto(b);
             prenotazioneRepo.rimuoviPrenotazione(p.getId_Prenotazione());
-
             conn.commit();
             System.out.println("Prenotazione confermata e biglietto emesso.");
         } catch (SQLException e) {
@@ -63,6 +59,7 @@ public class PrenotazioneService {
     public void controllaPrenotazioniScadute() {
         List<Prenotazione> tutte = prenotazioneRepo.getTuttePrenotazioni();
         LocalDateTime oraCorrente = LocalDateTime.now();
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
         for (Prenotazione p : tutte) {

@@ -105,7 +105,7 @@ public class InitDB {
                      tipoTreno  VARCHAR (100),
                      inizioPromo VARCHAR (100),
                      finePromo VARCHAR (100),
-                     soloFedelta VARCHAR (100)
+                     soloFedelta BOOLEAN
                      
                      )
                 """ );

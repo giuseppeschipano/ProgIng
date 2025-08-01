@@ -8,15 +8,13 @@ import java.util.*;
 
 public class BigliettoDAO {
 
-    //Inserimento biglietto con connessione esterna(per transazione)
+    //Inserimento biglietto
     public void aggiungiBiglietto(Biglietto b)  {
         String sql = """
             INSERT INTO biglietti (id_Biglietto,classe, id_prenotazione, cf, id_tratta, posto, carrozza)
             VALUES (?, ?, ?, ?, ?, ?, ?)
             """;
-
         try(PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
-
             stmt.setString(1, b.getId_Biglietto());
             stmt.setString(2, b.getClasse());
             stmt.setString(3, b.getId_prenotazione());
@@ -56,7 +54,7 @@ public class BigliettoDAO {
 
 
     public void aggiornaBiglietto(Biglietto b) {
-        String sql = "UPDATE biglietti SET classe = ?, id_prenotazione = ?, cf = ?, id_tratta = ?, posto = ?, carrozza = ? where id_Biglietto = ?";
+        String sql = "UPDATE biglietti SET classe = ?, id_prenotazione = ?, cf = ?, id_tratta = ?, posto = ?, carrozza = ? WHERE id_Biglietto = ?";
 
         try(PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, b.getClasse());
