@@ -8,7 +8,6 @@ import org.example.clientgRPC.TrenicalClientImpl;
 import org.example.grpc.AccettiNotificaFedResponse;
 import org.example.grpc.PromozioneDTO;
 
-
 public class NotifichePromozioniFedeltaController {
 
     @FXML private TextField cfField;

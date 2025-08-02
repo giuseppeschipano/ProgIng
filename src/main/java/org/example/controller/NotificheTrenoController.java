@@ -40,16 +40,16 @@ public class NotificheTrenoController {
             return;
         }
 
-        outputArea.appendText("Avvio sottoscrizione alle notifiche...");
+        outputArea.appendText("Avvio sottoscrizione alle notifiche..." + "\n");
 
         client.riceviNotificheTreno(cf, idTreno, new StreamObserver<>() {
             @Override
             public void onNext(NotificaTrenoResponse response) {
                 Platform.runLater(() -> {
                     outputArea.appendText(
-                            "Stato: " + response.getStato() +
-                                    "Messaggio: " + response.getMessaggio() +
-                                    "Orario stimato: " + response.getOrarioStimato()
+                            "Stato: " + response.getStato() + "\n" +
+                                    "Messaggio: " + response.getMessaggio() + "\n"+
+                                    "Orario stimato: " + response.getOrarioStimato() + "\n"
                     );
                 });
             }
@@ -57,14 +57,14 @@ public class NotificheTrenoController {
             @Override
             public void onError(Throwable t) {
                 Platform.runLater(() ->
-                        outputArea.appendText("Errore: " + t.getMessage() )
+                        outputArea.appendText("Errore: " /* + t.getMessage() */)
                 );
             }
 
             @Override
             public void onCompleted() {
                 Platform.runLater(() ->
-                        outputArea.appendText("Connessione chiusa dal server.")
+                        outputArea.appendText("")
                 );
             }
         });

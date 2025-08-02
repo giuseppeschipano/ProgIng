@@ -3,9 +3,9 @@ package org.example.service;
 import org.example.dao.FedeltaDAO;
 import org.example.model.Fedelta;
 import org.example.model.Promozione;
-import org.example.persistence.DBConnectionSingleton;
 import org.example.dao.PromozioneDAO;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,7 +28,8 @@ public class PromozioneService {
     public List<Promozione> promoSoloFedelta(String CF) {
         boolean check = serviceFedelta.hasTessera(CF);
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+  //    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         String dataOra = now.format(formatter);
         return promoDataBase.promozioniAttive(null, check, dataOra);
     }
@@ -48,18 +49,13 @@ public class PromozioneService {
         List<Promozione> valide = new ArrayList<>();
         Fedelta tessera = fedeltaDAO.getTesseraByCF(cf);
         boolean haFedelta = (tessera != null);
-
-        LocalDateTime now = LocalDateTime.now();
-
+        LocalDate now = LocalDate.now();
         for (Promozione p : tutte) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-            LocalDateTime inizio = LocalDateTime.parse(p.getInizioPromo(), formatter);
-            LocalDateTime fine = LocalDateTime.parse(p.getFinePromo(), formatter);
-
-
-            boolean inPeriodo = now.isAfter(inizio) && now.isBefore(fine);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate inizio = LocalDate.parse(p.getInizioPromo(), formatter);
+            LocalDate fine = LocalDate.parse(p.getFinePromo(), formatter);
+            boolean inPeriodo = (now.isEqual(inizio) || now.isAfter(inizio)) && (now.isEqual(fine) || now.isBefore(fine));
             boolean promoValida = inPeriodo && (!p.isSoloFedelta() || haFedelta);
-
             if (promoValida) {
                 valide.add(p);
             }

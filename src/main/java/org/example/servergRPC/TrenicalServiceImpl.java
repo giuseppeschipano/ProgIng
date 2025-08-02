@@ -1,5 +1,6 @@
 package org.example.servergRPC;
 
+import io.grpc.Status;
 import org.example.dao.*;
 import org.example.grpc.TrenicalServiceGrpc;
 import io.grpc.stub.StreamObserver;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImplBase {
@@ -348,13 +350,9 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
     public void ottieniPromozioni(PromozioniRequest request, StreamObserver<PromozioniResponse> responseObserver) {
         String cf = request.getCf();
         PromozioneService promoService = new PromozioneService();
-
         boolean isFedelta = new FedeltaService().hasTessera(cf);
-
         List<Promozione> promoList = promoService.promoSoloFedelta(cf); // filtra in base alla tessera
-
         PromozioniResponse.Builder responseBuilder = PromozioniResponse.newBuilder();
-
         for (Promozione p : promoList) {
             PromozioneDTO dto = PromozioneDTO.newBuilder()
                     .setCodicePromo(p.getCodicePromo())
@@ -366,7 +364,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                     .build();
             responseBuilder.addPromozioni(dto);
         }
-
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
     }
@@ -466,8 +463,31 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         String cf = request.getCf();
         String idTreno = request.getIdTreno();
 
-        System.out.println("Utente " + cf + " si è iscritto alle notifiche per treno " + idTreno);
+        //Verifica sull'esistenza di treno e cf
+        if (utenteService.getUtente(cf) == null) {
+            System.out.println("Utente non trovato: " + cf);
+            NotificaTrenoResponse erroreCF = NotificaTrenoResponse.newBuilder()
+                    .setStato("ERRORE")
+                    .setMessaggio("Utente non trovato")
+                    .build();
+            responseObserver.onNext(erroreCF);
+            responseObserver.onCompleted();
+            return;
 
+        }
+        if (trenoService.getTrenoById(idTreno) == null) {
+            System.out.println("Treno non trovato: " + idTreno);
+            NotificaTrenoResponse erroreTreno = NotificaTrenoResponse.newBuilder()
+                    .setIdTreno(idTreno)
+                    .setStato("ERRORE")
+                    .setMessaggio("Treno non trovato")
+                    .build();
+            responseObserver.onNext(erroreTreno);
+            responseObserver.onCompleted();
+            return;
+
+        }
+        System.out.println("Utente " + cf + " si è iscritto alle notifiche per treno " + idTreno);
         synchronized (this) {
             iscrittiPerTreno.computeIfAbsent(idTreno, k -> new ArrayList<>()).add(responseObserver);
         }
@@ -475,23 +495,20 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
 
     public void notificaCambioStatoTreno(String idTreno, String nuovoStato, String messaggio, String oraStimata) {
         List<StreamObserver<NotificaTrenoResponse>> observers;
-
         synchronized (this) {
             observers = iscrittiPerTreno.get(idTreno);
-            if (observers == null) return;
+            if (observers == null)
+                return;
         }
-
         NotificaTrenoResponse notifica = NotificaTrenoResponse.newBuilder()
                 .setIdTreno(idTreno)
                 .setStato(nuovoStato)
                 .setMessaggio(messaggio)
                 .setOrarioStimato(oraStimata)
                 .build();
-
         for (StreamObserver<NotificaTrenoResponse> obs : observers) {
             try {
                 obs.onNext(notifica);
-
                 if (isFinale(nuovoStato)) {
                     obs.onCompleted();
                 }
@@ -499,7 +516,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                 obs.onError(e);
             }
         }
-
         if (isFinale(nuovoStato)) {
             synchronized (this) {
                 iscrittiPerTreno.remove(idTreno);
@@ -555,16 +571,14 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
     public void fedeltaNotificaPromoOfferte(AccettiNotificaFedRequest request, StreamObserver<AccettiNotificaFedResponse> responseObserver) {
         String cf = request.getCf();
         boolean desideraContatto = request.getDesideroContatto();
-
         AccettiNotificaFedResponse.Builder responseBuilder = AccettiNotificaFedResponse.newBuilder();
-
         if (!desideraContatto) {
             responseBuilder.setMessage("Hai scelto di non ricevere promozioni personalizzate.");
         } else {
             List<Promozione> promozioni = promozioneService.getPromozioniPerUtente(cf);
-
             if (!promozioni.isEmpty()) {
-                Promozione migliore = promozioni.get(0); //prima disponibile nella lista
+                int randomIndex = ThreadLocalRandom.current().nextInt(promozioni.size()); //casualmente tra quelle che ho inserito nel database
+                Promozione migliore = promozioni.get(randomIndex);
                 PromozioneDTO dto = PromozioneDTO.newBuilder()
                         .setCodicePromo(migliore.getCodicePromo())
                         .setPercentualeSconto(migliore.getPercentualeSconto())
@@ -573,7 +587,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                         .setFinePromo(migliore.getFinePromo())
                         .setSoloFedelta(migliore.isSoloFedelta())
                         .build();
-
                 responseBuilder
                         .setPromoInArrivo(dto)
                         .setMessage("Ecco una promozione riservata a te.");
@@ -581,7 +594,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                 responseBuilder.setMessage("Al momento non ci sono promozioni disponibili per te.");
             }
         }
-
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
     }
