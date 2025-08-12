@@ -92,7 +92,6 @@ public class TrenicalClientImpl {
                     .setMessaggio("Compilare tutti i campi!")
                     .build();
         }
-
         RegistrazioneRequest request = RegistrazioneRequest.newBuilder()
                 .setNome(nome)
                 .setCognome(cognome)
@@ -102,7 +101,6 @@ public class TrenicalClientImpl {
                 .setIndirizzo(indirizzo)
                 .setDataNascita(dataNascita)
                 .build();
-
         try {
             return blockingStub.registrazione(request);
         } catch (StatusRuntimeException e) {
@@ -116,22 +114,24 @@ public class TrenicalClientImpl {
 
 
     // Chiamata al metodo Prenotazione del server gRPC(restituisce la risposta PrenotazioneResponse ricevuta dal server)
-    public PrenotazioneResponse prenota(String cf, String idTratta, int posto, int carrozza) {
+    public PrenotazioneResponse prenota(String cf, String idTratta) {
         PrenotazioneRequest request = PrenotazioneRequest.newBuilder()
                 .setCf(cf)
                 .setIdTratta(idTratta)
-                .setPosto(posto)
-                .setCarrozza(carrozza)
+                .setPosto(0)
+                .setCarrozza(0)
                 .build();
         try {
             PrenotazioneResponse response = blockingStub.prenota(request);
-
             if (!response.getSuccess()) {
                 System.out.println("Prenotazione fallita: " + response.getMessaggio());
-                return response;
+            } else{
+                System.out.println("Prenotazione effettuata con successo!");
+                System.out.println("ID Prenotazione: " + response.getIdPrenotazione());
+                System.out.println("Posto assegnato: " + response.getPostoPrenotazione());
+                System.out.println("Carrozza assegnata: " + response.getCarrozza());
             }
             return response;
-
         } catch (StatusRuntimeException e) {
             System.out.println("Errore durante la prenotazione: " + e.getStatus().getDescription());
             return PrenotazioneResponse.newBuilder()
@@ -152,11 +152,9 @@ public class TrenicalClientImpl {
                 .setPosto(posto)
                 .setCarrozza(carrozza)
                 .setNumeroCarta(numeroCarta);
-
         if (prenotazioneId != null && !prenotazioneId.isEmpty()) {
             requestBuilder.setPrenotazioneId(prenotazioneId);
         }
-
         try {
             return blockingStub.acquistaBiglietto(requestBuilder.build());
         } catch (StatusRuntimeException e) {

@@ -32,7 +32,7 @@ public class TrattaTest {
 
     @Test
     @DisplayName("Test che verifica l'aggiunta di una nuova tratta nel database")
-    public void testAggiungiTratta() {
+    public void testAggiungiTratta() throws SQLException {
         Tratta trattaTest = new Tratta();
         trattaTest.setId_tratta("TRATTA1");
         trattaTest.setId_treno("EC-7893");
@@ -69,7 +69,7 @@ public class TrattaTest {
     @ParameterizedTest
     @ValueSource(strings =  {"TRATTA2"})
     @DisplayName("Test che controlla l'esistenza di una tratta dato il relativo id")
-    public void checkTovaTrattaDaID(String id_tratta){
+    public void checkTovaTrattaDaID(String id_tratta) throws SQLException {
         Tratta ris = trattaDAO.getTrattaById(id_tratta);
         assertTrue(ris != null);
 

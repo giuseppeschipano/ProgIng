@@ -12,10 +12,8 @@
         <Label text="Prenotazione Biglietto" />
         <TextField fx:id="cfField" promptText="Codice Fiscale" />
         <TextField fx:id="idTrattaField" promptText="ID Tratta" />
-        <TextField fx:id="postoField" promptText="Posto" />
-        <TextField fx:id="carrozzaField" promptText="Carrozza" />
         <Button fx:id="prenotaButton" mnemonicParsing="false" text="Prenota" />
-        <Label fx:id="esitoLabel" text="Label" />
+        <Label fx:id="esitoLabel" text="Esito" />
         <Hyperlink fx:id="tornaHomeLink" text="Torna alla Home" />
     </children>
     <padding>

@@ -24,7 +24,6 @@ public class FedeltaDAO {
     public Fedelta getTesseraByCF(String cf){
         String sql = "SELECT * FROM fedelta WHERE CFPossessoreTessera = ?";
         Fedelta f = null;
-
         try(PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, cf);
             ResultSet rs = stmt.executeQuery();
@@ -47,7 +46,6 @@ public class FedeltaDAO {
 
     public void incrementaPunti(String cf, int puntiDaAggiungere){
         String sql = "UPDATE fedelta SET puntiFedelta = puntiFedelta + ? WHERE CFPossessoreTessera = ?";
-
         try(PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setInt(1, puntiDaAggiungere);
             stmt.setString(2, cf);

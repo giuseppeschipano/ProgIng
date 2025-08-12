@@ -74,6 +74,7 @@ public class InitDB {
                     postoPrenotazione INT,
                     carrozza INT,
                     
+                    
                     FOREIGN KEY (id_tratta) REFERENCES tratta(id_tratta),
                     FOREIGN KEY (CFUtente) REFERENCES utenti(cf)
                 )

@@ -9,12 +9,15 @@ import java.util.*;
 public class BigliettoDAO {
 
     //Inserimento biglietto
-    public void aggiungiBiglietto(Biglietto b)  {
+    public void aggiungiBiglietto(Biglietto b) throws SQLException {
         String sql = """
             INSERT INTO biglietti (id_Biglietto,classe, id_prenotazione, cf, id_tratta, posto, carrozza)
             VALUES (?, ?, ?, ?, ?, ?, ?)
             """;
-        try(PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
+        Connection conn = DBConnectionSingleton.getConnection();
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(sql);
             stmt.setString(1, b.getId_Biglietto());
             stmt.setString(2, b.getClasse());
             stmt.setString(3, b.getId_prenotazione());
@@ -23,8 +26,8 @@ public class BigliettoDAO {
             stmt.setInt(6, b.getPosto());
             stmt.setInt(7, b.getCarrozza());
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } finally {
+            if (stmt != null) stmt.close();
         }
     }
 
@@ -55,7 +58,6 @@ public class BigliettoDAO {
 
     public void aggiornaBiglietto(Biglietto b) {
         String sql = "UPDATE biglietti SET classe = ?, id_prenotazione = ?, cf = ?, id_tratta = ?, posto = ?, carrozza = ? WHERE id_Biglietto = ?";
-
         try(PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, b.getClasse());
             stmt.setString(2, b.getId_prenotazione());
@@ -72,16 +74,13 @@ public class BigliettoDAO {
     }
 
 
-
     //Recupera tutti i biglietti di un utente specifico
     public List<Biglietto> getBigliettiPerUtente(String cf) {
         List<Biglietto> lista = new ArrayList<>();
         String sql = "SELECT * FROM biglietti WHERE cf = ?";
-
         try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
             stmt.setString(1, cf);
             ResultSet rs = stmt.executeQuery();
-
             while (rs.next()) {
                 Biglietto b = new Biglietto();
                 b.setId_Biglietto(rs.getString("id_Biglietto"));
@@ -91,14 +90,23 @@ public class BigliettoDAO {
                 b.setId_tratta(rs.getString("id_tratta"));
                 b.setPosto(rs.getInt("posto"));
                 b.setCarrozza(rs.getInt("carrozza"));
-
-
                 lista.add(b);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return lista;
     }
+
+    //Elimina tutti i biglietti associati a una prenotazione specifica.
+    public void eliminaBigliettiByPrenotazione(String idPrenotazione) throws SQLException {
+        String sql = "DELETE FROM biglietti WHERE id_prenotazione = ?";
+        Connection conn = DBConnectionSingleton.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idPrenotazione);
+            stmt.executeUpdate();
+        }
+    }
 }
+
+

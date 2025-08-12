@@ -1,6 +1,5 @@
 package org.example.servergRPC;
 
-import io.grpc.Status;
 import org.example.dao.*;
 import org.example.grpc.TrenicalServiceGrpc;
 import io.grpc.stub.StreamObserver;
@@ -9,7 +8,7 @@ import org.example.model.*;
 import org.example.persistence.DBConnectionSingleton;
 import org.example.service.*;
 import java.sql.Connection;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,10 +125,8 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         nuovoUtente.setCFUtente(cf);
         nuovoUtente.setIndirizzoUtente(indirizzo);
         nuovoUtente.setDataNascitaUtente(dataNascita);
-
         boolean success = false;
         String messaggio;
-
         try{
             UtenteDAO utenteDAO = new UtenteDAO();
             if (utenteDAO.getUtenteByCF(cf) != null){
@@ -143,67 +140,79 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
             e.printStackTrace();
             messaggio = "Errore durante la registrazione : " + e.getMessage() ;
         }
-
         RegistrazioneResponse response = RegistrazioneResponse.newBuilder()
                 .setSuccess(success).setMessaggio(messaggio).build();
-
         responseObserver.onNext(response);
         responseObserver.onCompleted();
 
     }
 
 
-    @Override
-    public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResponse> responseObserver) {
-        String cf = request.getCf();
-        String idTratta = request.getIdTratta();
-        int posto = request.getPosto();
-        int carrozza = request.getCarrozza();
+@Override
+public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResponse> responseObserver) {
+    String cf = request.getCf();
+    String idTratta = request.getIdTratta();
+    int postoRichiesto = request.getPosto();
+    int carrozzaRichiesta = request.getCarrozza();
+    Prenotazione prenotazione = new Prenotazione();
+    prenotazione.setCFUtente(cf);
+    prenotazione.setId_tratta(idTratta);
+    prenotazione.setId_Prenotazione("PRE" + System.currentTimeMillis());
+    LocalDate scadenza = LocalDate.now().plusDays(1);
+    prenotazione.setDataScadenza(scadenza.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+    boolean success = false;
+    String messaggio;
 
-        Prenotazione prenotazione = new Prenotazione();
-        prenotazione.setCFUtente(cf);
-        prenotazione.setId_tratta(idTratta);
-        prenotazione.setPostoPrenotazione(posto);
-        prenotazione.setCarrozza(carrozza);
-        prenotazione.setId_Prenotazione("PRE" + System.currentTimeMillis());
+    try (Connection conn = DBConnectionSingleton.getConnection()) {
+        conn.setAutoCommit(false);
 
-        LocalDateTime scadenza = LocalDateTime.now().plusHours(24);
-        prenotazione.setDataScadenza(scadenza.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+        // Trova o assegna posto
+        if (postoRichiesto == 0 && carrozzaRichiesta == 0) {
+            int[] postoCarrozza = prenotazioneService.trovaPostoDisponibile(idTratta);
+            if (postoCarrozza == null) {
+                messaggio = "Non ci sono posti disponibili per questa tratta.";
 
-        PrenotazioneService service = new PrenotazioneService(
-                new PrenotazioneDAO(), new BigliettoDAO(), new TrattaDAO()
-        );
-
-        boolean success = false;
-        String messaggio;
-
-        try (Connection conn = DBConnectionSingleton.getConnection()) {
-            conn.setAutoCommit(false);
-
-            // Controlla che il posto non sia già prenotato o acquistato
-            boolean occupato = service.postoGiaOccupato(idTratta, carrozza, posto);
-            if (occupato) {
-                messaggio = "Il posto selezionato è già occupato.";
             } else {
-                service.effettuaPrenotazione(prenotazione); // Internamente fa il decremento
-                conn.commit();
+                prenotazione.setPostoPrenotazione(postoCarrozza[0]);
+                prenotazione.setCarrozza(postoCarrozza[1]);
+                prenotazioneService.effettuaPrenotazione(prenotazione);
                 success = true;
                 messaggio = "Prenotazione effettuata con successo.";
+
             }
+        } else {
+            // posto specificato dal client: verifica che non sia occupato
+            boolean occupato = prenotazioneService.postoGiaOccupato(idTratta, carrozzaRichiesta, postoRichiesto);
+            if (occupato) {
+                messaggio = "Il posto selezionato è già occupato.";
 
-        } catch (Exception e) {
-            messaggio = "Errore nella prenotazione: " + e.getMessage();
+            } else {
+                prenotazione.setPostoPrenotazione(postoRichiesto);
+                prenotazione.setCarrozza(carrozzaRichiesta);
+                prenotazioneService.effettuaPrenotazione(prenotazione);
+                success = true;
+                messaggio = "Prenotazione effettuata con successo.";
+
+            }
         }
-
-        PrenotazioneResponse response = PrenotazioneResponse.newBuilder()
-                .setIdPrenotazione(prenotazione.getId_Prenotazione())
-                .setSuccess(success)
-                .setMessaggio(messaggio)
-                .build();
-
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
+    } catch (Exception e) {
+        e.printStackTrace();
+        success = false;
+        messaggio = "Errore nella prenotazione: " + e.getMessage();
     }
+    PrenotazioneResponse response = PrenotazioneResponse.newBuilder()
+            .setIdPrenotazione(success ? prenotazione.getId_Prenotazione() : "")
+
+            .setPostoPrenotazione(success ? prenotazione.getPostoPrenotazione() : 0)
+            .setCarrozza(success ? prenotazione.getCarrozza() : 0)
+
+            .setSuccess(success)
+            .setMessaggio(messaggio)
+            .build();
+
+    responseObserver.onNext(response);
+    responseObserver.onCompleted();
+}
 
     @Override
     public void acquistaBiglietto(AcquistoRequest request, StreamObserver<AcquistoResponse> respObs) {
@@ -218,9 +227,7 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
             if (idPrenotazione.isEmpty()) {
                 idPrenotazione = null;
             }
-
             String numeroCarta = request.getNumeroCarta();
-
             // Verifica della carta (Luhn)
             if (!BiglietteriaService.isValidCardNumber(numeroCarta)) {
                 response.setSuccess(false).setMessaggio("Pagamento rifiutato: numero carta non valido.");
@@ -229,7 +236,7 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                 return;
             }
 
-            // Recupera della tratta e tipo treno per generare id biglietto
+            // Recupero della tratta e tipo treno per generare id biglietto
             Tratta tratta = trattaService.getTrattaByID(idTratta);
             String tipoTreno = trenoService.getTrenoById(tratta.getId_treno()).getTipologia();
             String prefix = switch (tipoTreno.toUpperCase()) {
@@ -262,12 +269,12 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                     return;
                 }
 
-                LocalDateTime scadenza = LocalDateTime.parse(
+                LocalDate scadenza = LocalDate.parse(
                         p.getDataScadenza(),
-                        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy")
                 );
 
-                if (LocalDateTime.now().isAfter(scadenza)) {
+                if (LocalDate.now().isAfter(scadenza)) {
                     response.setSuccess(false).setMessaggio("Prenotazione scaduta.");
                     respObs.onNext(response.build());
                     respObs.onCompleted();
@@ -432,7 +439,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                     return;
                 }
             }
-
             BigliettoDTO bigliettoDTO = (bigliettoAggiornato != null)
                     ? BigliettoDTO.newBuilder()
                     .setIdBiglietto(bigliettoAggiornato.getId_Biglietto())
@@ -532,7 +538,7 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
 
 
     @Override
-    public void statoAttualeTreno(TrenoNotificaRequest request, StreamObserver<NotificaTrenoResponse> responseObserver) {
+    public void statoAttualeTreno(TrenoNotificaRequest request, StreamObserver<NotificaTrenoResponse> responseObserver)  {
         String idTreno = request.getIdTreno();
         TrenoDAO trenoDAO = new TrenoDAO();
         TrattaDAO trattaDAO = new TrattaDAO();

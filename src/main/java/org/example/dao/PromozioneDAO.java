@@ -13,7 +13,6 @@ public class PromozioneDAO {
 
     public void addPromozione(Promozione p){
         String sql = "INSERT INTO promozioni (codicePromo,  percentualeSconto, tipoTreno, inizioPromo, finePromo, soloFedelta ) VALUES (?, ?, ? ,?, ?, ?)";
-
         try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, p.getCodicePromo());
             stmt.setInt(2,p.getPercentualeSconto());
@@ -33,7 +32,6 @@ public class PromozioneDAO {
                 "((? IS NULL) OR (UPPER(tipoTreno) = UPPER(?)) OR tipoTreno IS NULL) " +
                 "AND (soloFedelta = FALSE OR soloFedelta = ?)" +
                 (dataViaggio != null ? " AND (? BETWEEN inizioPromo AND finePromo)" : "");
-
         try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
             stmt.setString(1, tipoTreno);
             stmt.setString(2, tipoTreno);
@@ -65,11 +63,9 @@ public class PromozioneDAO {
     public List<Promozione> getAllPromozioni() {
         List<Promozione> lista = new ArrayList<>();
         String sql = "SELECT * FROM promozioni";
-
         try (Connection conn = DBConnectionSingleton.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-
             while (rs.next()) {
                 Promozione p = new Promozione();
                 p.setCodicePromo(rs.getString("codicePromo"));

@@ -14,10 +14,6 @@ public class PrenotazioneController {
     @FXML
     private TextField idTrattaField;
     @FXML
-    private TextField postoField;
-    @FXML
-    private TextField carrozzaField;
-    @FXML
     private Button prenotaButton;
     @FXML
     private Label esitoLabel;
@@ -39,10 +35,21 @@ public class PrenotazioneController {
         try {
             String cf = cfField.getText();
             String idTratta = idTrattaField.getText();
-            int posto = Integer.parseInt(postoField.getText());
-            int carrozza = Integer.parseInt(carrozzaField.getText());
-            PrenotazioneResponse response = client.prenota(cf, idTratta, posto, carrozza);
-            esitoLabel.setText(response.getMessaggio());
+            if (cf.isEmpty() || idTratta.isEmpty()) {
+                esitoLabel.setText("Inserisci CF e ID Tratta.");
+                return;
+            }
+            PrenotazioneResponse response = client.prenota(cf, idTratta); //il server assegna automaticamente posto e carrozza (invio 0)
+            if (response.getSuccess()) {
+                esitoLabel.setText(
+                        response.getMessaggio() + "\nID Prenotazione: " + response.getIdPrenotazione() +
+                                "\nPosto: " + response.getPostoPrenotazione() +
+                                "\nCarrozza: " + response.getCarrozza()
+                );
+            } else {
+                esitoLabel.setText(response.getMessaggio());
+            }
+
         } catch (Exception ex) {
             esitoLabel.setText("Errore: " + ex.getMessage());
         }

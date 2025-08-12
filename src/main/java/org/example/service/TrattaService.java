@@ -36,7 +36,9 @@ public class TrattaService {
     }
 
     public int getPostiDisponibili(String idTratta){
-        try (Connection conn = DBConnectionSingleton.getConnection()) {
+        Connection conn = null;
+        try  {
+            conn = DBConnectionSingleton.getConnection();
             Tratta tratta = trattaRepository.getTrattaById(idTratta);
             if(tratta != null && tratta.getNumeroPostiDisponibili() > 0){
                 return tratta.getNumeroPostiDisponibili();
@@ -45,8 +47,8 @@ public class TrattaService {
             }
         }catch (SQLException e) {
             e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     public void incrementaPostiDisponibili(String idTratta, int quanti) {
@@ -63,7 +65,7 @@ public class TrattaService {
         }
     }
 
-    public Tratta getTrattaByID(String idTratta) {
+    public Tratta getTrattaByID(String idTratta) throws SQLException {
         return trattaRepository.getTrattaById(idTratta);
     }
 

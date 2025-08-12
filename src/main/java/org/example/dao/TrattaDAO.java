@@ -22,8 +22,6 @@ public class TrattaDAO {
             stmt.setInt(8, t.getNumeroPostiDisponibili());
             stmt.setDouble(9, t.getPrezzo());
             stmt.setString(10, t.getData());
-
-
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -34,7 +32,6 @@ public class TrattaDAO {
     public List<Tratta> getAllTratte() {
         List<Tratta> tratte = new ArrayList<>();
         String sql = "SELECT * FROM tratta";
-
         try (Connection conn = DBConnectionSingleton.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -66,7 +63,6 @@ public class TrattaDAO {
         if (classe != null && !classe.isEmpty()) {
             sql += " AND classiDisponibili = ?";
         }
-
         try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
             stmt.setString(1, partenza);
             stmt.setString(2, arrivo);
@@ -96,39 +92,38 @@ public class TrattaDAO {
     }
 
 
-    public Tratta getTrattaById(String id) {
+    public Tratta getTrattaById(String id) throws SQLException {
+        Connection conn = DBConnectionSingleton.getConnection();
         String sql = "SELECT * FROM tratta WHERE id_tratta = ?";
         Tratta t = null;
-
-        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
+        try (PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                String id_Tratta = rs.getString("id_tratta");
-                String id_Treno = rs.getString("id_treno");
-                String oraPartenza = rs.getString("oraPartenza");
-                String oraArrivo = rs.getString("oraArrivo");
-                String stazionePartenza = rs.getString("stazionePartenza");
-                String stazioneArrivo = rs.getString("stazioneArrivo");
-                String classiDisponibili = rs.getString("classiDisponibili");
-                int numeroPostiDisponibili = rs.getInt("numeroPostiDisponibili");
-                double prezzo = rs.getDouble("prezzo");
-                String data = rs.getString("data");
-
-                t = new Tratta();
-                t.setId_tratta(id_Tratta);
-                t.setId_treno(id_Treno);
-                t.setOraPartenza(oraPartenza);
-                t.setOraArrivo(oraArrivo);
-                t.setStazionePartenza(stazionePartenza);
-                t.setStazioneArrivo(stazioneArrivo);
-                t.setClassiDisponibili(classiDisponibili);
-                t.setNumeroPostiDisponibili(numeroPostiDisponibili);
-                t.setPrezzo(prezzo);
-                t.setData(data);
-                return t;
-            }
+           try(ResultSet rs = stmt.executeQuery()) {
+               if (rs.next()) {
+                   String id_Tratta = rs.getString("id_tratta");
+                   String id_Treno = rs.getString("id_treno");
+                   String oraPartenza = rs.getString("oraPartenza");
+                   String oraArrivo = rs.getString("oraArrivo");
+                   String stazionePartenza = rs.getString("stazionePartenza");
+                   String stazioneArrivo = rs.getString("stazioneArrivo");
+                   String classiDisponibili = rs.getString("classiDisponibili");
+                   int numeroPostiDisponibili = rs.getInt("numeroPostiDisponibili");
+                   double prezzo = rs.getDouble("prezzo");
+                   String data = rs.getString("data");
+                   t = new Tratta();
+                   t.setId_tratta(id_Tratta);
+                   t.setId_treno(id_Treno);
+                   t.setOraPartenza(oraPartenza);
+                   t.setOraArrivo(oraArrivo);
+                   t.setStazionePartenza(stazionePartenza);
+                   t.setStazioneArrivo(stazioneArrivo);
+                   t.setClassiDisponibili(classiDisponibili);
+                   t.setNumeroPostiDisponibili(numeroPostiDisponibili);
+                   t.setPrezzo(prezzo);
+                   t.setData(data);
+                   return t;
+               }
+           }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -136,11 +131,10 @@ public class TrattaDAO {
         return null;
     }
 
-    public void updatePostiDisponibili(String idTratta, int nuoviPosti) {
+    public void updatePostiDisponibili(String idTratta, int nuoviPosti) throws SQLException {
         String sql = "UPDATE tratta SET numeroPostiDisponibili = ? WHERE id_tratta = ?";
-
-        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
-
+        Connection conn = DBConnectionSingleton.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, nuoviPosti);
             stmt.setString(2, idTratta);
             stmt.executeUpdate();
@@ -181,7 +175,7 @@ public class TrattaDAO {
     }
 
     //Senza Transazione
-    public Tratta getTrattaByID(String idTratta){
+    public Tratta getTrattaByID(String idTratta) throws SQLException {
         return  getTrattaById(idTratta);
     }
 
@@ -190,10 +184,8 @@ public class TrattaDAO {
         Tratta tratta = null;
         try (Connection conn = DBConnectionSingleton.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setString(1, idTreno);
             ResultSet rs = stmt.executeQuery();
-
             if (rs.next()) {
                     tratta = new Tratta();
                     tratta.setId_tratta(rs.getString("id_tratta"));

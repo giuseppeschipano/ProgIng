@@ -906,3 +906,127 @@ SELECT * FROM promozioni WHERE (tipoTreno = ? OR tipoTreno IS NULL) AND (? BETWE
 2025-08-01 14:41:58.332862+02:00 jdbc[10]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM promozioni WHERE (tipoTreno = ? OR tipoTreno IS NULL) AND ( [*]BETWEEN inizioPromo AND finePromo) AND (soloFedelta = FALSE OR soloFedelta = ?)"; expected "), INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
 SELECT * FROM promozioni WHERE (tipoTreno = ? OR tipoTreno IS NULL) AND ( BETWEEN inizioPromo AND finePromo) AND (soloFedelta = FALSE OR soloFedelta = ?) [42001-224]
+2025-08-11 11:28:56.314646+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 12:58:10.105485+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRATTE" not found; SQL statement:
+    SELECT t.numero_carrozze, t.posti_per_carrozza
+    FROM tratte tr
+    JOIN treni t ON tr.id_treno = t.id_treno
+    WHERE tr.id_tratta = ?
+ [42102-224]
+2025-08-11 13:05:51.224776+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRATTE" not found; SQL statement:
+    SELECT t.numero_carrozze, t.posti_per_carrozza
+    FROM tratte tr
+    JOIN treni t ON tr.id_treno = t.id_treno
+    WHERE tr.id_tratta = ?
+ [42102-224]
+2025-08-11 13:05:51.472120+02:00 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRATTE" not found; SQL statement:
+    SELECT t.numero_carrozze, t.posti_per_carrozza
+    FROM tratte tr
+    JOIN treni t ON tr.id_treno = t.id_treno
+    WHERE tr.id_tratta = ?
+ [42102-224]
+2025-08-11 13:07:20.941845+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRATTE" not found; SQL statement:
+    SELECT t.numero_carrozze, t.posti_per_carrozza
+    FROM tratte tr
+    JOIN treni t ON tr.id_treno = t.id_treno
+    WHERE tr.id_tratta = ?
+ [42102-224]
+2025-08-11 13:07:25.617907+02:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRATTE" not found; SQL statement:
+    SELECT t.numero_carrozze, t.posti_per_carrozza
+    FROM tratte tr
+    JOIN treni t ON tr.id_treno = t.id_treno
+    WHERE tr.id_tratta = ?
+ [42102-224]
+2025-08-11 13:07:29.067691+02:00 jdbc[15]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRATTE" not found; SQL statement:
+    SELECT t.numero_carrozze, t.posti_per_carrozza
+    FROM tratte tr
+    JOIN treni t ON tr.id_treno = t.id_treno
+    WHERE tr.id_tratta = ?
+ [42102-224]
+2025-08-11 13:07:32.381929+02:00 jdbc[16]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRATTE" not found; SQL statement:
+    SELECT t.numero_carrozze, t.posti_per_carrozza
+    FROM tratte tr
+    JOIN treni t ON tr.id_treno = t.id_treno
+    WHERE tr.id_tratta = ?
+ [42102-224]
+2025-08-11 13:07:50.001623+02:00 jdbc[17]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TRATTE" not found; SQL statement:
+    SELECT t.numero_carrozze, t.posti_per_carrozza
+    FROM tratte tr
+    JOIN treni t ON tr.id_treno = t.id_treno
+    WHERE tr.id_tratta = ?
+ [42102-224]
+2025-08-11 13:19:47.309889+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "T.NUMERO_CARROZZE" not found; SQL statement:
+SELECT t.numero_carrozze, t.posti_per_carrozza
+    FROM tratta tr
+    JOIN treni t ON tr.id_treno = t.id_treno
+    WHERE tr.id_tratta = ? [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1170)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.command.Parser.prepareCommand(Parser.java:489)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:93)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:316)
+	at org.example.service.PrenotazioneService.trovaPostoDisponibile(PrenotazioneService.java:145)
+	at org.example.servergRPC.TrenicalServiceImpl.prenota(TrenicalServiceImpl.java:179)
+	at org.example.grpc.TrenicalServiceGrpc$MethodHandlers.invoke(TrenicalServiceGrpc.java:918)
+	at io.grpc.stub.ServerCalls$UnaryServerCallHandler$UnaryServerCallListener.onHalfClose(ServerCalls.java:182)
+	at io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.halfClosed(ServerCallImpl.java:351)
+	at io.grpc.internal.ServerImpl$JumpToApplicationThreadServerStreamListener$1HalfClosed.runInContext(ServerImpl.java:861)
+	at io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)
+	at io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:133)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+2025-08-11 16:05:38.647187+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 16:25:41.026432+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 16:25:41.030477+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 16:31:29.655744+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 16:58:45.585142+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 17:01:06.483306+02:00 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 18:26:00.878426+02:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 18:40:35.497049+02:00 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 19:17:04.556613+02:00 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 19:29:35.830876+02:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 19:44:47.672395+02:00 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 19:44:47.675394+02:00 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 20:12:02.224836+02:00 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 20:12:02.227836+02:00 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-11 21:22:48.970662+02:00 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-12 13:29:19.352111+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2025-08-12 16:44:27.557826+02:00 jdbc[11]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]

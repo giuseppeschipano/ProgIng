@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import lombok.SneakyThrows;
 import org.example.model.Treno;
 import org.example.persistence.DBConnectionSingleton;
 import java.sql.*;
@@ -24,28 +25,25 @@ public class TrenoDAO {
         }
     }
 
-    public Treno getTrenoById(String id) {
+    @SneakyThrows
+    public Treno getTrenoById(String id)  {
         String sql = "SELECT * FROM treni WHERE id_treno = ?";
         Treno t = null;
-
-        try (Connection conn = DBConnectionSingleton.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        Connection conn = DBConnectionSingleton.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                t = new Treno();
-                t.setId_Treno(rs.getString("id_treno"));
-                t.setTipologia(rs.getString("tipologia"));
-                t.setStato(rs.getString("stato"));
-                t.setCarrozza(rs.getInt("carrozza"));
-            }
-
+           try(ResultSet rs = stmt.executeQuery()){
+               if (rs.next()) {
+                   t = new Treno();
+                   t.setId_Treno(rs.getString("id_treno"));
+                   t.setTipologia(rs.getString("tipologia"));
+                   t.setStato(rs.getString("stato"));
+                   t.setCarrozza(rs.getInt("carrozza"));
+               }
+           }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return t;
     }
 

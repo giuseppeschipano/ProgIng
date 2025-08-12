@@ -22,12 +22,12 @@ public class BiglietteriaService {
 
     public boolean acquistaBiglietti(List<Biglietto> biglietti) {
         if (biglietti == null || biglietti.isEmpty()) return false;
-        String idTratta = biglietti.get(0).getId_tratta();  // Si assume che tutti i biglietti siano per la stessa tratta
-        int numeroBiglietti = biglietti.size();
 
-        try (Connection conn = DBConnectionSingleton.getConnection()) {
+        try  {
+            Connection conn = DBConnectionSingleton.getConnection();
             conn.setAutoCommit(false);
-
+            String idTratta = biglietti.get(0).getId_tratta();  // Si assume che tutti i biglietti siano per la stessa tratta
+            int numeroBiglietti = biglietti.size();
             int disponibili = trattaService.getPostiDisponibili(idTratta);
             if (disponibili < numeroBiglietti) {
                 System.out.println("Posti insufficienti per la tratta " + idTratta);
@@ -38,22 +38,17 @@ public class BiglietteriaService {
                 bigliettoRepo.aggiungiBiglietto(b);
                 System.out.println("Biglietto acquistato per: " + b.getCF());
             }
-
             trattaService.decrementaPostiDisponibili(idTratta, numeroBiglietti);
             conn.commit();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
             try{
                 DBConnectionSingleton.getConnection().rollback();
-            } catch(SQLException ex){
+            } catch (SQLException ex) {
                 ex.printStackTrace();
             }
+            e.printStackTrace();
             return false;
-        } finally {
-            try{
-                DBConnectionSingleton.getConnection().setAutoCommit(true);
-            } catch (SQLException ignore) {}
         }
     }
 
@@ -64,7 +59,6 @@ public class BiglietteriaService {
         for (int i = numeroCarta.length() - 1; i >= 0; i--) {
             char c = numeroCarta.charAt(i);
             if (!Character.isDigit(c)) return false;
-
             int n = c - '0';
             if (alternate) {
                 n *= 2;

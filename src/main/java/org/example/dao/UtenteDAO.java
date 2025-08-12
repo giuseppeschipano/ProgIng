@@ -33,7 +33,6 @@ public class UtenteDAO {
         try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
             stmt.setString(1, cf);
             ResultSet rs = stmt.executeQuery();
-
             if (rs.next()) {
                 u = new Utente();
                 u.setCFUtente(rs.getString("cf"));

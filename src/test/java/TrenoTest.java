@@ -31,7 +31,7 @@ public class TrenoTest {
 
     @Test
     @DisplayName("Test che verifica l'aggiunta di un nuovo Treno nel database")
-    public void testAggiungiTreno() {
+    public void testAggiungiTreno() throws SQLException {
         Treno trenoTest = new Treno();
         trenoTest.setId_Treno("FR-1234");
         trenoTest.setTipologia("FRECCIAROSSA");
@@ -46,7 +46,7 @@ public class TrenoTest {
     @ParameterizedTest
     @ValueSource(strings =  {"EC-7893"})
     @DisplayName("Test che controlla la ricerca di un Treno dato un ID")
-    public void checkTovaTreno(String id){
+    public void checkTovaTreno(String id) throws SQLException {
         Treno ris = trenoDAO.getTrenoById(id);
         assertTrue (ris != null);
 
