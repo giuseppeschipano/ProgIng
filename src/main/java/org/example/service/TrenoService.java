@@ -2,8 +2,6 @@ package org.example.service;
 
 import org.example.dao.TrenoDAO;
 import org.example.model.Treno;
-
-import java.sql.SQLException;
 import java.util.List;
 
 public class TrenoService {

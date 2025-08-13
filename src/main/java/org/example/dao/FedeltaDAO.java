@@ -31,7 +31,6 @@ public class FedeltaDAO {
                 String id = rs.getString("id");
                 String codiceFiscale = rs.getString("CFPossessoreTessera");
                 int punti = rs.getInt("puntiFedelta");
-
                 f = new Fedelta();
                 f.setID(id);
                 f.setCFPossessoreTessera(codiceFiscale);

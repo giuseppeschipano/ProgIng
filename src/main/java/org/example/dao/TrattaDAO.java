@@ -10,7 +10,6 @@ public class TrattaDAO {
 
     public void aggiungiTratta(Tratta t) {
         String sql = "INSERT INTO tratta (id_tratta, id_treno,oraPartenza, oraArrivo, stazionePartenza, stazioneArrivo, classiDisponibili,numeroPostiDisponibili,prezzo, data) VALUES (?, ?, ?,?,?,?,?,?,?, ?)";
-
         try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){
             stmt.setString(1, t.getId_tratta());
             stmt.setString(2, t.getId_treno());
@@ -199,8 +198,6 @@ public class TrattaDAO {
                     tratta.setNumeroPostiDisponibili(rs.getInt("numeroPostiDisponibili"));
                     tratta.setPrezzo(rs.getDouble("prezzo"));
                 }
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -210,7 +207,6 @@ public class TrattaDAO {
 
     public void updateTratta(Tratta tratta) {
         String sql = "UPDATE tratta SET id_treno = ?, oraPartenza = ?, oraArrivo = ?, stazionePartenza = ?, stazioneArrivo = ?, classiDisponibili = ?, numeroPostiDisponibili = ?, prezzo = ?, data = ? WHERE id_tratta = ?";
-
         try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
             stmt.setString(1, tratta.getId_treno());
             stmt.setString(2, tratta.getOraPartenza());
@@ -222,7 +218,6 @@ public class TrattaDAO {
             stmt.setDouble(8, tratta.getPrezzo());
             stmt.setString(9, tratta.getData());
             stmt.setString(10, tratta.getId_tratta());
-
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -45,7 +45,6 @@ public class TrattaTest {
         trattaTest.setClassiDisponibili("ECONOMY");
         trattaTest.setPrezzo(8.50);
         trattaDAO.aggiungiTratta(trattaTest);
-
         Tratta trattaRecuperata = trattaDAO.getTrattaByID("TRATTA1");
         assertTrue(trattaRecuperata != null);
     }
@@ -62,7 +61,7 @@ public class TrattaTest {
     @Test
     @DisplayName("Test che controlla la ricerca di una tratta dati partenza, arrivo, data e tipo treno")
     public void checkTrovaTrattaDaParametri() {
-        List<Tratta> ris = trattaDAO.cercaTratta("Gioia Tauro", "Cosenza", "12/05/2025", "ECONOMY");
+        List<Tratta> ris = trattaDAO.cercaTratta("Gioia Tauro", "Cosenza", "12/05/2025", "FIRST");
         assertFalse(ris.isEmpty());
     }
 
@@ -109,5 +108,31 @@ public class TrattaTest {
         // Verifica che ora siano 40
         Tratta trattaAggiornata = trattaDAO.getTrattaById("TRATTA3");
         assertEquals(40, trattaAggiornata.getNumeroPostiDisponibili());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings =  {"REG-5567"})
+    @DisplayName("Test che controlla l'esistenza di una tratta dato l'id di un treno che percorre la stessa ")
+    public void checkDammiTrattaDaIDTreno(String id_treno){
+        Tratta ris = trattaDAO.getTrattaByIdTreno(id_treno);
+        assertTrue(ris != null);
+    }
+
+    @Test
+    @DisplayName("Test che verifica l'aggiornamento di una tratta esistente nel database")
+    public void testUpdateTratta() throws SQLException {
+        Tratta trattaDaAggiornare = trattaDAO.getTrattaById("TRATTA2");
+        trattaDaAggiornare.setOraPartenza("09:34:00");
+        trattaDaAggiornare.setOraArrivo("11:42:00");
+        trattaDaAggiornare.setPrezzo(39.10);
+        trattaDaAggiornare.setNumeroPostiDisponibili(50);
+        trattaDaAggiornare.setClassiDisponibili("ECONOMY");
+        trattaDAO.updateTratta(trattaDaAggiornare);
+        Tratta trattaAggiornata = trattaDAO.getTrattaById("TRATTA2");
+        assertEquals("09:34:00", trattaAggiornata.getOraPartenza());
+        assertEquals("11:42:00", trattaAggiornata.getOraArrivo());
+        assertEquals(39.10, trattaAggiornata.getPrezzo());
+        assertEquals(50, trattaAggiornata.getNumeroPostiDisponibili());
+        assertEquals("ECONOMY", trattaAggiornata.getClassiDisponibili());
     }
 }

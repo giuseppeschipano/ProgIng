@@ -63,7 +63,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         String password = request.getPassword();
         Utente utente = utenteService.login(email, password);
         boolean isAdmin = utenteService.loginAdmin(email, password) != null;
-
         if (utente != null) {
             // Costruisci UserDTO
             UserDTO.Builder userBuilder = UserDTO.newBuilder()
@@ -181,11 +180,10 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
 
             }
         } else {
-            // posto specificato dal client: verifica che non sia occupato
+            // posto specificato dal client: verifica eventuale posto occupato
             boolean occupato = prenotazioneService.postoGiaOccupato(idTratta, carrozzaRichiesta, postoRichiesto);
             if (occupato) {
                 messaggio = "Il posto selezionato è già occupato.";
-
             } else {
                 prenotazione.setPostoPrenotazione(postoRichiesto);
                 prenotazione.setCarrozza(carrozzaRichiesta);
@@ -202,14 +200,11 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
     }
     PrenotazioneResponse response = PrenotazioneResponse.newBuilder()
             .setIdPrenotazione(success ? prenotazione.getId_Prenotazione() : "")
-
             .setPostoPrenotazione(success ? prenotazione.getPostoPrenotazione() : 0)
             .setCarrozza(success ? prenotazione.getCarrozza() : 0)
-
             .setSuccess(success)
             .setMessaggio(messaggio)
             .build();
-
     responseObserver.onNext(response);
     responseObserver.onCompleted();
 }
@@ -251,44 +246,35 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
             };
 
             String idBiglietto = prefix + System.currentTimeMillis();
-
             Biglietto biglietto = new Biglietto(
                     idBiglietto, classe, idPrenotazione, idTratta, cf, posto, carrozza
             );
-
             boolean successo;
-
             if (idPrenotazione != null && !idPrenotazione.isEmpty()) {
                 // Conferma prenotazione se valida
                 Prenotazione p = prenotazioneService.getPrenotazioneById(idPrenotazione);
-
                 if (p == null) {
                     response.setSuccess(false).setMessaggio("Prenotazione non trovata.");
                     respObs.onNext(response.build());
                     respObs.onCompleted();
                     return;
                 }
-
                 LocalDate scadenza = LocalDate.parse(
                         p.getDataScadenza(),
                         DateTimeFormatter.ofPattern("dd/MM/yyyy")
                 );
-
                 if (LocalDate.now().isAfter(scadenza)) {
                     response.setSuccess(false).setMessaggio("Prenotazione scaduta.");
                     respObs.onNext(response.build());
                     respObs.onCompleted();
                     return;
                 }
-
                 prenotazioneService.confermaPrenotazione(p, biglietto);
                 successo = true;
-
             } else {
                 // Acquisto diretto
                 successo = biglietteriaService.acquistaBiglietti(List.of(biglietto));
             }
-
             if (!successo) {
                 response.setSuccess(false).setMessaggio("Acquisto fallito.");
             } else {
@@ -296,7 +282,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                 if (fedeltaService.hasTessera(cf)) {
                     fedeltaService.incrementaPunti(cf, 1);
                 }
-
                 BigliettoDTO bigliettoDTO = BigliettoDTO.newBuilder()
                         .setIdBiglietto(biglietto.getId_Biglietto())
                         .setClasse(biglietto.getClasse())
@@ -304,17 +289,14 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                         .setPosto(biglietto.getPosto())
                         .setCarrozza(biglietto.getCarrozza())
                         .build();
-
                 response.setSuccess(true)
                         .setMessaggio("Acquisto completato.")
                         .setBiglietto(bigliettoDTO);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             response.setSuccess(false).setMessaggio("Errore nell'acquisto");
         }
-
         respObs.onNext(response.build());
         respObs.onCompleted();
     }
@@ -348,7 +330,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                     .setSuccess(false)
                     .setMessaggio("Errore durante la sottoscrizione: " + e.getMessage());
         }
-
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
     }
@@ -413,7 +394,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                     )
                     .findFirst()
                     .orElse(null);
-
             if (nuovaTratta == null) {
                 responseBuilder.setSuccess(false).setMessaggio("Nessuna tratta disponibile per la nuova data/ora");
                 responseObserver.onNext(responseBuilder.build());
@@ -425,9 +405,7 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
             double prezzoOriginale = trattaOriginale.getPrezzo();
             double prezzoNuovo = nuovaTratta.getPrezzo();
             double differenza = prezzoNuovo - prezzoOriginale;
-
             Biglietto bigliettoAggiornato = null;
-
             if (conferma) {
                 boolean aggiornato = biglietteriaService.aggiornaBiglietto(idBiglietto, nuovaTratta.getId_tratta(), nuovaClasse);
                 if (aggiornato) {
@@ -448,13 +426,11 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                     .setCarrozza(bigliettoAggiornato.getCarrozza())
                     .build()
                     : BigliettoDTO.getDefaultInstance();
-
             responseBuilder
                     .setSuccess(true)
                     .setMessaggio(conferma ? "Biglietto aggiornato con successo" : "Simulazione completata")
                     .setDifferenzaPrezzo(differenza)
                     .setBigliettoAggiornato(bigliettoDTO);
-
         } catch (Exception e) {
             e.printStackTrace();
             responseBuilder.setSuccess(false).setMessaggio("Errore durante la modifica del biglietto");
@@ -536,14 +512,12 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
     }
 
 
-
     @Override
     public void statoAttualeTreno(TrenoNotificaRequest request, StreamObserver<NotificaTrenoResponse> responseObserver)  {
         String idTreno = request.getIdTreno();
         TrenoDAO trenoDAO = new TrenoDAO();
         TrattaDAO trattaDAO = new TrattaDAO();
         Treno treno = trenoDAO.getTrenoById(idTreno);
-
         if (treno == null) {
             NotificaTrenoResponse response = NotificaTrenoResponse.newBuilder()
                     .setIdTreno(idTreno + "\n")

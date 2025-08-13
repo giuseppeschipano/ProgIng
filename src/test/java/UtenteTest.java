@@ -65,13 +65,11 @@ public class UtenteTest {
     @Test
     @DisplayName("Test aggiornamento carta fedeltà utente")
     public void testUpdateFedelta() {
-
         //Verifico che inizialmente l'utente non abbia id_fedelta
         Utente utentePrima = utenteDAO.getUtenteByCF("SEATEPT47D09R739C");
         assertNull(utentePrima.getCartaUtente());
 
         utenteDAO.updateFedelta("SEATEPT47D09R739C", "TESSERAFEDELTA3");
-
         //Verifico che il campo id_fedelta sia stato aggiornato dopo aver fatto update
         Utente utenteDopo = utenteDAO.getUtenteByCF("SEATEPT47D09R739C");
         assertNotNull(utenteDopo.getCartaUtente());

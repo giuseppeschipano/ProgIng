@@ -86,7 +86,6 @@ public class TrenicalClientImpl {
                 cf == null || cf.isEmpty() ||
                 indirizzo == null || indirizzo.isEmpty() ||
                 dataNascita == null || dataNascita.isEmpty()) {
-
             return RegistrazioneResponse.newBuilder()
                     .setSuccess(false)
                     .setMessaggio("Compilare tutti i campi!")
@@ -231,7 +230,6 @@ public class TrenicalClientImpl {
                 .setCf(cf)
                 .setIdTreno(idTreno)
                 .build();
-
         try {
             return blockingStub.statoAttualeTreno(request);
         } catch (io.grpc.StatusRuntimeException e) {
@@ -250,7 +248,6 @@ public class TrenicalClientImpl {
                     .setCf(cf)
                     .setDesideroContatto(desideroContatto)
                     .build();
-
             try {
                 return blockingStub.fedeltaNotificaPromoOfferte(request);
             } catch (StatusRuntimeException e) {

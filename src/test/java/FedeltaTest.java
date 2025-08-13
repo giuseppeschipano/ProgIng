@@ -54,7 +54,7 @@ public class FedeltaTest {
 
     @Test
     @DisplayName("Test che verifica l'incremento dei punti su una tessera fedeltà")
-    public void testIncrementaPuntiTessera() throws SQLException {
+    public void testIncrementaPuntiTessera() {
         String cf = "FROMVRD76D09Q739P";
         Fedelta prima = fedeltaDAO.getTesseraByCF(cf);
         int puntiIniziali = prima.getPunti();

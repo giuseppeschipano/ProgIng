@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import lombok.SneakyThrows;
 import org.example.model.Biglietto;
 import org.example.persistence.DBConnectionSingleton;
 import java.sql.*;
@@ -107,6 +108,29 @@ public class BigliettoDAO {
             stmt.executeUpdate();
         }
     }
+
+    public List<Biglietto> getBigliettiByPrenotazione(String idPrenotazione) throws SQLException {
+        List<Biglietto> lista = new ArrayList<>();
+        String sql = "SELECT * FROM biglietti WHERE id_prenotazione = ?";
+        Connection conn = DBConnectionSingleton.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idPrenotazione);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Biglietto b = new Biglietto();
+                b.setId_Biglietto(rs.getString("id_Biglietto"));
+                b.setClasse(rs.getString("classe"));
+                b.setId_prenotazione(rs.getString("id_prenotazione"));
+                b.setCF(rs.getString("cf"));
+                b.setId_tratta(rs.getString("id_tratta"));
+                b.setPosto(rs.getInt("posto"));
+                b.setCarrozza(rs.getInt("carrozza"));
+                lista.add(b);
+            }
+        }
+        return lista;
+    }
+
 }
 
 

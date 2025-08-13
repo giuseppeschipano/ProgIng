@@ -155,7 +155,7 @@ public class PrenotazioneService {
     }
 
     public int[] trovaPostoDisponibile(String idTratta) throws SQLException {
-        final int POSTI_PER_CARROZZA = 70;
+        final int POSTI_PER_CARROZZA = 70; //mediamente
         Connection conn = DBConnectionSingleton.getConnection();
         String sqlCarrozze = """
         SELECT t.carrozza

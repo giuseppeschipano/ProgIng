@@ -27,9 +27,8 @@ public class PromozioneService {
 
     public List<Promozione> promoSoloFedelta(String CF) {
         boolean check = serviceFedelta.hasTessera(CF);
-        LocalDateTime now = LocalDateTime.now();
+        LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-  //    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         String dataOra = now.format(formatter);
         return promoDataBase.promozioniAttive(null, check, dataOra);
     }

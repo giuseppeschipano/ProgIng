@@ -261,6 +261,20 @@ public class PopolaDB {
         prenotazione.setCFUtente("BIAALIE98A01T689C");
         prenotazioneDB.aggiungiPrenotazione(prenotazione) ;
 
+
+        PrenotazioneDAO prenotazioneDB2 = new PrenotazioneDAO();
+        Prenotazione prenotazione2 = new Prenotazione();
+        prenotazione2.setId_Prenotazione("PRE3159815126894");
+        prenotazione2.setPostoPrenotazione(85);
+        prenotazione2.setDataScadenza("14/08/2025");
+        prenotazione2.setCarrozza(7);
+        prenotazione2.setId_tratta("TRATTA6");
+        prenotazione2.setCFUtente("BIAALIE98A01T689C");
+        prenotazioneDB2.aggiungiPrenotazione(prenotazione2);
+
+
+
+
         BigliettoDAO bigliettoDB = new BigliettoDAO();
         Biglietto biglietto = new Biglietto();
         biglietto.setId_prenotazione(null);
@@ -271,6 +285,28 @@ public class PopolaDB {
         biglietto.setCarrozza(7);
         biglietto.setId_tratta("TRATTA5");
         bigliettoDB.aggiungiBiglietto(biglietto);
+
+        BigliettoDAO bigliettoDB2 = new BigliettoDAO();
+        Biglietto biglietto2 = new Biglietto();
+        biglietto2.setId_prenotazione("PRE3159815126894");
+        biglietto2.setId_Biglietto("FA1751349095322");
+        biglietto2.setCF("BIAALIE98A01T689C");
+        biglietto2.setClasse("STANDARD");
+        biglietto2.setPosto(85);
+        biglietto2.setCarrozza(7);
+        biglietto2.setId_tratta("TRATTA6");
+        bigliettoDB2.aggiungiBiglietto(biglietto2);
+
+        BigliettoDAO bigliettoDB3 = new BigliettoDAO();
+        Biglietto biglietto3 = new Biglietto();
+        biglietto3.setId_prenotazione("PRE3159815126894");
+        biglietto3.setId_Biglietto("FA1750312085312");
+        biglietto3.setCF("SCHGPP04A03F537C");
+        biglietto3.setClasse("STANDARD");
+        biglietto3.setPosto(84);
+        biglietto3.setCarrozza(7);
+        biglietto3.setId_tratta("TRATTA6");
+        bigliettoDB3.aggiungiBiglietto(biglietto3);
 
     }
 

@@ -72,4 +72,24 @@ public class BigliettoTest {
         Biglietto aggiornato = bigliettoDAO.getBigliettoPerID("FA1750265026411");
         assertTrue(aggiornato.getPosto() == 12);
     }
+
+    @ParameterizedTest
+    @ValueSource(strings =  {"PRE3159815126894"})
+    @DisplayName("Test che controlla la ricerca di un biglietto dato il relativo ID prenotazione")
+    public void checkTovaBigliettiDatoIdPren(String idPren) throws SQLException {
+        List<Biglietto> ris = bigliettoDAO.getBigliettiByPrenotazione(idPren);
+        assertFalse (ris.isEmpty());
+    }
+
+
+
+    @ParameterizedTest
+    @ValueSource(strings =  {"PRE3159815126894"})
+    @DisplayName("Test che verifica l'eliminazione di tutti i biglietti associati allo stesso ID Prenotazione")
+    public void testEliminazioneBigliettoByPrenotazione(String idPren) throws SQLException {
+        bigliettoDAO.eliminaBigliettiByPrenotazione(idPren);
+        List<Biglietto> dopo = bigliettoDAO.getBigliettiByPrenotazione(idPren);
+        assertTrue(dopo.isEmpty());
+    }
 }
+

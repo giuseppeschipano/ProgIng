@@ -39,7 +39,6 @@ public class PromozioneDAO {
             if (dataViaggio != null) {
                 stmt.setString(4, dataViaggio);
             }
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Promozione p = new Promozione();
