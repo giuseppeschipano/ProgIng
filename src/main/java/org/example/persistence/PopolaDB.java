@@ -273,8 +273,6 @@ public class PopolaDB {
         prenotazioneDB2.aggiungiPrenotazione(prenotazione2);
 
 
-
-
         BigliettoDAO bigliettoDB = new BigliettoDAO();
         Biglietto biglietto = new Biglietto();
         biglietto.setId_prenotazione(null);
@@ -290,7 +288,7 @@ public class PopolaDB {
         Biglietto biglietto2 = new Biglietto();
         biglietto2.setId_prenotazione("PRE3159815126894");
         biglietto2.setId_Biglietto("FA1751349095322");
-        biglietto2.setCF("BIAALIE98A01T689C");
+        biglietto2.setCF("SCHGPP04A03F537C");
         biglietto2.setClasse("STANDARD");
         biglietto2.setPosto(85);
         biglietto2.setCarrozza(7);
