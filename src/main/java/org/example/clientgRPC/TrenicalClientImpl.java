@@ -220,7 +220,6 @@ public class TrenicalClientImpl {
                 .setCf(cf)
                 .setIdTreno(idTreno)
                 .build();
-
         asyncStub.riceviNotificheTreno(request, observer);
     }
 

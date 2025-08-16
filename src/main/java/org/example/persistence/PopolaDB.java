@@ -76,7 +76,6 @@ public class PopolaDB {
         trenoDB8.aggiungiTreno(treno8);
 
 
-
         UtenteDAO utenteDB1 = new UtenteDAO();
         Utente utente1 = new Utente();
         utente1.setNomeUtente("Alice");
@@ -300,6 +299,16 @@ public class PopolaDB {
         promozione3.setFinePromo("25/08/2025");
         promozione3.setSoloFedelta(false);
         promozioniDB3.addPromozione(promozione3);
+
+        PromozioneDAO promozioniDB4 = new PromozioneDAO();
+        Promozione promozione4 = new Promozione();
+        promozione4.setCodicePromo("ESTATE2025");
+        promozione4.setPercentualeSconto(20);
+        promozione4.setTipoTreno("STANDARD");
+        promozione4.setInizioPromo("01/05/2025");
+        promozione4.setFinePromo("31/08/2025");
+        promozione4.setSoloFedelta(false);
+        promozioniDB4.addPromozione(promozione4);
 
 
         PrenotazioneDAO prenotazioneDB = new PrenotazioneDAO();

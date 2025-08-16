@@ -6,19 +6,41 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.FedeltaController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.FedeltaController">
+    <children>
+        <Label alignment="CENTER" text="Sottoscrivi la tua tessera fedeltà">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="20.0" top="20.0" />
+            </VBox.margin>
+        </Label>
+        <TextField fx:id="cfField" prefWidth="250.0" promptText="Codice Fiscale">
+            <VBox.margin>
+                <Insets left="50.0" right="50.0" />
+            </VBox.margin>
+        </TextField>
+        <Button fx:id="sottoscriviButton" mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Sottoscrivi">
+            <VBox.margin>
+                <Insets bottom="10.0" top="20.0" />
+            </VBox.margin>
+        </Button>
+        <Label fx:id="esitoLabel" text="Esito...">
+            <font>
+                <Font size="14.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="20.0" />
+            </VBox.margin>
+        </Label>
+        <Hyperlink fx:id="tornaHomeLink" text="Torna alla home" VBox.vgrow="ALWAYS" />
+    </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" />
     </padding>
-    <children>
-        <Label alignment="CENTER" text="Sottoscrivi la tua tessera fedeltà" />
-        <TextField fx:id="cfField" alignment="CENTER" promptText="Codice Fiscale" />
-        <Button fx:id="sottoscriviButton" alignment="CENTER" mnemonicParsing="false" text="Sottoscrivi" />
-        <Label fx:id="esitoLabel" alignment="CENTER" text="Esito..." />
-        <Hyperlink fx:id="tornaHomeLink" text="Torna alla home" />
-    </children>
 </VBox>
 
 

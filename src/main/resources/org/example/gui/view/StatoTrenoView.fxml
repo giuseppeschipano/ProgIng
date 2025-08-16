@@ -6,19 +6,42 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.StatoTrenoController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.StatoTrenoController">
     <children>
-        <Label fx:id="titoloLabel" alignment="CENTER" text="Stato attuale Treno" />
-        <TextField fx:id="cfField" alignment="CENTER" promptText="Codice Fiscale" />
-        <TextField fx:id="idTrenoField" alignment="CENTER" promptText="ID Treno" />
-        <Button fx:id="cercaButton" alignment="CENTER" mnemonicParsing="false" text="Cerca Stato Treno" />
-        <TextArea fx:id="risultatoArea" prefHeight="200.0" prefWidth="200.0" />
-        <Hyperlink fx:id="tornaHomeLink" alignment="CENTER" text="Torna alla Home" />
+        <Label fx:id="titoloLabel" text="Stato attuale Treno">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="20.0" top="20.0" />
+            </VBox.margin>
+        </Label>
+        <HBox alignment="CENTER" spacing="10.0">
+            <children>
+                <TextField fx:id="cfField" promptText="Codice Fiscale" />
+                <TextField fx:id="idTrenoField" promptText="ID Treno" />
+            </children>
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+        </HBox>
+        <Button fx:id="cercaButton" mnemonicParsing="false" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Cerca Stato Treno">
+            <VBox.margin>
+                <Insets bottom="20.0" />
+            </VBox.margin>
+        </Button>
+        <TextArea fx:id="risultatoArea" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="Lo stato del treno apparirà qui..." />
+        <Hyperlink fx:id="tornaHomeLink" text="Torna alla Home" VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets bottom="20.0" top="20.0" />
+            </VBox.margin>
+        </Hyperlink>
     </children>
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" />
+        <Insets left="20.0" right="20.0" />
     </padding>
 </VBox>

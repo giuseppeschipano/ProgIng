@@ -333,7 +333,10 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
         String cf = request.getCf();
         PromozioneService promoService = new PromozioneService();
         boolean isFedelta = new FedeltaService().hasTessera(cf);
+
         List<Promozione> promoList = promoService.promoSoloFedelta(cf); // filtra in base alla tessera
+        System.out.println("Promozioni trovate per " + cf + ": " + promoList.size());
+
         PromozioniResponse.Builder responseBuilder = PromozioniResponse.newBuilder();
         for (Promozione p : promoList) {
             PromozioneDTO dto = PromozioneDTO.newBuilder()
@@ -449,7 +452,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
             responseObserver.onNext(erroreCF);
             responseObserver.onCompleted();
             return;
-
         }
         if (trenoService.getTrenoById(idTreno) == null) {
             System.out.println("Treno non trovato: " + idTreno);

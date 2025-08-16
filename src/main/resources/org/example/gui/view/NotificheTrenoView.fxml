@@ -6,20 +6,48 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.NotificheTrenoController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" />
-    </padding>
-    <children>
-        <Label fx:id="titoloLabel" alignment="CENTER" text="Ricevi Notifiche Treno" />
-        <TextField fx:id="cfField" alignment="CENTER" promptText="Codice Fiscale" />
-        <TextField fx:id="idTrenoField" alignment="CENTER" promptText="ID Treno" />
-        <Button fx:id="avviaButton" alignment="CENTER" mnemonicParsing="false" text="Avvia Notifiche" />
-        <TextArea fx:id="outputArea" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
-        <Hyperlink fx:id="tornaHomeLink" alignment="CENTER" text="Torna alla Home" />
-    </children>
-</VBox>
-
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: #f0f2f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.NotificheTrenoController">
+    <top>
+        <VBox alignment="CENTER" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #3f51b5;" BorderPane.alignment="CENTER">
+            <children>
+                <Label fx:id="titoloLabel" text="Notifiche Treno in tempo reale" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <TextField fx:id="cfField" prefWidth="200.0" promptText="Codice Fiscale" />
+                        <TextField fx:id="idTrenoField" prefWidth="150.0" promptText="ID Treno" />
+                        <Button fx:id="avviaButton" mnemonicParsing="false" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-background-radius: 5;" text="Avvia Notifiche" />
+                    </children>
+                </HBox>
+                <TextArea fx:id="outputArea" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="Le notifiche appariranno qui..." style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-font-family: monospace;" wrapText="true" />
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <Hyperlink fx:id="tornaHomeLink" text="Torna alla Home" />
+            </children>
+            <padding>
+                <Insets right="20.0" />
+            </padding>
+        </HBox>
+    </bottom>
+</BorderPane>
