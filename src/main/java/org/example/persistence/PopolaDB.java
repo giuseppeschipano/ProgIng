@@ -61,11 +61,19 @@ public class PopolaDB {
 
         TrenoDAO trenoDB7 = new TrenoDAO();
         Treno treno7 = new Treno();
-        treno7.setId_Treno("REG-5567");
+        treno7.setId_Treno("REG-12545");
         treno7.setTipologia("REGIONALE");
         treno7.setStato("In transito");
-        treno7.setCarrozza(3);
+        treno7.setCarrozza(4);
         trenoDB7.aggiungiTreno(treno7);
+
+        TrenoDAO trenoDB8 = new TrenoDAO();
+        Treno treno8 = new Treno();
+        treno8.setId_Treno("REG-5567");
+        treno8.setTipologia("REGIONALE");
+        treno8.setStato("In transito");
+        treno8.setCarrozza(3);
+        trenoDB8.aggiungiTreno(treno8);
 
 
 
@@ -134,6 +142,34 @@ public class PopolaDB {
         fedelta3.setCFPossessoreTessera("SEATEPT47D09R739C");
         fedelta3.setPunti(3);
         fedeltaDB3.aggiungiTessera(fedelta3);
+
+        UtenteDAO utenteDB5 = new UtenteDAO();
+        Utente utente5 = new Utente();
+        utente5.setNomeUtente("Angelica");
+        utente5.setCognomeUtente("Ferrari");
+        utente5.setDataNascitaUtente("20/06/2001");
+        utente5.setIndirizzoUtente("Italia");
+        utente5.setCFUtente("FRRNLC01H60H224C");
+        utente5.setEmailUtente("aferrari01@gmail.com");
+        utente5.setPasswordUtente("zxcvbnm12");
+        utente5.setAdmin(false);
+        utente5.setCartaUtente(null);
+        utenteDB5.aggiungiUtente(utente5);
+
+        UtenteDAO utenteDB6 = new UtenteDAO();
+        Utente utente6 = new Utente();
+        utente6.setNomeUtente("Graziella");
+        utente6.setCognomeUtente("Ida");
+        utente6.setDataNascitaUtente("27/05/1975");
+        utente6.setIndirizzoUtente("Italia");
+        utente6.setCFUtente("DIAGZL73E67F437Q");
+        utente6.setEmailUtente("graziellaida@gmail.com");
+        utente6.setPasswordUtente("Grazy75");
+        utente6.setAdmin(false);
+        utente6.setCartaUtente(null);
+        utenteDB6.aggiungiUtente(utente6);
+
+
 
         TrattaDAO trattaDB2 = new TrattaDAO();
         Tratta tratta2 = new Tratta();
@@ -218,6 +254,21 @@ public class PopolaDB {
         tratta7.setClassiDisponibili("STANDARD");
         tratta7.setPrezzo(1.40);
         trattaDB7.aggiungiTratta(tratta7);
+
+        TrattaDAO trattaDB8 = new TrattaDAO();
+        Tratta tratta8 = new Tratta();
+        tratta8.setId_tratta("TRATTA8");
+        tratta8.setId_treno("REG-12545");
+        tratta8.setData("16/08/2025");
+        tratta8.setOraPartenza("12:58:00");
+        tratta8.setOraArrivo("14:18:00");
+        tratta8.setStazionePartenza("Civitavecchia");
+        tratta8.setStazioneArrivo("Roma Termini");
+        tratta8.setNumeroPostiDisponibili(260);
+        tratta8.setClassiDisponibili("STANDARD");
+        tratta8.setPrezzo(4.60);
+        trattaDB8.aggiungiTratta(tratta8);
+
 
 
         PromozioneDAO promozioneDB = new PromozioneDAO();

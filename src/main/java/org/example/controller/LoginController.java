@@ -22,20 +22,19 @@ public class LoginController {
     private void handleLogin(ActionEvent event) {
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
-
         if (email.isEmpty() || password.isEmpty()) {
             esitoLabel.setText("Inserisci email e password.");
             return;
         }
-
         try {
             LoginResponse response = client.provaLogin(email, password);
-
             if (response.getSuccesso()) {
                 Stage stage = (Stage) loginButton.getScene().getWindow();
                 if (response.getIsAdmin()) {
+                    System.out.println("Carico GUI Admin");
                     SceneManager.switchScene(stage, "/org/example/gui/view/AdminView.fxml", "Area Admin");
                 } else {
+                    System.out.println("Carico GUI User");
                     SceneManager.switchScene(stage, "/org/example/gui/view/HomeView.fxml", "Home Trenical");
                 }
             } else {

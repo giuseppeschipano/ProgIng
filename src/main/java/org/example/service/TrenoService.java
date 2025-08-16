@@ -16,6 +16,8 @@ public class TrenoService {
         trenoDAO.aggiungiTreno(treno);
     }
 
+    public void rimuoviTreno(Treno treno) {trenoDAO.rimuoviTreno(treno.getId_Treno());}
+
     public Treno getTrenoById(String idTreno) {
         return trenoDAO.getTrenoById(idTreno);
     }

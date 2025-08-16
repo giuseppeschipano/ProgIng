@@ -16,12 +16,28 @@ public class TrenoDAO {
             stmt.setString(2, t.getTipologia());
             stmt.setString(3, t.getStato());
             stmt.setInt(4, t.getCarrozza());
-
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    public void rimuoviTreno(String idTreno) {
+        String sql = "DELETE FROM treni WHERE id_Treno = ?";
+        try (Connection conn = DBConnectionSingleton.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idTreno);
+            int righe = stmt.executeUpdate();
+            if (righe == 0) {
+                System.out.println("Nessun treno trovato con id: " + idTreno);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     @SneakyThrows
     public Treno getTrenoById(String id)  {

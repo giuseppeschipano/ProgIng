@@ -30,7 +30,7 @@ public class TrenoTest {
     }
 
     @Test
-    @DisplayName("Test che verifica l'aggiunta di un nuovo Treno nel database")
+    @DisplayName("Test che verifica l'aggiunta di un nuovo treno nel database")
     public void testAggiungiTreno() throws SQLException {
         Treno trenoTest = new Treno();
         trenoTest.setId_Treno("FR-1234");
@@ -45,10 +45,19 @@ public class TrenoTest {
 
     @ParameterizedTest
     @ValueSource(strings =  {"EC-7893"})
-    @DisplayName("Test che controlla la ricerca di un Treno dato un ID")
+    @DisplayName("Test che controlla la ricerca di un treno dato un ID")
     public void checkTovaTreno(String id) throws SQLException {
         Treno ris = trenoDAO.getTrenoById(id);
         assertTrue (ris != null);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings =  {"FR-1234"})
+    @DisplayName("Test che controlla la cancellazione di un treno dato un ID")
+    public void checkEliminaTreno(String idTreno)  {
+        trenoDAO.rimuoviTreno(idTreno);
+        Treno ris = trenoDAO.getTrenoById(idTreno);
+        assertTrue (ris == null);
 
     }
 

@@ -72,4 +72,12 @@ public class TrattaService {
     public List<Tratta> getAllTratte() {
         return trattaRepository.getAllTratte();
     }
+
+    public void aggiungiTratta(Tratta tratta) {
+        trattaRepository.aggiungiTratta(tratta);
+    }
+
+    public  void rimuoviTratta(String idTratta) {
+        trattaRepository.rimuoviTratta(idTratta);
+    }
 }

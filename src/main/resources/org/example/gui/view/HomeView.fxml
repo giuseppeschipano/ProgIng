@@ -4,23 +4,100 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.HomeController">
-    <children>
-        <Label fx:id="titoloLabel" alignment="CENTER" text="Benvenuto/a su Trenical" />
-        <Button fx:id="cercaTratteButton" alignment="CENTER" mnemonicParsing="false" text="Cerca Tratte" />
-        <Button fx:id="prenotaButton" alignment="CENTER" mnemonicParsing="false" text="Prenota" />
-        <Button fx:id="acquistaButton" alignment="CENTER" mnemonicParsing="false" text="Acquista" />
-        <Button fx:id="fedeltaButton" alignment="CENTER" mnemonicParsing="false" text="Tessera Fedeltà" />
-        <Button fx:id="promoButton" alignment="CENTER" mnemonicParsing="false" text="Promozioni" />
-        <Button fx:id="modificaButton" alignment="CENTER" mnemonicParsing="false" text="Modifica Biglietto" />
-        <Button fx:id="notifichePromoFedeltaButton" alignment="CENTER" mnemonicParsing="false" text="Notifiche Promozioni Fedelta" />
-        <Button fx:id="statoTrenoButton" alignment="CENTER" mnemonicParsing="false" onAction="#vaiAStatoTreno" text="Stato treno" />
-        <Button fx:id="notificheButton" mnemonicParsing="false" text="Notifiche Treno" />
-        <Hyperlink fx:id="logoutLink" alignment="CENTER" text="Logout" />
-    </children>
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" />
-    </padding>
-</VBox>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: #f0f2f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.HomeController">
+    <top>
+        <VBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label text="Benvenuta/o su Trenical" textFill="#2c3e50">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Label>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Hyperlink fx:id="logoutLink" text="Logout" />
+                            </children>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets left="20.0" right="20.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Menu Principale" textFill="#2c3e50">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="20.0" />
+                    </VBox.margin>
+                </Label>
+                <TilePane alignment="CENTER" hgap="20.0" vgap="20.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="cercaTratteButton" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;" text="Cerca Tratte" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="prenotaButton" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;" text="Prenota" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="acquistaButton" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #f1c40f; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;" text="Acquista" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="fedeltaButton" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;" text="Tessera Fedeltà" textAlignment="CENTER" wrapText="true" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="promoButton" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;" text="Promozioni" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="modificaButton" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;" text="Modifica Biglietto" textAlignment="CENTER" wrapText="true" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="notifichePromoFedeltaButton" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;" text="Notifiche Promozioni" textAlignment="CENTER" wrapText="true" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="statoTrenoButton" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;" text="Stato Treno" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="notificheButton" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;" text="Notifiche Treno" textAlignment="CENTER" wrapText="true" />
+                            </children>
+                        </VBox>
+                    </children>
+                </TilePane>
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </center>
+</BorderPane>

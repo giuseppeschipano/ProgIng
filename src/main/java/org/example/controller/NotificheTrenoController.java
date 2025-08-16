@@ -30,7 +30,6 @@ public class NotificheTrenoController {
         });
     }
 
-
     private void avviaNotificheTreno() {
         String cf = cfField.getText();
         String idTreno = idTrenoField.getText();
@@ -39,10 +38,9 @@ public class NotificheTrenoController {
             outputArea.setText("Inserisci codice fiscale e ID treno.");
             return;
         }
-
         outputArea.appendText("Avvio sottoscrizione alle notifiche..." + "\n");
-
         client.riceviNotificheTreno(cf, idTreno, new StreamObserver<>() {
+
             @Override
             public void onNext(NotificaTrenoResponse response) {
                 Platform.runLater(() -> {

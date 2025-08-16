@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Hyperlink?>
 
 <VBox fx:id="titoloLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.CercaTratteController">
     <children>
@@ -18,6 +19,8 @@
         <DatePicker id="dataPicker" fx:id="dataPicker" promptText="Data del viaggio" />
         <ComboBox id="classeCombox" fx:id="classeCombox" prefWidth="150.0" promptText="Selezione classe" />
         <Button id="cercaButton" fx:id="cercaButton" mnemonicParsing="false" onAction="#handleRicerca" text="Cerca" />
+        <Button fx:id="prenotaButton" text="Prenota Tratta" onAction="#handlePrenota" />
+        <Button fx:id="acquistaButton" text="Acquista Tratta" onAction="#handleAcquista" />
         <TableView fx:id="tableTratte" prefHeight="200.0" prefWidth="200.0">
             <columns>
                 <TableColumn fx:id="colPartenza" prefWidth="75.0" text="Partenza" />
@@ -27,6 +30,7 @@
                 <TableColumn fx:id="colPosti" prefWidth="75.0" text="Posti" />
             </columns>
         </TableView>
+        <Hyperlink fx:id="tornaHomeLink" text="Torna alla Home" />
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" />

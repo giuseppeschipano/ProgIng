@@ -1,5 +1,6 @@
 import org.example.dao.TrattaDAO;
 import org.example.model.Tratta;
+import org.example.model.Treno;
 import org.example.persistence.DBConnectionSingleton;
 import org.example.persistence.PopolaDB;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,6 +76,16 @@ public class TrattaTest {
     }
 
     @ParameterizedTest
+    @ValueSource(strings =  {"TRATTA1"})
+    @DisplayName("Test che controlla la cancellazione di una tratta dato un ID")
+    public void checkEliminaTratta(String idTratta) throws SQLException {
+        trattaDAO.rimuoviTratta(idTratta);
+        Tratta ris = trattaDAO.getTrattaById(idTratta);
+        assertTrue (ris == null);
+
+    }
+
+    @ParameterizedTest
     @ValueSource(strings =  {"TRATTA2"})
     @DisplayName("Test che verifica che il numero di posti disponibili di una tratta sia maggiore di 0 ")
     public void checkDammiNumeroPostiDaID(String id_tratta){
@@ -111,7 +122,7 @@ public class TrattaTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings =  {"REG-5567"})
+    @ValueSource(strings =  {"REG-12545"})
     @DisplayName("Test che controlla l'esistenza di una tratta dato l'id di un treno che percorre la stessa ")
     public void checkDammiTrattaDaIDTreno(String id_treno){
         Tratta ris = trattaDAO.getTrattaByIdTreno(id_treno);

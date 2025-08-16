@@ -27,6 +27,17 @@ public class TrattaDAO {
         }
     }
 
+    public void rimuoviTratta(String idTratta) {
+        String sql = "DELETE FROM tratta WHERE id_tratta = ?";
+        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
+            stmt.setString(1, idTratta);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public List<Tratta> getAllTratte() {
         List<Tratta> tratte = new ArrayList<>();

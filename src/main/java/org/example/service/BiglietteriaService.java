@@ -22,7 +22,6 @@ public class BiglietteriaService {
 
     public boolean acquistaBiglietti(List<Biglietto> biglietti) {
         if (biglietti == null || biglietti.isEmpty()) return false;
-
         try  {
             Connection conn = DBConnectionSingleton.getConnection();
             conn.setAutoCommit(false);
@@ -80,7 +79,6 @@ public class BiglietteriaService {
                 conn.rollback();
                 return false;
             }
-
             Tratta trattaOriginale = trattaDAO.getTrattaByID(biglietto.getId_tratta());
             Tratta nuovaTratta = trattaDAO.getTrattaByID(nuovaTrattaId);
             if (nuovaTratta == null) {
@@ -105,6 +103,5 @@ public class BiglietteriaService {
             return false;
         }
     }
-
 }
 

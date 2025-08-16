@@ -4,7 +4,6 @@ import org.example.dao.FedeltaDAO;
 import org.example.dao.UtenteDAO;
 import org.example.model.Fedelta;
 import org.example.persistence.DBConnectionSingleton;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -46,15 +45,12 @@ public class FedeltaService {
           if (conn != null) {
               conn.rollback();
           }
-
           e.printStackTrace();
       } finally {
           if (conn != null) {
               conn.setAutoCommit(true);
           }
       }
-
-
     }
 
     //DAO ha responsabilità solo sull'UPDATE, è il Service che gestisce questa cosa
@@ -63,9 +59,7 @@ public class FedeltaService {
         try {
             conn = DBConnectionSingleton.getConnection();
             conn.setAutoCommit(false);
-
             fedeltaDAO.incrementaPunti(cf, punti);
-
             conn.commit();
         } catch (SQLException e) {
             if (conn != null) {

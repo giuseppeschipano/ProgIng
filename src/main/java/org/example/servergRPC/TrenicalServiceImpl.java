@@ -161,7 +161,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
     prenotazione.setDataScadenza(scadenza.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     boolean success = false;
     String messaggio;
-
     try (Connection conn = DBConnectionSingleton.getConnection()) {
         conn.setAutoCommit(false);
 
@@ -170,14 +169,12 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
             int[] postoCarrozza = prenotazioneService.trovaPostoDisponibile(idTratta);
             if (postoCarrozza == null) {
                 messaggio = "Non ci sono posti disponibili per questa tratta.";
-
             } else {
                 prenotazione.setPostoPrenotazione(postoCarrozza[0]);
                 prenotazione.setCarrozza(postoCarrozza[1]);
                 prenotazioneService.effettuaPrenotazione(prenotazione);
                 success = true;
                 messaggio = "Prenotazione effettuata con successo.";
-
             }
         } else {
             // posto specificato dal client: verifica eventuale posto occupato
@@ -190,7 +187,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                 prenotazioneService.effettuaPrenotazione(prenotazione);
                 success = true;
                 messaggio = "Prenotazione effettuata con successo.";
-
             }
         }
     } catch (Exception e) {
@@ -244,7 +240,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                 case "REGIONALE", "R", "REG" -> "RG";
                 default -> tipoTreno.toUpperCase().substring(0, Math.min(3, tipoTreno.length()));
             };
-
             String idBiglietto = prefix + System.currentTimeMillis();
             Biglietto biglietto = new Biglietto(
                     idBiglietto, classe, idPrenotazione, idTratta, cf, posto, carrozza
@@ -319,7 +314,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                         .setId(nuova.getID())
                         .setPunti(nuova.getPunti())
                         .build();
-
                 responseBuilder
                         .setSuccess(true)
                         .setMessaggio("Tessera fedeltà creata con successo.")

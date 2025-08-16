@@ -76,11 +76,22 @@ public class UtenteService {
         }
     }
 
+    /*
     public Utente loginAdmin(String email, String password) {
         if (!credenzialiAmministratori.containsKey(email)) {
             return null;
         } else{
             return login(email, password);
         }
+     */
+
+    public Utente loginAdmin(String email, String password) {
+        Utente u = login(email, password);
+        if (u != null && u.isAdmin()) {
+            return u;
+        } else {
+            return null;
+        }
     }
+
 }

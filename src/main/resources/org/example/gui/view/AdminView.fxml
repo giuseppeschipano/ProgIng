@@ -2,19 +2,202 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.AdminController">
-    <children>
-        <Label alignment="CENTER" text="Pannello Amministratore" />
-        <Button fx:id="gestionePromozioniButton" alignment="CENTER" mnemonicParsing="false" text="Aggiungi Promozione" />
-        <Button fx:id="aggiungiTrenoButton" alignment="CENTER" mnemonicParsing="false" text="Aggiungi Treno" />
-        <Button fx:id="gestioneTratteButton" alignment="CENTER" mnemonicParsing="false" text="Aggiungi Tratta" />
-        <Button fx:id="tornaAlLoginButton" text="Logout" />
-    </children>
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" />
-    </padding>
-</VBox>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.AdminController">
+    <top>
+        <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #3f51b5;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets left="20.0" />
+            </padding>
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <Button fx:id="aggiungiTrenoButton" mnemonicParsing="false" text="Aggiungi Treno" />
+                        <Button fx:id="rimuoviTrenoButton" mnemonicParsing="false" text="Rimuovi Treno" />
+                        <Button fx:id="aggiungiTrattaButton" mnemonicParsing="false" text="Aggiungi Tratta" />
+                        <Button fx:id="rimuoviTrattaButton" mnemonicParsing="false" text="Rimuovi Tratta" />
+                    </children>
+                </HBox>
+                <Hyperlink fx:id="tornaHomeLink" text="Torna alla Home" textFill="WHITE" />
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab fx:id="tabTreni" text="Gestione Treni">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="556.0" prefWidth="972.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <padding>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </padding>
+                                    <children>
+                                        <Label text="Gestione Treni" />
+                                        <TableView fx:id="treniTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="colTrenoId" prefWidth="75.0" text="ID Treno" />
+                                                <TableColumn fx:id="colTipoTreno" prefWidth="75.0" text="Tipo Treno" />
+                                                <TableColumn fx:id="colStatoTreno" prefWidth="75.0" text="Stato Treno" />
+                                                <TableColumn fx:id="colNumCarrozze" prefWidth="75.0" text="N. Carrozze" />
+                                            </columns>
+                                            <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                            </columnResizePolicy>
+                                        </TableView>
+                                        <HBox alignment="CENTER" spacing="10.0">
+                                            <children>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="ID Treno" />
+                                                        <TextField fx:id="trenoIdField" prefWidth="150.0" promptText="ID Treno" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Tipo Treno" />
+                                                        <TextField fx:id="tipoTrenoField" prefWidth="150.0" promptText="Tipo Treno" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Stato Treno" />
+                                                        <TextField fx:id="statoTrenoField" prefWidth="150.0" promptText="Stato Treno" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Numero Carrozze" />
+                                                        <Spinner fx:id="carrozzeSpinner" prefWidth="100.0" />
+                                                    </children>
+                                                </VBox>
+                                                <Button fx:id="btnAggiungiTreno" mnemonicParsing="false" text="Aggiungi" />
+                                                <Button fx:id="btnEliminaTreno" mnemonicParsing="false" text="Elimina Selezionato" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="tabTratte" text="Gestione Tratte">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="14.0" prefHeight="556.0" prefWidth="972.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <padding>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </padding>
+                                    <children>
+                                        <Label text="Gestione Tratte" />
+                                        <TableView fx:id="tratteTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="colIdTratta" prefWidth="75.0" text="ID Tratta" />
+                                                <TableColumn fx:id="colIdTrenoTratta" prefWidth="75.0" text="ID Treno" />
+                                                <TableColumn fx:id="colData" prefWidth="75.0" text="Data" />
+                                                <TableColumn fx:id="colPartenza" prefWidth="75.0" text="Partenza" />
+                                                <TableColumn fx:id="colArrivo" prefWidth="75.0" text="Arrivo" />
+                                                <TableColumn fx:id="colOraPartenza" prefWidth="75.0" text="Ora Partenza" />
+                                                <TableColumn fx:id="colOraArrivo" prefWidth="75.0" text="Ora Arrivo" />
+                                                <TableColumn fx:id="colPosti" prefWidth="75.0" text="Posti" />
+                                                <TableColumn fx:id="colPrezzo" prefWidth="75.0" text="Prezzo" />
+                                                <TableColumn fx:id="colClassiDisp" prefWidth="75.0" text="Classi Disp." />
+                                            </columns>
+                                            <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                            </columnResizePolicy>
+                                        </TableView>
+                                        <HBox alignment="CENTER" spacing="10.0">
+                                            <children>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="ID Tratta" />
+                                                        <TextField fx:id="idTrattaField" prefWidth="100.0" promptText="ID Tratta" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="ID Treno" />
+                                                        <TextField fx:id="idTrenoPerTrattaField" prefWidth="100.0" promptText="ID Treno" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Data" />
+                                                        <TextField fx:id="dataField" prefWidth="100.0" promptText="Data (YYYY-MM-DD)" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Partenza" />
+                                                        <TextField fx:id="partenzaField" prefWidth="100.0" promptText="Stazione di Partenza" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Arrivo" />
+                                                        <TextField fx:id="arrivoField" prefWidth="100.0" promptText="Stazione di Arrivo" />
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER" spacing="10.0">
+                                            <children>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Ora Partenza" />
+                                                        <TextField fx:id="oraPartenzaField" prefWidth="100.0" promptText="Ora (HH:MM)" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Ora Arrivo" />
+                                                        <TextField fx:id="oraArrivoField" prefWidth="100.0" promptText="Ora (HH:MM)" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Posti" />
+                                                        <TextField fx:id="postiField" prefWidth="100.0" promptText="Numero Posti" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Prezzo" />
+                                                        <TextField fx:id="prezzoField" prefWidth="100.0" promptText="Prezzo" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                                    <children>
+                                                        <Label text="Classi Disp." />
+                                                        <TextField fx:id="classiDisponibiliField" prefWidth="100.0" promptText="es. 1,2,3" />
+                                                    </children>
+                                                </VBox>
+                                                <Button fx:id="btnAggiungiTratta" mnemonicParsing="false" text="Aggiungi" />
+                                                <Button fx:id="btnEliminaTratta" mnemonicParsing="false" text="Elimina Selezionata" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>

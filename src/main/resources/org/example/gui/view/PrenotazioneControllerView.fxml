@@ -14,6 +14,7 @@
         <TextField fx:id="idTrattaField" promptText="ID Tratta" />
         <Button fx:id="prenotaButton" mnemonicParsing="false" text="Prenota" />
         <Label fx:id="esitoLabel" text="Esito" />
+        <Button fx:id="vaiAdAcquistoButton" text="Vai ad Acquisto" />
         <Hyperlink fx:id="tornaHomeLink" text="Torna alla Home" />
     </children>
     <padding>
