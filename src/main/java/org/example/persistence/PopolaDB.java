@@ -75,6 +75,13 @@ public class PopolaDB {
         treno8.setCarrozza(3);
         trenoDB8.aggiungiTreno(treno8);
 
+        TrenoDAO trenoDB9 = new TrenoDAO();
+        Treno treno9 = new Treno();
+        treno9.setId_Treno("IC-505");
+        treno9.setTipologia("INTERCITY");
+        treno9.setStato("In transito");
+        treno9.setCarrozza(5);
+        trenoDB9.aggiungiTreno(treno9);
 
         UtenteDAO utenteDB1 = new UtenteDAO();
         Utente utente1 = new Utente();
@@ -167,8 +174,6 @@ public class PopolaDB {
         utente6.setAdmin(false);
         utente6.setCartaUtente(null);
         utenteDB6.aggiungiUtente(utente6);
-
-
 
         TrattaDAO trattaDB2 = new TrattaDAO();
         Tratta tratta2 = new Tratta();
@@ -268,7 +273,19 @@ public class PopolaDB {
         tratta8.setPrezzo(4.60);
         trattaDB8.aggiungiTratta(tratta8);
 
-
+        TrattaDAO trattaDB9 = new TrattaDAO();
+        Tratta tratta9 = new Tratta();
+        tratta9.setId_tratta("TRATTA9");
+        tratta9.setId_treno("IC-505");
+        tratta9.setData("16/08/2025");
+        tratta9.setOraPartenza("12:43:00");
+        tratta9.setOraArrivo("13:50:00");
+        tratta9.setStazionePartenza("Civitavecchia");
+        tratta9.setStazioneArrivo("Roma Termini");
+        tratta9.setNumeroPostiDisponibili(320);
+        tratta9.setClassiDisponibili("FIRST");
+        tratta9.setPrezzo(15.50);
+        trattaDB9.aggiungiTratta(tratta9);
 
         PromozioneDAO promozioneDB = new PromozioneDAO();
         Promozione promozione = new Promozione();
@@ -309,6 +326,16 @@ public class PopolaDB {
         promozione4.setFinePromo("31/08/2025");
         promozione4.setSoloFedelta(false);
         promozioniDB4.addPromozione(promozione4);
+
+        PromozioneDAO promozioniDB5 = new PromozioneDAO();
+        Promozione promozione5 = new Promozione();
+        promozione5.setCodicePromo("FEDELI2025");
+        promozione5.setPercentualeSconto(35);
+        promozione5.setTipoTreno("STANDARD");
+        promozione5.setInizioPromo("15/08/2025");
+        promozione5.setFinePromo("31/08/2025");
+        promozione5.setSoloFedelta(true);
+        promozioniDB5.addPromozione(promozione5);
 
 
         PrenotazioneDAO prenotazioneDB = new PrenotazioneDAO();

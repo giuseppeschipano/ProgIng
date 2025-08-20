@@ -16,15 +16,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-
 public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImplBase {
 
     private final UtenteService utenteService = new UtenteService();
-    private  final TrattaService trattaService = new TrattaService();
-    private  final TrenoService trenoService = new TrenoService();
+    private final TrattaService trattaService = new TrattaService();
+    private final TrenoService trenoService = new TrenoService();
     private final BiglietteriaService biglietteriaService = new BiglietteriaService(new BigliettoDAO(), new TrattaService());
-    private  final FedeltaService fedeltaService = new FedeltaService();
-    private  final PrenotazioneService prenotazioneService = new PrenotazioneService(new PrenotazioneDAO(), new BigliettoDAO(), new TrattaDAO());
+    private final FedeltaService fedeltaService = new FedeltaService();
+    private final PrenotazioneService prenotazioneService = new PrenotazioneService(new PrenotazioneDAO(), new BigliettoDAO(), new TrattaDAO());
     private final PromozioneService promozioneService = new PromozioneService();
 
     private final Map<String, List<StreamObserver<NotificaTrenoResponse>>> iscrittiPerTreno = new ConcurrentHashMap<>();
@@ -98,7 +97,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                     .setMessaggio("Email o password errati")
                     .setIsAdmin(false)
                     .build();
-
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
@@ -333,10 +331,8 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
         String cf = request.getCf();
         PromozioneService promoService = new PromozioneService();
         boolean isFedelta = new FedeltaService().hasTessera(cf);
-
         List<Promozione> promoList = promoService.promoSoloFedelta(cf); // filtra in base alla tessera
         System.out.println("Promozioni trovate per " + cf + ": " + promoList.size());
-
         PromozioniResponse.Builder responseBuilder = PromozioniResponse.newBuilder();
         for (Promozione p : promoList) {
             PromozioneDTO dto = PromozioneDTO.newBuilder()

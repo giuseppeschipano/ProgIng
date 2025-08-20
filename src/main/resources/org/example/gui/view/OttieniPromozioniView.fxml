@@ -13,7 +13,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.PromozioniController">
     <children>
-        <Label text="Promozioni Disponibili" alignment="CENTER" style="-fx-alignment: center;">
+        <Label text="Promozioni Disponibili Per Te" alignment="CENTER" style="-fx-alignment: center;">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>

@@ -21,7 +21,7 @@ public class NotifichePromozioniFedeltaController {
 
     @FXML
     private void initialize() {
-        titoloLabel.setText("Benvenuto/a nelle notifiche fedeltà!");
+        titoloLabel.setText("Benvenuto/a nelle promozioni!");
         inviaButton.setOnAction(e -> inviaRichiesta());
         tornaHomeLink.setOnAction(e -> {
             Stage stage = (Stage) tornaHomeLink.getScene().getWindow();

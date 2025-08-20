@@ -35,25 +35,4 @@ public class DBConnectionSingleton {
             e.printStackTrace();
         }
     }
-/*
-    public static synchronized void beginTransaction() throws SQLException {
-        Connection c = getConnection();
-        c.setAutoCommit(false);
-    }
-
-    public static synchronized void commit() throws SQLException {
-        if (conn != null && !conn.isClosed()) {
-            conn.commit();
-            conn.setAutoCommit(true);
-        }
-    }
-
-    public static synchronized void rollback() throws SQLException {
-        if (conn != null && !conn.isClosed()) {
-            conn.rollback();
-            conn.setAutoCommit(true);
-        }
-    }
-
- */
 }
