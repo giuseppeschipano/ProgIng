@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +12,9 @@ import org.example.model.Tratta;
 import org.example.model.Treno;
 import org.example.service.TrattaService;
 import org.example.service.TrenoService;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class AdminController {
 
@@ -80,7 +84,6 @@ public class AdminController {
             SceneManager.switchScene(stage, "/org/example/gui/view/HomeView.fxml", "Home Trenical");
         });
 
-
         carrozzeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
         colTrenoId.setCellValueFactory(new PropertyValueFactory<>("id_Treno"));
         colTipoTreno.setCellValueFactory(new PropertyValueFactory<>("tipologia"));
@@ -89,15 +92,47 @@ public class AdminController {
         treniTable.setItems(listaTreni);
         btnAggiungiTreno.setOnAction(e -> handleAggiungiTreno());
         btnEliminaTreno.setOnAction(e -> handleEliminaTreno());
-
-
         colIdTratta.setCellValueFactory(new PropertyValueFactory<>("id_tratta"));
         colIdTrenoTratta.setCellValueFactory(new PropertyValueFactory<>("id_treno"));
-        colData.setCellValueFactory(new PropertyValueFactory<>("data"));
+
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        colData.setCellValueFactory(data -> {
+            String rawDate = data.getValue().getData();
+            try {
+                LocalDate parsed = LocalDate.parse(rawDate);
+                return new SimpleStringProperty(parsed.format(dateFormatter));
+            } catch (Exception ex) {
+                return new SimpleStringProperty(rawDate);
+            }
+        });
+
         colPartenza.setCellValueFactory(new PropertyValueFactory<>("stazionePartenza"));
         colArrivo.setCellValueFactory(new PropertyValueFactory<>("stazioneArrivo"));
-        colOraPartenza.setCellValueFactory(new PropertyValueFactory<>("oraPartenza"));
-        colOraArrivo.setCellValueFactory(new PropertyValueFactory<>("oraArrivo"));
+
+
+        colOraPartenza.setCellValueFactory(data -> {
+            String rawTime = data.getValue().getOraPartenza();
+            try {
+                LocalTime parsed = LocalTime.parse(rawTime);
+                return new SimpleStringProperty(parsed.format(timeFormatter));
+            } catch (Exception ex) {
+                return new SimpleStringProperty(rawTime);
+            }
+        });
+
+        colOraArrivo.setCellValueFactory(data -> {
+            String rawTime = data.getValue().getOraArrivo();
+            try {
+                LocalTime parsed = LocalTime.parse(rawTime);
+                return new SimpleStringProperty(parsed.format(timeFormatter));
+            } catch (Exception ex) {
+                return new SimpleStringProperty(rawTime);
+            }
+        });
+
         colPosti.setCellValueFactory(new PropertyValueFactory<>("numeroPostiDisponibili"));
         colPrezzo.setCellValueFactory(new PropertyValueFactory<>("prezzo"));
         colClassiDisp.setCellValueFactory(new PropertyValueFactory<>("classiDisponibili"));
@@ -105,6 +140,7 @@ public class AdminController {
         btnAggiungiTratta.setOnAction(e -> handleAggiungiTratta());
         btnEliminaTratta.setOnAction(e -> handleEliminaTratta());
     }
+
 
 
     private void handleAggiungiTreno() {

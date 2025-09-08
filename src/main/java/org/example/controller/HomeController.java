@@ -1,12 +1,10 @@
 package org.example.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
 import org.example.clientgRPC.SceneManager;
-import javafx.event.ActionEvent;
 
 public class HomeController {
 
@@ -20,7 +18,6 @@ public class HomeController {
     @FXML private Hyperlink logoutLink;
     @FXML private Button statoTrenoButton;
     @FXML private Button notifichePromoFedeltaButton;
-
 
 
     @FXML
@@ -40,16 +37,6 @@ public class HomeController {
     private void cambiaScena(String fxml, String titolo) {
         Stage stage = (Stage) cercaTratteButton.getScene().getWindow();
         SceneManager.switchScene(stage, "/org/example/gui/view/" + fxml, titolo);
-    }
-
-    @FXML
-    private void vaiAStatoTreno(ActionEvent event) {
-        try {
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SceneManager.switchScene(stage, "/org/example/gui/view/StatoTrenoView.fxml", "Stato Treno");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
 

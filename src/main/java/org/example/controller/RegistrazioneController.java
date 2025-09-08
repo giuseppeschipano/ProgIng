@@ -29,7 +29,6 @@ public class RegistrazioneController {
             try {
                 Stage stage = (Stage) loginLink.getScene().getWindow();
                 SceneManager.switchScene(stage, "/org/example/gui/view/LoginView.fxml", "Login Trenical");
-
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

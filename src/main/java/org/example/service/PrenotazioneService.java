@@ -142,7 +142,7 @@ public class PrenotazioneService {
             stmt.setInt(2, carrozza);
             stmt.setInt(3, posto);
             ResultSet rs = stmt.executeQuery();
-            return rs.next(); // true se già presente
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
         }

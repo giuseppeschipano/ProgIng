@@ -28,10 +28,6 @@ public class FedeltaService {
         return tessera != null;
     }
 
-    public int getPunti(String cf) {
-        Fedelta tessera = fedeltaDAO.getTesseraByCF(cf);
-        return tessera != null ? tessera.getPunti() : 0;
-    }
 
     public void aggiungiTessera(Fedelta f) throws SQLException {
         Connection conn = null;
@@ -53,7 +49,7 @@ public class FedeltaService {
       }
     }
 
-    //DAO ha responsabilità solo sull'UPDATE, è il Service che gestisce questa cosa
+
     public void incrementaPunti(String cf, int punti) {
         Connection conn = null;
         try {

@@ -1,10 +1,7 @@
 package org.example.service;
 
 import org.example.dao.TrenoDAO;
-import org.example.grpc.TrenicalServiceGrpc;
 import org.example.model.Treno;
-import org.example.servergRPC.TrenicalServiceImpl;
-
 import java.util.List;
 
 public class TrenoService {

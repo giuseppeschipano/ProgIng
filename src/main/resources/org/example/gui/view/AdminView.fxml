@@ -138,7 +138,7 @@
                                                 <VBox alignment="CENTER_LEFT" spacing="5.0">
                                                     <children>
                                                         <Label text="Data" />
-                                                        <TextField fx:id="dataField" prefWidth="100.0" promptText="Data (YYYY-MM-DD)" />
+                                                        <TextField fx:id="dataField" prefWidth="100.0" promptText="dd/mm/yyyy" />
                                                     </children>
                                                 </VBox>
                                                 <VBox alignment="CENTER_LEFT" spacing="5.0">
@@ -160,13 +160,13 @@
                                                 <VBox alignment="CENTER_LEFT" spacing="5.0">
                                                     <children>
                                                         <Label text="Ora Partenza" />
-                                                        <TextField fx:id="oraPartenzaField" prefWidth="100.0" promptText="Ora (HH:MM)" />
+                                                        <TextField fx:id="oraPartenzaField" prefWidth="100.0" promptText=" HH:MM:SS " />
                                                     </children>
                                                 </VBox>
                                                 <VBox alignment="CENTER_LEFT" spacing="5.0">
                                                     <children>
                                                         <Label text="Ora Arrivo" />
-                                                        <TextField fx:id="oraArrivoField" prefWidth="100.0" promptText="Ora (HH:MM)" />
+                                                        <TextField fx:id="oraArrivoField" prefWidth="100.0" promptText=" HH:MM:SS " />
                                                     </children>
                                                 </VBox>
                                                 <VBox alignment="CENTER_LEFT" spacing="5.0">
@@ -184,7 +184,7 @@
                                                 <VBox alignment="CENTER_LEFT" spacing="5.0">
                                                     <children>
                                                         <Label text="Classi Disp." />
-                                                        <TextField fx:id="classiDisponibiliField" prefWidth="100.0" promptText="es. 1,2,3" />
+                                                        <TextField fx:id="classiDisponibiliField" prefWidth="100.0" />
                                                     </children>
                                                 </VBox>
                                                 <Button fx:id="btnAggiungiTratta" mnemonicParsing="false" text="Aggiungi" />

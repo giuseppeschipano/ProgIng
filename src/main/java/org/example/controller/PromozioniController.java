@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 import org.example.clientgRPC.SceneManager;
 import org.example.clientgRPC.TrenicalClientImpl;
 import org.example.grpc.PromozioneDTO;
-
 import java.util.List;
 
 public class PromozioniController {
@@ -55,7 +54,6 @@ public class PromozioniController {
         } else {
             esitoLabel.setText("Promozioni trovate: " + promozioni.size());
         }
-
         ObservableList<PromozioneDTO> data = FXCollections.observableArrayList(promozioni);
         tablePromo.setItems(data);
     }

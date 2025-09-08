@@ -1,15 +1,13 @@
 package org.example.dao;
 
-import lombok.SneakyThrows;
 import org.example.model.Biglietto;
 import org.example.persistence.DBConnectionSingleton;
 import java.sql.*;
 import java.util.*;
 
-
 public class BigliettoDAO {
 
-    //Inserimento biglietto
+
     public void aggiungiBiglietto(Biglietto b) throws SQLException {
         String sql = """
             INSERT INTO biglietti (id_Biglietto,classe, id_prenotazione, cf, id_tratta, posto, carrozza)
@@ -33,7 +31,6 @@ public class BigliettoDAO {
     }
 
 
-    //Metodo di ricerca di un biglietto (senza transazione)
     public Biglietto getBigliettoPerID (String id){
         String sql = "SELECT * FROM biglietti WHERE id_Biglietto = ?";
         try(PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)){

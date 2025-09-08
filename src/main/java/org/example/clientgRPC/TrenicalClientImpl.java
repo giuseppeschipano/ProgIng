@@ -6,7 +6,7 @@ import io.grpc.StatusRuntimeException;
 import org.example.grpc.*;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 public class TrenicalClientImpl {
 
@@ -26,19 +26,6 @@ public class TrenicalClientImpl {
         System.out.println("[DEBUG CLIENT] Connessione gRPC inizializzata -> " + host + ":" + port);
     }
 
-    // Chiusura del canale gRPC
-    public void shutdown() {
-        if (channel != null && !channel.isShutdown()) {
-            channel.shutdown();
-            try {
-                if (!channel.awaitTermination(5, TimeUnit.SECONDS)) {
-                    channel.shutdownNow();
-                }
-            } catch (InterruptedException e) {
-                channel.shutdownNow();
-            }
-        }
-    }
 
 
     //Invia una richiesta al server per cercare le tratte disponibili

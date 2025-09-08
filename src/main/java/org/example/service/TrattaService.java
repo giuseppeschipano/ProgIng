@@ -51,19 +51,6 @@ public class TrattaService {
         }
     }
 
-    public void incrementaPostiDisponibili(String idTratta, int quanti) {
-        try (Connection conn = DBConnectionSingleton.getConnection()) {
-            Tratta tratta = trattaRepository.getTrattaById(idTratta);
-            if (tratta != null) {
-                int nuoviPosti = tratta.getNumeroPostiDisponibili() + quanti;
-                trattaRepository.updatePostiDisponibili(idTratta, nuoviPosti);
-            } else {
-                System.out.println("Errore: tratta non trovata");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public Tratta getTrattaByID(String idTratta) throws SQLException {
         return trattaRepository.getTrattaById(idTratta);

@@ -26,37 +26,6 @@ public class PromozioneDAO {
         }
     }
 
-    public List<Promozione> promozioniAttive(String tipoTreno, boolean isFedelta, String dataViaggio) {
-        List<Promozione> lista = new ArrayList<>();
-        String sql = "SELECT * FROM promozioni WHERE " +
-                "((? IS NULL) OR (UPPER(tipoTreno) = UPPER(?)) OR tipoTreno IS NULL) " +
-                "AND (soloFedelta = FALSE OR soloFedelta = ?)" +
-                (dataViaggio != null ? " AND (? BETWEEN inizioPromo AND finePromo)" : "");
-        try (PreparedStatement stmt = DBConnectionSingleton.getConnection().prepareStatement(sql)) {
-            stmt.setString(1, tipoTreno);
-            stmt.setString(2, tipoTreno);
-            stmt.setBoolean(3, isFedelta);
-            if (dataViaggio != null) {
-                stmt.setString(4, dataViaggio);
-            }
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Promozione p = new Promozione();
-                    p.setCodicePromo(rs.getString("codicePromo"));
-                    p.setPercentualeSconto(rs.getInt("percentualeSconto"));
-                    p.setTipoTreno(rs.getString("tipoTreno"));
-                    p.setInizioPromo(rs.getString("inizioPromo"));
-                    p.setFinePromo(rs.getString("finePromo"));
-                    p.setSoloFedelta(rs.getBoolean("soloFedelta"));
-                    lista.add(p);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return lista;
-    }
-
 
 
     public List<Promozione> getAllPromozioni() {
@@ -73,7 +42,6 @@ public class PromozioneDAO {
                 p.setInizioPromo(rs.getString("inizioPromo"));
                 p.setFinePromo(rs.getString("finePromo"));
                 p.setSoloFedelta(rs.getBoolean("soloFedelta"));
-          //    p.setSoloFedelta(Boolean.parseBoolean(rs.getString("soloFedelta")));
 
                 lista.add(p);
             }

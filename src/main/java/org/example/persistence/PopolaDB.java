@@ -83,6 +83,31 @@ public class PopolaDB {
         treno9.setCarrozza(5);
         trenoDB9.aggiungiTreno(treno9);
 
+        TrenoDAO trenoDB10 = new TrenoDAO();
+        Treno treno10 = new Treno();
+        treno10.setId_Treno("IC-1962");
+        treno10.setTipologia("INTERCITY");
+        treno10.setStato("In transito");
+        treno10.setCarrozza(4);
+        trenoDB10.aggiungiTreno(treno10);
+
+        TrenoDAO trenoDB11 = new TrenoDAO();
+        Treno treno11 = new Treno();
+        treno11.setId_Treno("FR-9658");
+        treno11.setTipologia("FRECIAROSSA");
+        treno11.setStato("In transito");
+        treno11.setCarrozza(5);
+        trenoDB11.aggiungiTreno(treno11);
+
+        TrenoDAO trenoDB12 = new TrenoDAO();
+        Treno treno12 = new Treno();
+        treno12.setId_Treno("REG-5557");
+        treno12.setTipologia("REGIONALE");
+        treno12.setStato("In transito");
+        treno12.setCarrozza(7);
+        trenoDB12.aggiungiTreno(treno12);
+
+
         UtenteDAO utenteDB1 = new UtenteDAO();
         Utente utente1 = new Utente();
         utente1.setNomeUtente("Alice");
@@ -234,7 +259,7 @@ public class PopolaDB {
         TrattaDAO trattaDB6 = new TrattaDAO();
         Tratta tratta6 = new Tratta();
         tratta6.setId_tratta("TRATTA6");
-        tratta6.setId_treno("REG-5556");
+        tratta6.setId_treno("REG-5557");
         tratta6.setData("19/11/2025");
         tratta6.setOraPartenza("12:55:00");
         tratta6.setOraArrivo("13:48:00");
@@ -287,6 +312,34 @@ public class PopolaDB {
         tratta9.setPrezzo(15.50);
         trattaDB9.aggiungiTratta(tratta9);
 
+        TrattaDAO trattaDB10 = new TrattaDAO();
+        Tratta tratta10 = new Tratta();
+        tratta10.setId_tratta("TRATTA10");
+        tratta10.setId_treno("FR-9658");
+        tratta10.setData("20/09/2025");
+        tratta10.setOraPartenza("12:33:00");
+        tratta10.setOraArrivo("21:15:40");
+        tratta10.setStazionePartenza("Lamezia Terme");
+        tratta10.setStazioneArrivo("Milano Centrale");
+        tratta10.setNumeroPostiDisponibili(300);
+        tratta10.setClassiDisponibili("FIRST");
+        tratta10.setPrezzo(176.00);
+        trattaDB10.aggiungiTratta(tratta10);
+
+        TrattaDAO trattaDB11 = new TrattaDAO();
+        Tratta tratta11 = new Tratta();
+        tratta11.setId_tratta("TRATTA11");
+        tratta11.setId_treno("IC-1962");
+        tratta11.setData("20/09/2025");
+        tratta11.setOraPartenza("20:00:00");
+        tratta11.setOraArrivo("11:12:00");
+        tratta11.setStazionePartenza("Lamezia Terme");
+        tratta11.setStazioneArrivo("Milano Centrale");
+        tratta11.setNumeroPostiDisponibili(400);
+        tratta11.setClassiDisponibili("FIRST");
+        tratta11.setPrezzo(108.00);
+        trattaDB11.aggiungiTratta(tratta11);
+
         PromozioneDAO promozioneDB = new PromozioneDAO();
         Promozione promozione = new Promozione();
         promozione.setCodicePromo("PROMO456");
@@ -333,7 +386,7 @@ public class PopolaDB {
         promozione5.setPercentualeSconto(35);
         promozione5.setTipoTreno("STANDARD");
         promozione5.setInizioPromo("15/08/2025");
-        promozione5.setFinePromo("31/08/2025");
+        promozione5.setFinePromo("31/12/2025");
         promozione5.setSoloFedelta(true);
         promozioniDB5.addPromozione(promozione5);
 

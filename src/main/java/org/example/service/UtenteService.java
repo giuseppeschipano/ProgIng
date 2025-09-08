@@ -4,9 +4,6 @@ import org.example.dao.FedeltaDAO;
 import org.example.dao.UtenteDAO;
 import org.example.model.Fedelta;
 import org.example.model.Utente;
-import org.example.persistence.DBConnectionSingleton;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,37 +20,6 @@ public class UtenteService {
         this.utenteDAO = new UtenteDAO();
         this.fedeltaDAO = new FedeltaDAO();
         credenzialiAmministratori.put("admin", "admin");
-    }
-
-
-    public void registraUtente(Utente utente) {
-        Connection conn = null;
-        try {
-            conn = DBConnectionSingleton.getConnection();
-            conn.setAutoCommit(false);
-            utenteDAO.aggiungiUtente(utente);
-            if (utente.getCartaUtente() != null) {
-                fedeltaService.aggiungiTessera(utente.getCartaUtente());
-            }
-            conn.commit();
-        } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.setAutoCommit(true);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
 
@@ -76,14 +42,6 @@ public class UtenteService {
         }
     }
 
-    /*
-    public Utente loginAdmin(String email, String password) {
-        if (!credenzialiAmministratori.containsKey(email)) {
-            return null;
-        } else{
-            return login(email, password);
-        }
-     */
 
     public Utente loginAdmin(String email, String password) {
         Utente u = login(email, password);
@@ -93,5 +51,4 @@ public class UtenteService {
             return null;
         }
     }
-
 }

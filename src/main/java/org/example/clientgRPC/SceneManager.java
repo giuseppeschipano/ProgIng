@@ -19,17 +19,4 @@ public class SceneManager {
             e.printStackTrace();
         }
     }
-
-    public static void openNewWindow(String fxmlPath, String title) {
-        try {
-            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
-            Parent root = loader.load();
-            Stage newStage = new Stage();
-            newStage.setTitle(title);
-            newStage.setScene(new Scene(root));
-            newStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

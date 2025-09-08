@@ -151,6 +151,7 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
     String idTratta = request.getIdTratta();
     int postoRichiesto = request.getPosto();
     int carrozzaRichiesta = request.getCarrozza();
+    prenotazioneService.controllaPrenotazioniScadute();
     Prenotazione prenotazione = new Prenotazione();
     prenotazione.setCFUtente(cf);
     prenotazione.setId_tratta(idTratta);
@@ -294,7 +295,7 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
         respObs.onCompleted();
     }
 
-    //nuova tessera (ovviamente univoca per ogni utente)
+    //Nuova tessera (ovviamente univoca per ogni utente)
     @Override
     public void sottoscriviFedelta(SottoscrizioneFedeltaRequest request, StreamObserver<SottoscrizioneFedeltaResponse> responseObserver) {
         String cf = request.getCf();
@@ -326,13 +327,12 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
         responseObserver.onCompleted();
     }
 
+
     @Override
     public void ottieniPromozioni(PromozioniRequest request, StreamObserver<PromozioniResponse> responseObserver) {
         String cf = request.getCf();
         PromozioneService promoService = new PromozioneService();
-        boolean isFedelta = new FedeltaService().hasTessera(cf);
-        List<Promozione> promoList = promoService.promoSoloFedelta(cf); // filtra in base alla tessera
-        System.out.println("Promozioni trovate per " + cf + ": " + promoList.size());
+        List<Promozione> promoList = promoService.getPromozioniPerUtente(cf);
         PromozioniResponse.Builder responseBuilder = PromozioniResponse.newBuilder();
         for (Promozione p : promoList) {
             PromozioneDTO dto = PromozioneDTO.newBuilder()
@@ -379,7 +379,7 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                 return;
             }
 
-            //filtro solo per nuova data e nuova ora (stazioni non per forza uguali alle originali)
+            //Filtro solo per nuova data e nuova ora (stazioni non per forza uguali alle originali)
             Tratta nuovaTratta = trattaService.getAllTratte().stream()
                     .filter(t ->
                             t.getData().equals(nuovaData) &&
@@ -465,42 +465,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
         synchronized (this) {
             iscrittiPerTreno.computeIfAbsent(idTreno, k -> new ArrayList<>()).add(responseObserver);
         }
-    }
-
-    public void notificaCambioStatoTreno(String idTreno, String nuovoStato, String messaggio, String oraStimata) {
-        List<StreamObserver<NotificaTrenoResponse>> observers;
-        synchronized (this) {
-            observers = iscrittiPerTreno.get(idTreno);
-            if (observers == null)
-                return;
-        }
-        NotificaTrenoResponse notifica = NotificaTrenoResponse.newBuilder()
-                .setIdTreno(idTreno)
-                .setStato(nuovoStato)
-                .setMessaggio(messaggio)
-                .setOrarioStimato(oraStimata)
-                .build();
-        for (StreamObserver<NotificaTrenoResponse> obs : observers) {
-            try {
-                obs.onNext(notifica);
-                if (isFinale(nuovoStato)) {
-                    obs.onCompleted();
-                }
-            } catch (Exception e) {
-                obs.onError(e);
-            }
-        }
-        if (isFinale(nuovoStato)) {
-            synchronized (this) {
-                iscrittiPerTreno.remove(idTreno);
-            }
-        }
-    }
-
-    private boolean isFinale(String stato) {
-        return stato.equalsIgnoreCase("ARRIVATO")
-                || stato.equalsIgnoreCase("CANCELLATO")
-                || stato.equalsIgnoreCase("CONCLUSO");
     }
 
 

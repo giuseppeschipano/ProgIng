@@ -23,16 +23,4 @@ public class DBConnectionSingleton {
         }
         return conn;
     }
-
-
-    public static synchronized void closeConnection() {
-        try {
-            if (conn != null && !conn.isClosed()) {
-                conn.close();
-                conn = null;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

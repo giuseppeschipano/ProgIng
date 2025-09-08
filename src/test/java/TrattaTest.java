@@ -1,6 +1,5 @@
 import org.example.dao.TrattaDAO;
 import org.example.model.Tratta;
-import org.example.model.Treno;
 import org.example.persistence.DBConnectionSingleton;
 import org.example.persistence.PopolaDB;
 import org.junit.jupiter.api.BeforeEach;
