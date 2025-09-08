@@ -131,7 +131,6 @@ public class PrenotazioneService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         // Controlla prenotazioni
         String sqlPrenotazioni = """
         SELECT 1 FROM prenotazioni 

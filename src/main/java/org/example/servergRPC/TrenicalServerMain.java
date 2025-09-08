@@ -10,7 +10,6 @@ public class TrenicalServerMain {
         Server server = ServerBuilder.forPort(50051)
                 .addService(new TrenicalServiceImpl())
                 .build();
-
         server.start();
         System.out.println("Server gRPC avviato sulla porta 50051.");
         server.awaitTermination();

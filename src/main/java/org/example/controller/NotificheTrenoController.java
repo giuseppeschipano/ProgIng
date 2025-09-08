@@ -33,7 +33,6 @@ public class NotificheTrenoController {
     private void avviaNotificheTreno() {
         String cf = cfField.getText();
         String idTreno = idTrenoField.getText();
-
         if (cf.isEmpty() || idTreno.isEmpty()) {
             outputArea.setText("Inserisci codice fiscale e ID treno.");
             return;
@@ -55,7 +54,7 @@ public class NotificheTrenoController {
             @Override
             public void onError(Throwable t) {
                 Platform.runLater(() ->
-                        outputArea.appendText("Errore: " /* + t.getMessage() */)
+                        outputArea.appendText("Errore")
                 );
             }
 

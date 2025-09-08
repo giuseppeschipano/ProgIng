@@ -38,7 +38,6 @@ public class TrattaDAO {
     }
 
 
-
     public List<Tratta> getAllTratte() {
         List<Tratta> tratte = new ArrayList<>();
         String sql = "SELECT * FROM tratta";
@@ -184,7 +183,7 @@ public class TrattaDAO {
         }
     }
 
-    //Senza Transazione
+
     public Tratta getTrattaByID(String idTratta) throws SQLException {
         return  getTrattaById(idTratta);
     }

@@ -27,9 +27,7 @@ public class TrenicalClientImpl {
     }
 
 
-
-    //Invia una richiesta al server per cercare le tratte disponibili
-    // tra due stazioni in una data e classe specificata.
+    //Invia una richiesta al server per cercare le tratte disponibili tra due stazioni in una data e classe specificata.
     public CercaTratteResponse cercaTratte(String stazionePartenza, String stazioneArrivo, String data, String classe) {
         CercaTratteRequest request = CercaTratteRequest.newBuilder()
                 .setStazionePartenza(stazionePartenza)
@@ -39,7 +37,6 @@ public class TrenicalClientImpl {
                 .build();
         return  blockingStub.cercaTratte(request);
     }
-
 
     // Chiamata al metodo Login del server gRPC
     public LoginResponse provaLogin(String email, String password) {

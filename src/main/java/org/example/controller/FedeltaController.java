@@ -25,7 +25,6 @@ public class FedeltaController {
         });
     }
 
-
     private void handleSottoscrizione() {
         String cf = cfField.getText();
         if (cf.isEmpty()) {

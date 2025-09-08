@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public class DBConnectionSingleton {
 
-  //private static final String DB_URL = "jdbc:h2:mem:trenicaldb;DB_CLOSE_DELAY=-1"; per test
     private static final String DB_URL = "jdbc:h2:file=./data/trenicaldb;AUTO_SERVER=TRUE";
     private static final String USER = "sa";
     private static final String PASSWORD = "";

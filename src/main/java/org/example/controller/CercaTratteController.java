@@ -82,7 +82,6 @@ public class CercaTratteController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/PrenotazioneControllerView.fxml"));
             Parent root = loader.load();
-
             // Il comando passa l'id tratta alla schermata di prenotazione(si evita di ricordare a memoria l'id della tratta cercata quando si effettua una prenotazione della stessa)
             PrenotazioneController controller = loader.getController();
             controller.prefillFromSearch(trattaSelezionata.getIdTratta());
@@ -107,7 +106,6 @@ public class CercaTratteController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/AcquistoBigliettoView.fxml"));
             Parent root = loader.load();
-
             // Il comando passa ID tratta (e la classe selezionata nel filtro) alla schermata di acquisto(si evita di ricordare a memoria l'id della tratta cercata quando si effettua un acquisto della stessa)
             AcquistoController controller = loader.getController();
             controller.prefillFromSearch(trattaSelezionata.getIdTratta(), classeCombox.getValue());

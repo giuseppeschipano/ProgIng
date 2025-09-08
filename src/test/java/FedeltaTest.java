@@ -43,7 +43,6 @@ public class FedeltaTest {
     }
 
 
-
     @Test
     @DisplayName("Test che controlla la ricerca di una tessera dato il relativo CF")
     public void testGetTesseraByCF() {

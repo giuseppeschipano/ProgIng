@@ -55,7 +55,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
     }
 
 
-
     @Override
     public void login(LoginRequest request, StreamObserver<LoginResponse> responseObserver) {
         String email = request.getEmail();
@@ -63,7 +62,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         Utente utente = utenteService.login(email, password);
         boolean isAdmin = utenteService.loginAdmin(email, password) != null;
         if (utente != null) {
-            // Costruisci UserDTO
             UserDTO.Builder userBuilder = UserDTO.newBuilder()
                     .setNome(utente.getNomeUtente())
                     .setCognome(utente.getCognomeUtente())
@@ -79,19 +77,15 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
                         .build();
                 userBuilder.setFedelta(fedeltaDTO);
             }
-
-            // Costruisci e invia risposta
             LoginResponse response = LoginResponse.newBuilder()
                     .setUtente(userBuilder.build())
                     .setSuccesso(true)
                     .setMessaggio("Login effettuato con successo")
                     .setIsAdmin(isAdmin)
                     .build();
-
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         } else {
-            // Risposta in caso di errore
             LoginResponse response = LoginResponse.newBuilder()
                     .setSuccesso(false)
                     .setMessaggio("Email o password errati")
@@ -112,8 +106,6 @@ public class TrenicalServiceImpl extends TrenicalServiceGrpc.TrenicalServiceImpl
         String cf = request.getCf();
         String indirizzo = request.getIndirizzo();
         String dataNascita = request.getDataNascita();
-
-        //Creo oggetto utente
         Utente nuovoUtente = new Utente();
         nuovoUtente.setNomeUtente(nome);
         nuovoUtente.setCognomeUtente(cognome);
@@ -213,7 +205,7 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
             String classe = request.getClasse();
             int posto = request.getPosto();
             int carrozza = request.getCarrozza();
-            String idPrenotazione = request.getPrenotazioneId();  //per l'acquisto si può passare dalla prenotazione o acquistare direttamente
+            String idPrenotazione = request.getPrenotazioneId();  //Per l'acquisto si può passare dalla prenotazione o acquistare direttamente
             if (idPrenotazione.isEmpty()) {
                 idPrenotazione = null;
             }
@@ -225,7 +217,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                 respObs.onCompleted();
                 return;
             }
-
             // Recupero della tratta e tipo treno per generare id biglietto
             Tratta tratta = trattaService.getTrattaByID(idTratta);
             String tipoTreno = trenoService.getTrenoById(tratta.getId_treno()).getTipologia();
@@ -360,7 +351,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
         ModificaBigliettoResponse.Builder responseBuilder = ModificaBigliettoResponse.newBuilder();
         try {
             BigliettoDAO bigliettoDAO = new BigliettoDAO();
-
             // Recupero biglietto originale
             Biglietto bigliettoOriginale = bigliettoDAO.getBigliettoPerID(idBiglietto);
             if (bigliettoOriginale == null) {
@@ -369,7 +359,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                 responseObserver.onCompleted();
                 return;
             }
-
             // Recupero tratta originale
             Tratta trattaOriginale = trattaService.getTrattaByID(bigliettoOriginale.getId_tratta());
             if (trattaOriginale == null) {
@@ -378,7 +367,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                 responseObserver.onCompleted();
                 return;
             }
-
             //Filtro solo per nuova data e nuova ora (stazioni non per forza uguali alle originali)
             Tratta nuovaTratta = trattaService.getAllTratte().stream()
                     .filter(t ->
@@ -393,7 +381,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
                 responseObserver.onCompleted();
                 return;
             }
-
             // Calcolo differenza prezzo
             double prezzoOriginale = trattaOriginale.getPrezzo();
             double prezzoNuovo = nuovaTratta.getPrezzo();
@@ -437,7 +424,6 @@ public void prenota(PrenotazioneRequest request, StreamObserver<PrenotazioneResp
     public void riceviNotificheTreno(TrenoNotificaRequest request, StreamObserver<NotificaTrenoResponse> responseObserver) {
         String cf = request.getCf();
         String idTreno = request.getIdTreno();
-
         //Verifica sull'esistenza di treno e cf
         if (utenteService.getUtente(cf) == null) {
             System.out.println("Utente non trovato: " + cf);

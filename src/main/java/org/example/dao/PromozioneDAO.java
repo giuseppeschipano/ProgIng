@@ -27,7 +27,6 @@ public class PromozioneDAO {
     }
 
 
-
     public List<Promozione> getAllPromozioni() {
         List<Promozione> lista = new ArrayList<>();
         String sql = "SELECT * FROM promozioni";

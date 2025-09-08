@@ -8,7 +8,6 @@ import  lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-
 public class Biglietto {
     String  id_Biglietto,classe, id_prenotazione,id_tratta;
     String  CF;

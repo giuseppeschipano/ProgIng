@@ -4,22 +4,16 @@ import org.example.dao.FedeltaDAO;
 import org.example.dao.UtenteDAO;
 import org.example.model.Fedelta;
 import org.example.model.Utente;
-import java.util.HashMap;
-import java.util.Map;
 
 public class UtenteService {
 
-    private final FedeltaService fedeltaService;
     private final UtenteDAO utenteDAO;
     private final FedeltaDAO fedeltaDAO;
 
-    private Map<String, String> credenzialiAmministratori = new HashMap<>();
 
     public UtenteService() {
-        this.fedeltaService = new FedeltaService();
         this.utenteDAO = new UtenteDAO();
         this.fedeltaDAO = new FedeltaDAO();
-        credenzialiAmministratori.put("admin", "admin");
     }
 
 
@@ -41,7 +35,6 @@ public class UtenteService {
             return null;
         }
     }
-
 
     public Utente loginAdmin(String email, String password) {
         Utente u = login(email, password);

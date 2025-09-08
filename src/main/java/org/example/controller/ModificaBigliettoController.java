@@ -43,7 +43,7 @@ public class ModificaBigliettoController {
         if (!response.getSuccess()) {
             risultatoLabel.setText("Errore: " + response.getMessaggio());
         } else {
-            //se la quantià è negativa allora l'utente deve essere rimborsato, se la quantità che appare è positiva l'utente deve aggiungere denaro
+            //Se la quantià è negativa allora l'utente deve essere rimborsato, se la quantità che appare è positiva l'utente deve aggiungere denaro
             risultatoLabel.setText(conferma
                     ? "Modifica confermata. Differenza prezzo: " + response.getDifferenzaPrezzo()
                     : "Simulazione completata. Differenza prezzo: " + response.getDifferenzaPrezzo());

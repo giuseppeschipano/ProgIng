@@ -75,7 +75,6 @@ public class PrenotazioneController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gui/view/AcquistoBigliettoView.fxml"));
             Parent root = loader.load();
-
             // Recupero dati utili
             AcquistoController acqCtrl = loader.getController();
             acqCtrl.prefillFromPrenotazione(

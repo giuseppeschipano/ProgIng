@@ -37,8 +37,6 @@ public class TrenoDAO {
     }
 
 
-
-
     @SneakyThrows
     public Treno getTrenoById(String id)  {
         String sql = "SELECT * FROM treni WHERE id_treno = ?";
